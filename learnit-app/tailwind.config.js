@@ -6,10 +6,15 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['poppins', 'sans-serif'],
+        'poetsen': ['poetsen one', 'sans-serif']
+      },
       colors: {
         'bg_dark': '#000000',
         'accent_green_dark': '#20CC00',
         'accent_purple_dark': '#9400FF',
+        'accent_orange_dark': '#e58c23',
       }
     },
   },
