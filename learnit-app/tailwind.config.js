@@ -11,10 +11,8 @@ export default {
         'poetsen': ['poetsen one', 'sans-serif']
       },
       colors: {
-        'bg_dark': '#1D2D50',
-        'bg_darker': '#172441',
-        'bg_white': '#EEEEEE',
-        'bg_white_darker': '#9DB2BF',
+        'cstm_bg_dark': '#0f0f0f',
+        'cstm_white': '#EEEEEE',
         'accent_green_dark': '#20CC00',
 
         'accent_purple_dark': '#9400FF',
