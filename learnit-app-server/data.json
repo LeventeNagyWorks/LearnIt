@@ -1,0 +1,92 @@
+[
+  {
+    "name": "archi2",
+    "desc": "",
+    "questions": [
+      {
+        "_id": "archi2.txt_Mi az a hardver?",
+        "question": "Mi az a hardver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "archi2.txt_Mi az a szoftver?",
+        "question": "Mi az a szoftver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "archi2.txt_Mi az a architektúra?",
+        "question": "Mi az a architektúra?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "halozat",
+    "desc": "",
+    "questions": [
+      {
+        "_id": "halozat.txt_Mi az a hardver?",
+        "question": "Mi az a hardver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "halozat.txt_Mi az a szoftver?",
+        "question": "Mi az a szoftver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "halozat.txt_Mi az a architektúra?",
+        "question": "Mi az a architektúra?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      }
+    ]
+  }
+]

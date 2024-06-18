@@ -10,6 +10,7 @@ const LeftPanel = () => {
   const [onDrag, setOnDrag] = useState(false);
 
   const onDrop = useCallback((acceptedFiles) => {
+    //console.log(acceptedFiles[0]);
     const formData = new FormData();
     formData.append('file', acceptedFiles[0]);
 
@@ -32,6 +33,8 @@ const LeftPanel = () => {
     onDragEnter: () => setOnDrag(true),
     onDragLeave: () => setOnDrag(false),
   });
+
+  //console.log({ input: getInputProps() });
 
   return (
     <div className='w-[30%] flex flex-col justify-between items-center py-8 px-5 relative z-10'>
