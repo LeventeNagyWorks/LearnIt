@@ -30,15 +30,18 @@ app.post('/upload', async (req, res) => {
   let file = req.files.file;
   let uploadPath = './txt_library/' + file.name;
 
-  const returnJSON = txtToJSON(file)
-  
-  //fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
+  const parsedData = txtToJSON(file);
+  const existingData = await fs.promises.readFile('./data.json', 'utf8');
+  const newData = JSON.parse(existingData);
+  newData.push(parsedData);
+
+  fs.writeFileSync('./data.json', JSON.stringify(newData, null, 2));
 
   res.send(`File uploaded successfully to ${uploadPath}`);
 });
 
 app.get('/data', async (req, res) => {
-  const data = await fs.readFile('./data.json', 'utf8');
+  const data = await fs.promises.readFile('./data.json', 'utf8');
   res.json(JSON.parse(data));
 });
 
