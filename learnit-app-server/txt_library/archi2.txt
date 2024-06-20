@@ -13,3 +13,6 @@
 /ra Az architektúra a számítógép felépítése 
 /a A architektúra kizárólag a számítógép fizikai része
 /a A architektúra kizárólag szofver
+
+/qtf A processzor a hardver része.
+/ra Igaz

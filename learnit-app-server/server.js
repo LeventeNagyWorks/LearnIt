@@ -3,7 +3,9 @@ const dotenv = require("dotenv")
 const express = require("express")
 const fs = require("fs")
 const path = require('path');
-const expressFileupload = require("express-fileupload")
+const expressFileupload = require("express-fileupload");
+const { log } = require("console");
+const txtToJSON = require("./txtToJSON");
 
 if (process.env.NODE_ENV != "production") {
   dotenv.config()
@@ -20,7 +22,7 @@ app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ extended: true, limit: "50mb" }))
 app.use(expressFileupload()) // Add this middleware to enable file uploads
 
-app.post('/upload', (req, res) => {
+app.post('/upload', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
@@ -28,54 +30,19 @@ app.post('/upload', (req, res) => {
   let file = req.files.file;
   let uploadPath = './txt_library/' + file.name;
 
-  fs.writeFileSync(uploadPath, file.data);
+  const returnJSON = txtToJSON(file)
+  
+  //fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
+
   res.send(`File uploaded successfully to ${uploadPath}`);
+});
+
+app.get('/data', async (req, res) => {
+  const data = await fs.readFile('./data.json', 'utf8');
+  res.json(JSON.parse(data));
 });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-txtFiles.forEach((file) => {
-  const filePath = path.join('./txt_library', file);
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-
-  const questions = [];
-  const lines = fileContent.split('\n');
-  lines.forEach((line) => {
-    if (line.startsWith('/q')) {
-      const question = line.substring(3).trim();
-      const answers = [];
-      let correctAnswer;
-      let queType;
-
-      for (let i = 1; i < lines.length; i++) {
-        const nextLine = lines[i];
-        if (nextLine.startsWith('/ra')) {
-          correctAnswer = nextLine.substring(4).trim();
-          queType = 'Choice';
-        } else if (nextLine.startsWith('/a')) {
-          answers.push(nextLine.substring(3).trim());
-        } else {
-          break;
-        }
-      }
-
-      questions.push({
-        _id: `${file}_${question}`,
-        question,
-        que_type: queType,
-        right_answer: [correctAnswer],
-        answer: [correctAnswer, ...answers],
-      });
-    }
-  });
-
-  data.push({
-    name: file.replace('.txt', ''),
-    desc: '',
-    questions,
-  });
-});
-
-fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));

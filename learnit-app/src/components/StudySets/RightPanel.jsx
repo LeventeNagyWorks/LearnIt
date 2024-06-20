@@ -1,7 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import axios from 'axios';
+import React, { useState, useEffect } from 'react'
 
 const RightPanel = () => {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('/data')
+     .then(({data}) => {
+        console.log(data);
+        setData(data);
+      })
+     .catch(error => console.error(error));
+  }, []);
+
   return (
     <div className='w-[70%] flex justify-center items-center relative z-10'>
 

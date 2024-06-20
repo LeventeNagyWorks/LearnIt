@@ -41,6 +41,18 @@
           "A hardver nem kézzel fogható",
           "A hardver egy szoftver"
         ]
+      },
+      {
+        "_id": "archi2.txt_processzor a hardver része.",
+        "question": "processzor a hardver része.",
+        "que_type": "True/False",
+        "right_answer": [
+          "Igaz"
+        ],
+        "answer": [
+          "Igaz",
+          "Hamis"
+        ]
       }
     ]
   },
