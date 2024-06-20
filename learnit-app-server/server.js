@@ -12,7 +12,6 @@ if (process.env.NODE_ENV != "production") {
 }
 
 const data = [];
-const txtFiles = fs.readdirSync('./txt_library');
 
 const app = express();
 const port = 3001; // You can use any port you prefer
@@ -28,16 +27,18 @@ app.post('/upload', async (req, res) => {
   }
 
   let file = req.files.file;
-  let uploadPath = './txt_library/' + file.name;
 
-  const parsedData = txtToJSON(file);
+  // Read the file content
+  const fileContent = file.data.toString('utf8');
+
+  const parsedData = txtToJSON({ name: file.name, content: fileContent });
   const existingData = await fs.promises.readFile('./data.json', 'utf8');
   const newData = JSON.parse(existingData);
   newData.push(parsedData);
 
   fs.writeFileSync('./data.json', JSON.stringify(newData, null, 2));
 
-  res.send(`File uploaded successfully to ${uploadPath}`);
+  res.send(`File uploaded successfully!`);
 });
 
 app.get('/data', async (req, res) => {
