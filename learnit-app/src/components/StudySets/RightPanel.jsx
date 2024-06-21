@@ -20,7 +20,20 @@ const RightPanel = () => {
         setData(data);
       })
      .catch(error => console.error(error));
-  }, []);
+  }, [setData]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      axios.get('/data')
+        .then(({ data }) => {
+          console.log(data);
+          setData(data);
+        })
+        .catch(error => console.error(error));
+    }, 1000); // Fetch data every 1 second
+
+    return () => clearInterval(intervalId);
+  }, [setData]); // Add setData as a dependency
 
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
@@ -61,7 +74,7 @@ const RightPanel = () => {
 
                   <div className='flex justify-center items-center gap-10'>
                     <div className='w-14 flex justify-center items-center relative'>
-                      <p className='text-cstm_bg_dark text-lg text-center font-medium flex items-center justify-center select-none rounded-lg px-3 relative z-10'>{item.questions.length}</p>
+                      <p className='text-cstm_bg_dark text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>{item.questions.length}</p>
                       <IoChatbox className={`w-12 h-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[45%] text-slate-300 z-0`}/>
                     </div>
 
