@@ -91,6 +91,4 @@ const RightPanel = () => {
   )
 }
 
-//TODO: always refresh the study sets once a set is added
-
 export default RightPanel
