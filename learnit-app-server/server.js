@@ -59,6 +59,19 @@ if (!fs.existsSync('./data.json')) {
   fs.writeFileSync('./data.json', '[]');
 }
 
+app.delete('/delete/:itemName', async (req, res) => {
+  const { itemName } = req.params;
+  try {
+    const data = await fs.promises.readFile('./data.json', 'utf8');
+    const newData = JSON.parse(data).filter((item) => item.name !== itemName);
+    fs.writeFileSync('./data.json', JSON.stringify(newData, null, 2));
+    res.send(`Study set "${itemName}" deleted successfully!`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete study set' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

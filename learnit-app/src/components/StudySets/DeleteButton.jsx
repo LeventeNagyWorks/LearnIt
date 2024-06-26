@@ -4,16 +4,16 @@ import React, { useState } from 'react'
 
 import { IoTrashOutline } from "react-icons/io5";
 
-const DeleteButton = ({ isWide, onClick }) => {
+const DeleteButton = ({ isWide, itemName, onClick }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
     return (
         <div 
-            className={`${isWide ? 'w-full h-fit rounded-b-xl' : 'w-fit h-fit rounded-xl'} flex justify-center items-center duration-500 cursor-pointer gap-2 px-2 py-2 ${isHovered ? 'bg-red-800' : ''}`}
+            className={`${isWide ? 'w-full h-fit rounded-b-xl' : 'w-fit h-fit rounded-xl'} flex justify-center items-center duration-500 cursor-pointer gap-2 px-2 py-2 select-none ${isHovered ? 'bg-red-800' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={onClick}
+            onClick={() => onClick(itemName)}
         >
             <IoTrashOutline className={`w-6 h-6 ${isHovered ? 'text-cstm_white' : 'text-red-800'}`}/>
             <p className={`text-lg font-poppins font-semibold duration-500 ${isWide ? 'block' : 'hidden'} ${isHovered ? 'text-cstm_white' : 'text-red-800'}`}>DELETE</p>

@@ -10,7 +10,7 @@ const FavouriteButton = ({ isWide }) => {
 
     return (
         <div 
-            className={`${isWide ? 'w-full h-fit rounded-t-xl' : 'w-fit h-fit rounded-xl'} flex justify-center items-center duration-500 cursor-pointer gap-2 px-2 py-2 ${isHovered ? 'bg-accent_orange_dark' : ''}`}
+            className={`${isWide ? 'w-full h-fit rounded-t-xl' : 'w-fit h-fit rounded-xl'} flex justify-center items-center duration-500 cursor-pointer gap-2 px-2 py-2 select-none ${isHovered ? 'bg-accent_orange_dark' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

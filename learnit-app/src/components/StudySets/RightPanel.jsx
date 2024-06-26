@@ -52,6 +52,18 @@ const RightPanel = () => {
     setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
   };
 
+  const handleDelete = async (itemName) => {
+    try {
+      await handleMouseLeave(itemName);
+      await handleOptionsMouseLeave(itemName);
+      await axios.delete(`/delete/${itemName}`);
+      // Update the local state by filtering out the deleted item
+      setData(data.filter((item) => item.name !== itemName));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className='w-[70%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
@@ -99,7 +111,7 @@ const RightPanel = () => {
                     onMouseLeave={() => handleOptionsMouseLeave(item.name)}
                   >
                     <FavouriteButton isWide={true}/>
-                    <DeleteButton isWide={true}/>
+                    <DeleteButton isWide={true} itemName={item.name} onClick={handleDelete}/>
                   </div>
 
                 </div>
