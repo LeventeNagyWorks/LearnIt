@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 const StudySetsPage = () => {
 
-  const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(true);
+  const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
 
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
@@ -18,7 +18,9 @@ const StudySetsPage = () => {
 
       {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
 
-      <LeftPanel isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}/>
+      <LeftPanel 
+        isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
+      />
 
       <RightPanel />
 

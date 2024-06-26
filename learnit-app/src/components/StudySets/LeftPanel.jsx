@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -5,15 +6,23 @@ import axios from 'axios';
 
 import BackButton from '../../components/BackButton'
 
-const LeftPanel = (isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive) => {
+const LeftPanel = ({ isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive }) => {
 
   const [onDrag, setOnDrag] = useState(false);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    //console.log(acceptedFiles[0]);
+  const onDrop = useCallback(async (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const existingData = await axios.get('http://localhost:3001/data');
+    const existingNames = existingData.data.map(item => item.name);
+  
+    if (existingNames.includes(file.name.replace('.txt', ''))) {
+      setIsStudySetAlreadyExistsActive(true);
+      return; // Exit the function without sending the POST request
+    }
+  
     const formData = new FormData();
-    formData.append('file', acceptedFiles[0]);
-
+    formData.append('file', file);
+  
     axios.post('http://localhost:3001/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -25,7 +34,7 @@ const LeftPanel = (isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActi
     .catch(error => {
       console.error('Error uploading file:', error);
     });
-  }, []);
+  }, [setIsStudySetAlreadyExistsActive]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: '.txt',
