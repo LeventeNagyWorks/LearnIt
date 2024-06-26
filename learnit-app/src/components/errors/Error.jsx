@@ -43,7 +43,7 @@ const Error = ({ type, onClick }) => {
                 </div>
 
                 <div 
-                    className='w-fit h-fit px-7 py-1 flex justify-center items-center rounded-xl border-2 border-red-700 hover:bg-red-700 self-end mr-40'
+                    className='w-fit h-fit px-7 py-1 flex justify-center items-center rounded-xl border-2 border-red-700 hover:bg-red-700 self-end mr-40 cursor-pointer duration-500'
                     onClick={() => onClick()}
                 >
                     <p className='font-poppins font-medium text-cstm_white text-[40px]'>OK</p>

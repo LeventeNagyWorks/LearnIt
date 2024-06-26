@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 const StudySetsPage = () => {
 
-  const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
+  const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(true);
 
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
