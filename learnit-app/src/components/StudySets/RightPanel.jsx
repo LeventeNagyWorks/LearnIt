@@ -7,6 +7,7 @@ import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
 
 import { IoChatbox } from "react-icons/io5";
+import FavouriteButton from './FavouriteButton';
 
 const RightPanel = () => {
   const [data, setData] = useState([]);
@@ -59,7 +60,7 @@ const RightPanel = () => {
             <h1 className='w-fit text-5xl font-medium text-cstm_white select-none z-10'>Your Study Sets</h1>
           </div>
           <div className='w-fit h-12 flex justify-end items-center gap-6 pr-6'>
-            <DeleteButton />
+            <DeleteButton isWide={false}/>
           </div>
         </div>
         <div className='w-full h-full flex flex-col rounded-b-[40px] px-4'>
@@ -82,7 +83,7 @@ const RightPanel = () => {
                 </div>
                 <div className='flex justify-center items-center gap-10 relative'>
                   <div className='flex justify-center items-center rounded-lg px-2 py-1 bg-gray-600'>
-                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>{item.questions.length} questions</p>
+                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 z-10'>{item.questions.length} questions</p>
                   </div>
 
                   <div
@@ -93,11 +94,12 @@ const RightPanel = () => {
                   </div>
 
                   <div
-                    className={`w-[250px] h-32 flex items-start justify-center absolute top-0 right-0 bg-slate-600 rounded-xl z-20 duration-500 ${optionsHoverStates[item.name] ? 'block' : 'hidden'}`}
+                    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl z-20 duration-500 ${optionsHoverStates[item.name] ? 'block' : 'hidden'}`}
                     onMouseEnter={() => handleOptionsMouseEnter(item.name)}
                     onMouseLeave={() => handleOptionsMouseLeave(item.name)}
                   >
-                    <DeleteButton />
+                    <FavouriteButton isWide={true}/>
+                    <DeleteButton isWide={true}/>
                   </div>
 
                 </div>
