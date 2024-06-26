@@ -36,7 +36,7 @@ const Error = ({ type, onClick }) => {
                         <div className="flex flex-col justify-start self-start">
                             <h1 className="font-poetsen font-bold text-cstm_white text-[80px] mb-10">Ooops!</h1>
                             <p className="font-bold text-cstm_white text-[28px]">A study set already exists with the same name.</p>
-                            <p className="font-bold text-cstm_white text-[28px]">Rename your file before import please.</p>
+                            <p className="font-bold text-cstm_white text-[28px]">Please rename your file before you drop it in.</p>
                         </div>                      
                     )} 
                     

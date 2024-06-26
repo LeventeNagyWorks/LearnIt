@@ -5,14 +5,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import DeleteButton from './DeleteButton';
 import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
-
-import { IoChatbox } from "react-icons/io5";
 import FavouriteButton from './FavouriteButton';
 
+import { FaStar } from "react-icons/fa";
+
 const RightPanel = () => {
-  const [data, setData] = useState([]);
-  const [hoverStates, setHoverStates] = useState({});
-  const [optionsHoverStates, setOptionsHoverStates] = useState({});
+const [data, setData] = useState([]);
+const [hoverStates, setHoverStates] = useState({});
+const [optionsHoverStates, setOptionsHoverStates] = useState({});
+const [isFavourite, setIsFavourite] = useState(
+  data.reduce((acc, item) => ({ ...acc, [item.name]: false }), {})
+);
 
   useEffect(() => {
     axios.get('/data')
@@ -36,6 +39,15 @@ const RightPanel = () => {
     return () => clearInterval(intervalId);
   }, [setData]); // Add setData as a dependency
 
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
+    setIsFavourite(storedFavorites);
+
+    return () => {
+      localStorage.removeItem('favorites');
+    };
+  }, []);
+
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
   };
@@ -50,6 +62,14 @@ const RightPanel = () => {
 
   const handleOptionsMouseLeave = (itemName) => {
     setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
+  };
+
+  const handleIsFavourite = (itemName) => {
+    setIsFavourite((prevState) => {
+      const newState = { ...prevState, [itemName]: !prevState[itemName] };
+      localStorage.setItem('favorites', JSON.stringify(newState));
+      return newState;
+    });
   };
 
   const handleDelete = async (itemName) => {
@@ -94,6 +114,8 @@ const RightPanel = () => {
                   
                 </div>
                 <div className='flex justify-center items-center gap-10 relative'>
+                  {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark '/>)}
+
                   <div className='flex justify-center items-center rounded-lg px-2 py-1 bg-gray-600'>
                     <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 z-10'>{item.questions.length} questions</p>
                   </div>
@@ -106,11 +128,16 @@ const RightPanel = () => {
                   </div>
 
                   <div
-                    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl z-20 duration-500 ${optionsHoverStates[item.name] ? 'block' : 'hidden'}`}
+                    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl z-20 duration-500 ${optionsHoverStates[item.name] ? 'translate-x-0' : 'translate-x-72'}`}
                     onMouseEnter={() => handleOptionsMouseEnter(item.name)}
                     onMouseLeave={() => handleOptionsMouseLeave(item.name)}
                   >
-                    <FavouriteButton isWide={true}/>
+                    <FavouriteButton 
+                      isWide={true} 
+                      isFavourite={isFavourite[item.name] || false}
+                      onClick={handleIsFavourite} 
+                      itemName={item.name}
+                    />
                     <DeleteButton isWide={true} itemName={item.name} onClick={handleDelete}/>
                   </div>
 
