@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import BackButton from '../../components/BackButton'
 
-const LeftPanel = () => {
+const LeftPanel = (isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive) => {
 
   const [onDrag, setOnDrag] = useState(false);
 

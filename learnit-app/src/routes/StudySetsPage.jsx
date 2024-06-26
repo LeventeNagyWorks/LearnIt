@@ -2,12 +2,23 @@
 import React from 'react'
 import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
+import Error from '../components/errors/Error'
+import { useState } from 'react'
 
 const StudySetsPage = () => {
+
+  const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
+
+  const closeStudySetAlreadyExistsMessage = () => {
+    setIsStudySetAlreadyExistsActive(false);
+  }
+
   return (
     <div className='w-screen h-screen font-poppins bg-cstm_bg_dark flex overflow-hidden relative'>
 
-      <LeftPanel />
+      {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
+
+      <LeftPanel isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}/>
 
       <RightPanel />
 
