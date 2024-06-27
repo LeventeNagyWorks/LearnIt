@@ -60,7 +60,7 @@ const LeftPanel = ({ setIsStudySetAlreadyExistsActive }) => {
 
         <input {...getInputProps()} className='h-full w-full bg-gray-200' />
 
-        <svg className='scale-[85%]' width="234" height="284" viewBox="0 0 234 284" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={`h-72 hover:animate-handRotation ${isDragActive ? 'animate-handRotation' : ''}`} width="234" height="284" viewBox="0 0 234 284" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="116" y="23" width="118" height="96" rx="20" fill="#007728"/>
           <path d="M77.9756 162.585C62.8264 142.323 50.0148 99.5376 119.962 90.502" stroke="#007728" strokeWidth="35" strokeLinecap="round"/>
           <path d="M18.341 68.9915C36.4082 55.4168 82.8104 35.8932 123.881 66.3967" stroke="#007728" strokeWidth="35" strokeLinecap="round"/>

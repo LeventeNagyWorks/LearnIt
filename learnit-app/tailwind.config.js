@@ -22,7 +22,28 @@ export default {
 
         'accent_purple_dark': '#9400FF',
         'accent_orange_dark': '#e58c23',
-      }
+      },
+      keyframes: {
+        handRotation: {
+          '0%': { 
+            transform: 'rotate(0deg)'},
+          '7%': { 
+            transform: 'rotate(-17deg)'},
+          '21%': { 
+            transform: 'rotate(17deg)'},
+          '35%': { 
+            transform: 'rotate(-17deg)'},
+          '49%': { 
+            transform: 'rotate(17deg)'},
+          '63%': { 
+            transform: 'rotate(0deg)'},
+          '100%': { 
+            transform: 'rotate(0deg)'},
+        },
+      },
+      animation: {
+        handRotation: 'handRotation 3s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
