@@ -5,9 +5,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import DeleteButton from './DeleteButton';
 import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
-import FavouriteButton from './FavouriteButton';
 
 import { FaStar } from "react-icons/fa";
+import QuestionCounter from './QuestionCounter';
+import Progress from './Progress';
+import OptionsMenu from './OptionsMenu';
 
 const RightPanel = () => {
 const [data, setData] = useState([]);
@@ -64,26 +66,6 @@ const [isFavourite, setIsFavourite] = useState(
     setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
   };
 
-  const handleIsFavourite = (itemName) => {
-    setIsFavourite((prevState) => {
-      const newState = { ...prevState, [itemName]: !prevState[itemName] };
-      localStorage.setItem('favorites', JSON.stringify(newState));
-      return newState;
-    });
-  };
-
-  const handleDelete = async (itemName) => {
-    try {
-      await handleMouseLeave(itemName);
-      await handleOptionsMouseLeave(itemName);
-      await axios.delete(`/delete/${itemName}`);
-      // Update the local state by filtering out the deleted item
-      setData(data.filter((item) => item.name !== itemName));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className='w-[70%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
@@ -116,9 +98,7 @@ const [isFavourite, setIsFavourite] = useState(
                 <div className='flex justify-center items-center gap-10 relative'>
                   {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark '/>)}
 
-                  <div className='flex justify-center items-center rounded-lg px-2 py-1 bg-gray-600'>
-                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 z-10'>{item.questions.length} questions</p>
-                  </div>
+                  <QuestionCounter questionLength={item.questions.length}/>
 
                   <div
                     onMouseEnter={() => handleOptionsMouseEnter(item.name)}
@@ -127,37 +107,25 @@ const [isFavourite, setIsFavourite] = useState(
                     <OptionsButton />
                   </div>
 
-                  <div
-                    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl z-20 duration-500 ${optionsHoverStates[item.name] ? 'translate-x-0' : 'translate-x-72'}`}
-                    onMouseEnter={() => handleOptionsMouseEnter(item.name)}
-                    onMouseLeave={() => handleOptionsMouseLeave(item.name)}
-                  >
-                    <FavouriteButton 
-                      isWide={true} 
-                      isFavourite={isFavourite[item.name] || false}
-                      onClick={handleIsFavourite} 
-                      itemName={item.name}
-                    />
-                    <DeleteButton isWide={true} itemName={item.name} onClick={handleDelete}/>
-                  </div>
+                  <OptionsMenu 
+                    itemName={item.name}
+                    data={data}
+                    setData={setData}
+                    optionsHoverStates={optionsHoverStates}
+                    isFavourite={isFavourite}
+                    setIsFavourite={setIsFavourite}
+                    handleOptionsMouseEnter={handleOptionsMouseEnter}
+                    handleOptionsMouseLeave={handleOptionsMouseLeave}
+                    handleMouseLeave={handleMouseLeave}
+                  />
 
                 </div>
               </div>
 
-              <div className={`w-full flex justify-between duration-700 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-64'}`}>
-                <div className={`flex flex-col items-start gap-1 mx-5`}>
-                  <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg relative z-10'>Progress</p>
-
-                  <div className='flex items-center gap-2'>
-                    <div className='w-[300px] h-2 bg-white rounded-full'>
-                      {/* make the Progress bar here */}
-                    </div>
-
-                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 learnt</p>
-                  </div>
-
-                </div>
-              </div>
+              <Progress 
+                hoverStates={hoverStates}
+                itemName={item.name}
+              />
 
             </div>
           ))}
