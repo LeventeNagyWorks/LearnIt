@@ -4,11 +4,13 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 
 import HeroSection from './routes/HeroSection';
 import StudySetsPage from './routes/StudySetsPage';
+import StudySetDetailPage from './routes/StudySetDetailPage';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
     <Route path="/"  element={<HeroSection />}/>
     <Route path="/study-sets"  element={<StudySetsPage />}/>
+    <Route path="/study-sets/study-set-detail"  element={<StudySetDetailPage />}/>
   </Route>
 )
 

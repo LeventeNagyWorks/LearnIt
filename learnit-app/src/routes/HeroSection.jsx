@@ -1,12 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-
 import { Link } from "react-router-dom"
+
+import darkHatImage from './../images/dark_hat_fixed.png';
 
 const HeroSection = () => {
   return (
     <>
-        <div className="h-screen w-screen font-poppins flex justify-end items-center bg-[url('./images/dark_hat_fixed.png')] bg-cover overflow-hidden">
+        <div 
+            className="h-screen w-screen font-poppins flex justify-end items-center bg-cover overflow-hidden"
+            style={{ backgroundImage: `url(${darkHatImage})` }}
+        >
 
             <div className="w-[60%] h-[90%] flex flex-col justify-start items-center px-8 py-36 gap-40">
 
