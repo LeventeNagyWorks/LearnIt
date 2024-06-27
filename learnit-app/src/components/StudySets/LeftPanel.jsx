@@ -5,10 +5,12 @@ import { useDropzone } from 'react-dropzone'
 import axios from 'axios';
 
 import BackButton from '../../components/BackButton'
+import InformationButton from './InformationButton';
 
-const LeftPanel = ({ isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive }) => {
+const LeftPanel = ({ setIsStudySetAlreadyExistsActive }) => {
 
   const [onDrag, setOnDrag] = useState(false);
+  const [isInformationHovered, setIsInformationHovered] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -46,11 +48,9 @@ const LeftPanel = ({ isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsAc
   //console.log({ input: getInputProps() });
 
   return (
-    <div className='w-[30%] flex flex-col justify-between items-center py-8 px-5 relative z-10'>
+    <div className='w-[30%] flex flex-col justify-between items-center py-8 px-5 relative z-20'>
 
-      <div className='w-16 h-16 bg-gradient-to-br from-zinc-700 to-zinc-900 border-2 border-zinc-900 rounded-full hover:border-accent_green_dark self-start cursor-pointer duration-500'>
-        <p className=' text-center text-[40px] text-accent_green_dark font-poetsen'>i</p>
-      </div>
+      <InformationButton isInformationHovered={isInformationHovered} setIsInformationHovered={setIsInformationHovered}/>
       
       <h1 className='w-fit text-5xl font-medium text-cstm_white select-none'>Add Study Sets</h1>
       

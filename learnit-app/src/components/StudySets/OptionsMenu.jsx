@@ -9,7 +9,6 @@ import DeleteButton from './DeleteButton';
 const OptionsMenu = ({ optionsHoverStates, itemName, isFavourite, setIsFavourite, handleOptionsMouseEnter, handleOptionsMouseLeave, handleMouseLeave, data, setData }) => {
 
     const isHovered = optionsHoverStates[itemName] || false;
-    const Favourite = isFavourite[itemName] || false;
 
     const handleIsFavourite = (itemName) => {
         setIsFavourite((prevState) => {
@@ -33,7 +32,7 @@ const OptionsMenu = ({ optionsHoverStates, itemName, isFavourite, setIsFavourite
 
   return (
     <div
-    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-xl z-20 duration-500 ${isHovered ? 'translate-x-0' : 'translate-x-72'}`}
+    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 duration-500 ${isHovered ? 'translate-x-0' : 'translate-x-72'}`}
     onMouseEnter={() => handleOptionsMouseEnter(itemName)}
     onMouseLeave={() => handleOptionsMouseLeave(itemName)}
   >

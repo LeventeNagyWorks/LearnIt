@@ -19,7 +19,8 @@ const StudySetsPage = () => {
       {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
 
       <LeftPanel 
-        isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
+        isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} 
+        setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
       />
 
       <RightPanel />
