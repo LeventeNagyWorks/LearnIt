@@ -1,9 +1,14 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  variants: {
+    scrollbar: ['hover', 'focus'],
+    scrollbarThumb: ['hover', 'focus'],
+  },
   theme: {
     extend: {
       fontFamily: {

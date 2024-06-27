@@ -2,7 +2,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 
-import DeleteButton from './DeleteButton';
 import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
 
@@ -64,10 +63,10 @@ const [isFavourite, setIsFavourite] = useState(
         
         <RightPanelHeader />
 
-        <div className='w-full h-full flex flex-col rounded-b-[40px] px-4'>
+        <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
           {data.map((item) => (
             <div
-              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 h-40' : 'h-20'}`}
+              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'}`}
               key={item.name}
               onMouseEnter={() => handleMouseEnter(item.name)}
               onMouseLeave={() => handleMouseLeave(item.name)}
