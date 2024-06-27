@@ -10,6 +10,7 @@ import { FaStar } from "react-icons/fa";
 import QuestionCounter from './QuestionCounter';
 import Progress from './Progress';
 import OptionsMenu from './OptionsMenu';
+import RightPanelHeader from './RightPanelHeader';
 
 const RightPanel = () => {
 const [data, setData] = useState([]);
@@ -69,14 +70,9 @@ const [isFavourite, setIsFavourite] = useState(
   return (
     <div className='w-[70%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
-        <div className='w-full h-24 flex justify-center items-center rounded-t-[40px]'>
-          <div className='w-full flex items-center justify-center'>
-            <h1 className='w-fit text-5xl font-medium text-cstm_white select-none z-10'>Your Study Sets</h1>
-          </div>
-          <div className='w-fit h-12 flex justify-end items-center gap-6 pr-6'>
-            <DeleteButton isWide={false}/>
-          </div>
-        </div>
+        
+        <RightPanelHeader />
+
         <div className='w-full h-full flex flex-col rounded-b-[40px] px-4'>
           {data.map((item) => (
             <div
