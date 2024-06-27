@@ -42,15 +42,6 @@ const [isFavourite, setIsFavourite] = useState(
     return () => clearInterval(intervalId);
   }, [setData]); // Add setData as a dependency
 
-  useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
-    setIsFavourite(storedFavorites);
-
-    return () => {
-      localStorage.removeItem('favorites');
-    };
-  }, []);
-
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
   };
