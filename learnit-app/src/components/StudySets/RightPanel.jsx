@@ -12,12 +12,14 @@ import OptionsMenu from './OptionsMenu';
 import RightPanelHeader from './RightPanelHeader';
 
 const RightPanel = () => {
-const [data, setData] = useState([]);
-const [hoverStates, setHoverStates] = useState({});
-const [optionsHoverStates, setOptionsHoverStates] = useState({});
-const [isFavourite, setIsFavourite] = useState(
-  data.reduce((acc, item) => ({ ...acc, [item.name]: false }), {})
-);
+  const [data, setData] = useState([]);
+  const [hoverStates, setHoverStates] = useState({});
+  const [optionsHoverStates, setOptionsHoverStates] = useState({});
+  const [itemSelected, setItemSelected] = useState({});
+  const [selectedItemNum, setSelectedItemNum] = useState(0);
+  const [isFavourite, setIsFavourite] = useState(
+    data.reduce((acc, item) => ({ ...acc, [item.name]: false }), {})
+  );
 
   useEffect(() => {
     axios.get('/data')
@@ -57,6 +59,17 @@ const [isFavourite, setIsFavourite] = useState(
     setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
   };
 
+  const handleItemSelected = (itemName) => {
+    if (itemSelected) {
+      setItemSelected({ [itemName]: false });
+      setSelectedItemNum( selectedItemNum - 1)
+    }
+    else {
+      setItemSelected({ [itemName]: true });
+      setSelectedItemNum( selectedItemNum + 1)
+    }
+  }
+
   return (
     <div className='w-[70%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
@@ -66,10 +79,11 @@ const [isFavourite, setIsFavourite] = useState(
         <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
           {data.map((item) => (
             <div
-              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'}`}
+              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-green-600' : ''}`}
               key={item.name}
               onMouseEnter={() => handleMouseEnter(item.name)}
               onMouseLeave={() => handleMouseLeave(item.name)}
+              onClick={() => handleItemSelected(item.name)}
             >
 
               <div className='flex flex-row items-center justify-between'>

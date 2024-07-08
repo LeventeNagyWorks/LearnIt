@@ -4,8 +4,16 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
+import { isLoading } from '../signals'
+import { useEffect } from 'react'
+import { Close_loading } from '../components/LoadingScreen';
 
 const StudySetsPage = () => {
+
+  useEffect(() => {
+    console.log(isLoading.value._l);
+    Close_loading();
+  }, [])
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
 

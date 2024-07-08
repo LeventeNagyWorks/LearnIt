@@ -23,9 +23,9 @@ const InformationButton = ({ isInformationHovered, setIsInformationHovered }) =>
             <div className='w-[540px] h-[400px] py-2 px-5 flex flex-col justify-start items-start gap-6 text-[18px] font-poppins bg-gradient-to-br from-slate-800 from-40% to-teal-900 rounded-[25px] rounded-tl-none'>
                 <h1 className='text-[26px] text-accent_green_dark font-medium text-center self-center'>Information</h1>
                 
-                <p className='text-cstm_white'>You can add your study sets by <snap className='text-accent_green_dark'>drag and drop</snap> method or by <snap className='text-accent_green_dark'>clicking on the huge hand icon</snap>.</p>
-                <p className='text-cstm_white'>I work with .txt files so I do <snap className='text-accent_green_dark'>NOT</snap> accept any other extension of files.</p>
-                <p className='text-cstm_white'>By clicking on me you can open my <snap className='text-accent_green_dark'>detailed documentation</snap> about how to <snap className='text-accent_green_dark'>set up your .txt files</snap> so I can build your study set from it.</p>
+                <p className='text-cstm_white'>You can add your study sets by <span className='text-accent_green_dark'>drag and drop</span> method or by <span className='text-accent_green_dark'>clicking on the huge hand icon</span>.</p>
+                <p className='text-cstm_white'>I work with .txt files so I do <span className='text-accent_green_dark'>NOT</span> accept any other extension of files.</p>
+                <p className='text-cstm_white'>By clicking on me you can open my <span className='text-accent_green_dark'>detailed documentation</span> about how to <span className='text-accent_green_dark'>set up your .txt files</span> so I can build your study set from it.</p>
                 <p className=' text-cstm_white'>For further information you can click on me.</p>
             </div>
         </div>

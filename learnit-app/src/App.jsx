@@ -5,6 +5,9 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 import HeroSection from './routes/HeroSection';
 import StudySetsPage from './routes/StudySetsPage';
 import StudySetDetailPage from './routes/StudySetDetailPage';
+import LoadingScreen from './components/LoadingScreen';
+import { Suspense } from 'react';
+import { isLoading, isStudyLoading } from './signals';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
@@ -22,7 +25,14 @@ const router = createBrowserRouter(routeDefinitions);
 // ]);
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <LoadingScreen />
+      <RouterProvider router={router} />
+    </Suspense>
+  )
 }
+
+console.log(isLoading.value._l);
 
 export default App;
