@@ -3,6 +3,7 @@
 import React from 'react'
 
 import DeleteButton from './DeleteButton'
+import { LuTextSelect } from "react-icons/lu";
 
 const RightPanelHeader = ({ selectedItemNum }) => {
   return (
@@ -12,8 +13,10 @@ const RightPanelHeader = ({ selectedItemNum }) => {
       </div>
       <div className='w-1/5 h-12 flex justify-end items-center gap-3 pr-6 py-1'>
         {selectedItemNum !== 0 && (
-          <div className='w-fit h-full flex justify-center items-center select-none bg-slate-400 px-3 rounded-lg'>
-            <p className=''> {selectedItemNum}</p>
+          <div className='w-fit h-full flex justify-center items-center gap-2 select-none bg-gradient-to-r from-slate-500 to-slate-800 px-3 rounded-lg font-poppins font-medium text-2xl text-cstm_bg_dark'>
+            <LuTextSelect className='w-7 h-7 text-cstm_white'/>
+            <span className='rounded bg-cstm_white w-[2px] h-[20px]'/>
+            <p className='text-accent_green_dark'>{selectedItemNum}</p>
           </div>
         )}
         <DeleteButton isWide={false}/>
