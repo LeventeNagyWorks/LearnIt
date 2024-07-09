@@ -6,7 +6,17 @@ import axios from 'axios';
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
 
-const OptionsMenu = ({ optionsHoverStates, itemName, isFavourite, setIsFavourite, handleOptionsMouseEnter, handleOptionsMouseLeave, handleMouseLeave, data, setData }) => {
+const OptionsMenu = ({ 
+  optionsHoverStates, 
+  itemName, 
+  isFavourite, 
+  setIsFavourite, 
+  handleOptionsMouseEnter, 
+  handleOptionsMouseLeave, 
+  handleMouseLeave, 
+  data, 
+  setData
+}) => {
 
     const isHovered = optionsHoverStates[itemName] || false;
 
@@ -29,25 +39,30 @@ const OptionsMenu = ({ optionsHoverStates, itemName, isFavourite, setIsFavourite
           console.error(error);
         }
       };
+      
+      const handleClick = (e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
+      };
 
   return (
     <div
-    className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 duration-500 ${isHovered ? 'translate-x-0' : 'translate-x-72'}`}
-    onMouseEnter={() => handleOptionsMouseEnter(itemName)}
-    onMouseLeave={() => handleOptionsMouseLeave(itemName)}
-  >
-    <FavouriteButton 
-      isWide={true} 
-      isFavourite={isFavourite[itemName] || false}
-      onClick={handleIsFavourite} 
-      itemName={itemName}
-    />
-    <DeleteButton 
-        isWide={true}
+      className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 duration-500 ${isHovered ? 'translate-x-0' : 'translate-x-72'}`}
+      onMouseEnter={() => handleOptionsMouseEnter(itemName)}
+      onMouseLeave={() => handleOptionsMouseLeave(itemName)}
+      onClick={handleClick}
+    >
+      <FavouriteButton 
+        isWide={true} 
+        isFavourite={isFavourite[itemName] || false}
+        onClick={handleIsFavourite} 
         itemName={itemName}
-        onClick={handleDelete}
-    />
-  </div>
+      />
+      <DeleteButton 
+          isWide={true}
+          itemName={itemName}
+          onClick={handleDelete}
+      />
+    </div>
   )
 }
 
