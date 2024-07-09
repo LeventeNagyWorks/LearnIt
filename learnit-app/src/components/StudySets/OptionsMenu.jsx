@@ -15,7 +15,9 @@ const OptionsMenu = ({
   handleOptionsMouseLeave, 
   handleMouseLeave, 
   data, 
-  setData
+  setData,
+  setItemSelected,
+  setSelectedItemNum
 }) => {
 
     const isHovered = optionsHoverStates[itemName] || false;
@@ -26,23 +28,29 @@ const OptionsMenu = ({
           localStorage.setItem('favorites', JSON.stringify(newState));
           return newState;
         });
-      };
+    };
 
-      const handleDelete = async (itemName) => {
-        try {
-          await handleMouseLeave(itemName);
-          await handleOptionsMouseLeave(itemName);
-          await axios.delete(`/delete/${itemName}`);
-          // Update the local state by filtering out the deleted item
-          setData(data.filter((item) => item.name !== itemName));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+    const handleDelete = async (itemName) => {
+      try {
+        setItemSelected((prevState) => {
+          const newState = { ...prevState, [itemName]: false };
+          const selectedCount = Object.values(newState).filter(Boolean).length;
+          setSelectedItemNum(selectedCount);
+          return newState;
+        });
+        await handleMouseLeave(itemName);
+        await handleOptionsMouseLeave(itemName);
+        await axios.delete(`/delete/${itemName}`);
+        // Update the local state by filtering out the deleted item
+        setData(data.filter((item) => item.name !== itemName));
+      } catch (error) {
+        console.error(error);
+      }
+    };
       
-      const handleClick = (e) => {
-        e.stopPropagation(); // Prevent event from bubbling up
-      };
+    const handleClick = (e) => {
+      e.stopPropagation(); // Prevent event from bubbling up
+    };
 
   return (
     <div

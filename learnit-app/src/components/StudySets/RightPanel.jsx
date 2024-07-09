@@ -117,6 +117,8 @@ const RightPanel = () => {
                     handleOptionsMouseEnter={handleOptionsMouseEnter}
                     handleOptionsMouseLeave={handleOptionsMouseLeave}
                     handleMouseLeave={handleMouseLeave}
+                    setItemSelected={setItemSelected}
+                    setSelectedItemNum={setSelectedItemNum}
                   />
 
                 </div>
