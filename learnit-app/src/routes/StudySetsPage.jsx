@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { isLoading } from '../signals'
 import { useEffect } from 'react'
 import { Close_loading } from '../components/LoadingScreen';
+import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 
 const StudySetsPage = () => {
 
@@ -16,19 +17,34 @@ const StudySetsPage = () => {
   }, [])
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
+  const [isAddStudySetOpened, setIsAddStudySetOpened] = useState(false);
 
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
+  }
+  const openAddStudySetPanel = () => {
+    setIsAddStudySetOpened(true);
+  }
+  const closeAddStudySetPanel = () => {
+    setIsAddStudySetOpened(false);
   }
 
   return (
     <div className='w-screen h-screen font-poppins bg-cstm_bg_dark flex overflow-hidden relative'>
 
       {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
+      {isAddStudySetOpened && (
+        <AddNewStudySetPanel 
+          closeAddStudySetPanel={closeAddStudySetPanel}         
+          isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} 
+          setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
+        />
+      )}
 
       <LeftPanel 
         isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} 
         setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
+        openAddStudySetPanel={openAddStudySetPanel}
       />
 
       <RightPanel />
