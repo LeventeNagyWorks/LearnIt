@@ -71,7 +71,7 @@ const RightPanel = () => {
   };
 
   return (
-    <div className='w-[80%] flex justify-center items-center relative z-10 font-poppins'>
+    <div className='w-[85%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
         
         <RightPanelHeader selectedItemNum={selectedItemNum}/>

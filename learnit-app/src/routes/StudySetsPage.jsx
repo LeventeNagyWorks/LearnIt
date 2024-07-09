@@ -4,10 +4,11 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isLoading } from '../signals'
+import { isLoading, isStudySetAccepted } from '../signals'
 import { useEffect } from 'react'
 import { Close_loading } from '../components/LoadingScreen';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
+import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
 
 const StudySetsPage = () => {
 
@@ -22,6 +23,10 @@ const StudySetsPage = () => {
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
   }
+  const closeStudySetAcceptedMessage = () => {
+    isStudySetAccepted.value._a = false;
+    console.log(isStudySetAccepted.value._a);
+  }
   const openAddStudySetPanel = () => {
     setIsAddStudySetOpened(true);
   }
@@ -33,6 +38,7 @@ const StudySetsPage = () => {
     <div className='w-screen h-screen font-poppins bg-cstm_bg_dark flex overflow-hidden relative'>
 
       {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
+      {isStudySetAccepted.value._a && <SuccessfullyAdded type={'StudySetAccepted'} onClick={closeStudySetAcceptedMessage}/>}
       {isAddStudySetOpened && (
         <AddNewStudySetPanel 
           closeAddStudySetPanel={closeAddStudySetPanel}         

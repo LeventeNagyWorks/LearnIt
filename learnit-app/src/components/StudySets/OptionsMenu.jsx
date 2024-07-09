@@ -32,7 +32,7 @@ const OptionsMenu = ({
 
     const handleDelete = async (itemName) => {
       try {
-        setItemSelected((prevState) => {
+        await setItemSelected((prevState) => {
           const newState = { ...prevState, [itemName]: false };
           const selectedCount = Object.values(newState).filter(Boolean).length;
           setSelectedItemNum(selectedCount);
