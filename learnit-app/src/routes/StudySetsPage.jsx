@@ -4,13 +4,16 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isLoading, isStudySetAccepted } from '../signals'
+import { isLoading, isStudySetAccepted, showSuccessfullyAdded } from '../signals'
 import { useEffect } from 'react'
 import { Close_loading } from '../components/LoadingScreen';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
+import { useSignals } from '@preact/signals-react/runtime'
 
 const StudySetsPage = () => {
+
+  useSignals();
 
   useEffect(() => {
     console.log(isLoading.value._l);
@@ -24,7 +27,8 @@ const StudySetsPage = () => {
     setIsStudySetAlreadyExistsActive(false);
   }
   const closeStudySetAcceptedMessage = () => {
-    isStudySetAccepted.value._a = false;
+    isStudySetAccepted.value = { _a: false };
+    showSuccessfullyAdded.value = false;
     console.log(isStudySetAccepted.value._a);
   }
   const openAddStudySetPanel = () => {
@@ -37,8 +41,21 @@ const StudySetsPage = () => {
   return (
     <div className='w-screen h-screen font-poppins bg-cstm_bg_dark flex overflow-hidden relative'>
 
-      {isStudySetAlreadyExistsActive && <Error type={'StudySetAlreadyExists'} onClick={closeStudySetAlreadyExistsMessage}/>}
-      {isStudySetAccepted.value._a && <SuccessfullyAdded type={'StudySetAccepted'} onClick={closeStudySetAcceptedMessage}/>}
+      {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
+        <SuccessfullyAdded
+          type={'StudySetAccepted'}
+          setShowSuccessfullyAdded={() => {
+            showSuccessfullyAdded.value = false;
+            isStudySetAccepted.value = { _a: false };
+          }}
+        />
+      )}
+      {isStudySetAlreadyExistsActive && (
+        <Error 
+          type={'StudySetAlreadyExists'} 
+          onClick={closeStudySetAlreadyExistsMessage}
+        />
+      )}
       {isAddStudySetOpened && (
         <AddNewStudySetPanel 
           closeAddStudySetPanel={closeAddStudySetPanel}         

@@ -3,7 +3,7 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { isStudySetAccepted } from '../../signals';
+import { isStudySetAccepted, showSuccessfullyAdded } from '../../signals';
 
 const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
 
@@ -29,7 +29,8 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
       })
       .then(response => {
         console.log(response.data);
-        isStudySetAccepted.value._a = true;
+        isStudySetAccepted.value = { _a: true };
+        showSuccessfullyAdded.value = true;
         console.log(isStudySetAccepted.value._a);
       })
       .catch(error => {
