@@ -47,7 +47,7 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
 
   return (
     <div {...getRootProps()} 
-    className={`dropzone w-[60%] h-[500px] flex justify-center items-center rounded-[40px] bg-gradient-to-br from-zinc-700 to-zinc-900 cursor-pointer border-2 border-dashed ${isDragActive ? 'border-accent_green_dark' : 'border-cstm_white'}`}
+    className={`dropzone w-[60%] h-[500px] flex justify-center items-center rounded-[40px] bg-gradient-to-b from-zinc-900 to-zinc-700 cursor-pointer border-2 border-dashed ${isDragActive ? 'border-accent_green_dark' : 'border-cstm_white'}`}
   >
 
     <input {...getInputProps()} className='h-full w-full bg-gray-200' />

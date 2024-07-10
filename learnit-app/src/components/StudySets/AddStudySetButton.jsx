@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 import { HiOutlinePlus } from "react-icons/hi2";
 
 
-const AddStudySetButton = ({ onClick, }) => {
+const AddStudySetButton = ({ onClick, className}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div 
-        className='bg-gradient-to-br from-green-900 to-accent_green_dark rounded-[40px] cursor-pointer duration-700 shadow-2xl hover:shadow-accent_green_dark'
+        className={`w-fit bg-gradient-to-br from-green-900 to-accent_green_dark rounded-[40px] cursor-pointer duration-700 shadow-2xl hover:shadow-accent_green_dark ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onClick()}

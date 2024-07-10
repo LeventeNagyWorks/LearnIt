@@ -11,20 +11,24 @@ import AddNewStudySetPanel from './AddNewStudySetPanel';
 
 const LeftPanel = ({ setIsStudySetAlreadyExistsActive, openAddStudySetPanel }) => {
 
-  const [isInformationHovered, setIsInformationHovered] = useState(false);
-
   return (
-    <div className='w-[15%] flex flex-col justify-between items-end py-8 px-5 relative z-20'>
-
-      <InformationButton isInformationHovered={isInformationHovered} setIsInformationHovered={setIsInformationHovered}/>
+    <div className='w-[15%] flex flex-col justify-end items-end pl-5 py-8 relative z-20'>
       
-      <AddStudySetButton setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive} onClick={openAddStudySetPanel}/>
+      <div className='w-full h-[60%] flex flex-col justify-between items-center'>
 
-      <div className='self-start'>
+        <AddStudySetButton 
+          className={'self-end'} 
+          setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive} 
+          onClick={openAddStudySetPanel}
+        />
+
         <BackButton
+          className='self-start'
           to={"/"}
         />
+
       </div>
+
 
     </div>
   )

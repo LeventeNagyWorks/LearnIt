@@ -5,13 +5,13 @@ import React from 'react'
 
 const InformationButton = ({ isInformationHovered, setIsInformationHovered }) => {
   return (
-    <div className='self-start flex relative'>
+    <div className='flex relative'>
         <div 
             onMouseEnter={() => setIsInformationHovered(true)}
             onMouseLeave={() => setIsInformationHovered(false)}
-            className='w-16 h-16 bg-gradient-to-br from-zinc-700 to-zinc-900 border-2 border-zinc-900 rounded-full hover:border-accent_green_dark cursor-pointer duration-500 relative'
+            className='w-14 h-14 text-center bg-gradient-to-br from-zinc-700 to-zinc-900 border-2 border-zinc-900 rounded-full hover:border-accent_green_dark cursor-pointer duration-500 relative'
         >
-            <p className=' text-center text-[40px] text-accent_green_dark font-poetsen select-none'>i</p>
+            <p className=' text-center text-[35px] text-accent_green_dark font-poetsen select-none'>i</p>
         </div>
 
         <div className={`absolute flex z-50 left-32 -translate-x-[65px] translate-y-[30px] transition-transform duration-500 ${isInformationHovered ? 'block' : 'hidden'}`}>
