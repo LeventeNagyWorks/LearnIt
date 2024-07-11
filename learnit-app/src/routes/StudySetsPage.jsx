@@ -26,11 +26,6 @@ const StudySetsPage = () => {
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
   }
-  const closeStudySetAcceptedMessage = () => {
-    isStudySetAccepted.value = { _a: false };
-    showSuccessfullyAdded.value = false;
-    console.log(isStudySetAccepted.value._a);
-  }
   const openAddStudySetPanel = () => {
     setIsAddStudySetOpened(true);
   }
@@ -84,7 +79,7 @@ const StudySetsPage = () => {
           <stop offset="1" stopColor="#106600"/>
           </linearGradient>
           </defs>
-        </svg>
+      </svg>
 
     </div>
   )

@@ -40,9 +40,18 @@ export default {
           '100%': { 
             transform: 'rotate(0deg)'},
         },
+        loading: {
+          '0%': {
+            transform: 'translate(-960px)',
+          },
+          '100%': {
+            transform: 'translate(0px)',
+          }
+        }
       },
       animation: {
         handRotation: 'handRotation 3s ease-in-out infinite',
+        loading: 'loading 1.5s ease-in-out infinite',
       },
     },
   },

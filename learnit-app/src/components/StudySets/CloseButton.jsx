@@ -10,7 +10,7 @@ const CloseButton = ({ onClick }) => {
 
   return (
     <div 
-        className={`flex justify-center items-center border-2 border-red-700 rounded-xl cursor-pointer transition-all duration-500 ${isHovered ? ' bg-gradient-to-br from-red-700 to-red-900' : ''}`}
+        className={`flex justify-center items-center border-2 border-red-700 rounded-xl cursor-pointer transition-all duration-500 ${isHovered ? ' bg-red-700' : ''}`}
         onClick={() => onClick()}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
