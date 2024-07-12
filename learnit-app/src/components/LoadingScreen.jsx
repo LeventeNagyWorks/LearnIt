@@ -6,13 +6,13 @@ import { isLoading } from '../signals';
 import { Link, useNavigate } from "react-router-dom";
 import { useSignals } from '@preact/signals-react/runtime';
 
-export default function LoadingScreen() {
+function LoadingScreen() {
 
-  useEffect(() => {
-    setTimeout(() => {
-      isLoading.value = { _l: false };
-    }, 1500);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     isLoading.value = { _l: false };
+  //   }, 2000);
+  // }, []);
 
   return (
     <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500 ${isLoading.value._l ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}>
@@ -26,44 +26,6 @@ export default function LoadingScreen() {
     </div>
   )
 }
-
-export function Animated_link({ children, className, onClick, to }) {
-
-  const navigate = useNavigate();
-
-  return (
-    <Link
-      className={`cursor-pointer ${className}`}
-      to={to}
-      onClick={e => {
-        e.preventDefault();
-        if (onClick) onClick();
-        NavigateTo(navigate, to);
-      }}
-    >
-      {children}
-    </Link>
-  );
-}
-
-export function NavigateTo(navigate, to) {
   
-  const currentPath = window.location.pathname;
-
-  if (currentPath == to) {
-    isLoading.value = { ...isLoading.value, _l: true };
-    setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      Close_loading();
-    }, 1500);
-  } else {
-    isLoading.value = { ...isLoading.value, _l: true };
-    setTimeout(() => navigate(to), 1500);
-  }
-}
-  
-export function Close_loading() {
-  console.log('run2');
-  isLoading.value = { ...isLoading.value, _l: false };
-}
+export default LoadingScreen;
 

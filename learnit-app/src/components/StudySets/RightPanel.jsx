@@ -10,6 +10,7 @@ import QuestionCounter from './QuestionCounter';
 import Progress from './Progress';
 import OptionsMenu from './OptionsMenu';
 import RightPanelHeader from './RightPanelHeader';
+import { studySetsData } from '../../signals';
 
 const RightPanel = () => {
   const [data, setData] = useState([]);
@@ -28,6 +29,7 @@ const RightPanel = () => {
       .then(({ data }) => {
         console.log(data);
         setData(data);
+        studySetsData.value = [...data];
       })
       .catch(error => console.error(error));
   }, [setData]);
@@ -38,6 +40,7 @@ const RightPanel = () => {
         .then(({ data }) => {
           console.log(data);
           setData(data);
+          studySetsData.value = [...data];
         })
         .catch(error => console.error(error));
     }, 1000); // Fetch data every 1 second

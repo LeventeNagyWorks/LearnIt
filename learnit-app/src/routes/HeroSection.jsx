@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 import darkHatImage from './../images/dark_hat_fixed.png';
 import { useEffect } from 'react';
-import LoadingScreen, { Animated_link, Close_loading } from '../components/LoadingScreen';
+import LoadingScreen from '../components/LoadingScreen';
 import { isLoading } from '../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 
@@ -14,9 +14,6 @@ const HeroSection = () => {
 
   return (
     <>
-        {isLoading.value._l ? (
-            <LoadingScreen />
-        ) : (
             <div 
                 className="h-screen w-screen font-poppins flex justify-end items-center bg-cover overflow-hidden"
                 style={{ backgroundImage: `url(${darkHatImage})` }}
@@ -30,17 +27,16 @@ const HeroSection = () => {
                         <p className="text-white text-5xl select-none self-end">Let me help you.</p>
                     </div>
                 
-                    <Animated_link
+                    <Link
                         to="/study-sets"
                         className="w-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none self-end mr-24"
                     >
                         Getting Started
-                    </Animated_link>
+                    </Link>
 
                 </div>
             
             </div>
-        )}
     </>
   )
 }

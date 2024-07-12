@@ -12,7 +12,6 @@ const StartButton = ({ itemName }) => {
   return (
     <Link 
       to="/study-sets/study-set-detail"
-      state={{ studySetData: { name: itemName} }}
       className={`w-10 h-10 flex justify-center items-center rounded-full duration-500 cursor-pointer ${isHovered ? 'bg-green-400' : 'bg-accent_green_dark'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

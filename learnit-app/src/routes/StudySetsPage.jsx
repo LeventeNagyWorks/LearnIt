@@ -6,7 +6,6 @@ import Error from '../components/errors/Error'
 import { useState } from 'react'
 import { isLoading, isStudySetAccepted, showSuccessfullyAdded } from '../signals'
 import { useEffect } from 'react'
-import { Close_loading } from '../components/LoadingScreen';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
 import { useSignals } from '@preact/signals-react/runtime'
@@ -14,11 +13,6 @@ import { useSignals } from '@preact/signals-react/runtime'
 const StudySetsPage = () => {
 
   useSignals();
-
-  useEffect(() => {
-    console.log(isLoading.value._l);
-    Close_loading();
-  }, [])
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
   const [isAddStudySetOpened, setIsAddStudySetOpened] = useState(false);
