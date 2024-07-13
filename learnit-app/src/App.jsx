@@ -10,9 +10,9 @@ import { isLoading, isStudyLoading } from './signals';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
-    <Route path="/"  element={<HeroSection />}/>
-    <Route path="/study-sets"  element={<StudySetsPage />}/>
-    <Route path="/study-sets/study-set-detail"  element={<StudySetDetailPage />}/>
+    <Route path="/" element={<HeroSection />}/>
+    <Route path="/study-sets" element={<StudySetsPage />}/>
+    <Route path="/study-sets/:itemName" element={<StudySetDetailPage />}/>
   </Route>
 )
 
@@ -26,7 +26,6 @@ const router = createBrowserRouter(routeDefinitions);
 function App() {
   return (
     <>
-        <LoadingScreen />
         <RouterProvider router={router} />
     </>
   )

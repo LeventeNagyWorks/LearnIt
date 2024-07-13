@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { studySetsData } from '../signals'
-import { useSignals } from '@preact/signals-react/runtime'
 
 const StudySetDetailPage = () => {
-  const studySets = useSignals(studySetsData);
-  const studySet = studySets[0]; // get the first study set
+  const { itemName } = useParams();
+  const studySets = studySetsData.value;
+  
+  if (!Array.isArray(studySets) || studySets.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const studySet = studySets.find(set => set.name === itemName);
 
   if (!studySet) {
-    return <div>Loading...</div>; // or some other fallback component
+    return <div>Study set not found</div>;
   }
 
   const questions = studySet.questions;
@@ -17,11 +22,12 @@ const StudySetDetailPage = () => {
 
   return (
     <div className='h-screen bg-cstm_bg_dark text-cstm_white font-poppins'>
+      <h1 className='text-4xl mb-4'>{studySet.name}</h1>
       {questionNames.map((questionName, index) => (
-        <h1
-          className='text-3xl'
+        <h2
+          className='text-2xl mb-2'
           key={index}
-        >{questionName}</h1>
+        >{questionName}</h2>
       ))}
     </div>
   );
