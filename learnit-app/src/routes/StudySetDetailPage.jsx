@@ -18,26 +18,45 @@ const StudySetDetailPage = () => {
   const swiperRef = useRef(null);
   const MAXGLARE = 0.10;
 
-  const initializeTilt = (swiper) => {
-    const tiltElement = swiper.slides[swiper.activeIndex];
-    if (tiltElement) {
-      VanillaTilt.init(tiltElement, {
+  // const initializeTilt = (swiper) => {
+  //   const tiltElement = swiper.slides[swiper.activeIndex];
+  //   if (tiltElement) {
+  //     VanillaTilt.init(tiltElement, {
+  //       max: 5,
+  //       speed: 10,
+  //       glare: true,
+  //       'max-glare': MAXGLARE,
+  //       perspective: 1000,
+  //       style: {
+  //         'transform-style': 'preserve-3d',
+  //       },
+  //     });
+
+  //     const innerElements = tiltElement.querySelectorAll('.inner-element-class');
+  //     innerElements.forEach(element => {
+  //       element.style.transform = 'translateZ(20px)';
+  //     });
+  //   }
+  // };
+
+  useEffect(() => {
+    const tiltElement = document.querySelector('.swiper-slide-active');
+    VanillaTilt.init(tiltElement, {
         max: 5,
         speed: 10,
         glare: true,
         'max-glare': MAXGLARE,
         perspective: 1000,
         style: {
-          'transform-style': 'preserve-3d',
+            'transform-style': 'preserve-3d',
         },
-      });
+    });
 
-      const innerElements = tiltElement.querySelectorAll('.inner-element-class');
-      innerElements.forEach(element => {
+    const innerElements = tiltElement.querySelectorAll('.inner-element-class');
+    innerElements.forEach(element => {
         element.style.transform = 'translateZ(20px)';
-      });
-    }
-  };
+    });
+  }, []);
 
   const { itemName } = useParams();
   const studySets = studySetsData.value;
@@ -118,19 +137,27 @@ const StudySetDetailPage = () => {
                         return `<span class="${className} bg-accent_green_dark w-6 h-6 m-1 rounded-full font-poppins text-center select-none text-cstm_white">${index + 1}</span>`;
                     },
                 }}
-                onSwiper={(swiper) => {
-                  initializeTilt(swiper);
-                }}
                 onSlideChange={(swiper) => {
-                  // Remove tilt effect from all slides
-                  swiper.slides.forEach(slide => {
-                    if (slide.vanillaTilt) {
-                      slide.vanillaTilt.destroy();
+                    // Remove tilt effect from all slides
+                    const previousActiveSlide = swiper.slides[swiper.previousIndex];
+                    if (previousActiveSlide) {
+                        const tiltInstance = previousActiveSlide.vanillaTilt;
+                        if (tiltInstance) {
+                            tiltInstance.destroy();
+                            // Force Swiper to update
+                            swiper.update();
+                        }
                     }
-                  });
-                  
-                  // Apply tilt effect to the active slide
-                  initializeTilt(swiper);
+                
+                    // Apply tilt effect to the active slide
+                    const activeSlideEl = swiper.slides[swiper.activeIndex];
+                    VanillaTilt.init(activeSlideEl, {
+                        max: 5,
+                        speed: 10,
+                        glare: true,
+                        'max-glare': MAXGLARE,
+                        perspective: 1000,
+                    });
                 }}
                 modules={[Pagination, Navigation, Keyboard, Mousewheel, EffectCoverflow, A11y]}
                 className="w-full md:h-full h-5/6 lg:pt-16 pt-4 pb-20"

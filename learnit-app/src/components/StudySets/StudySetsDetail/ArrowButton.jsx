@@ -29,11 +29,11 @@ const ArrowButton = ({ className, onClick }) => {
                 onMouseEnter={handleMouseEnter} 
                 onMouseLeave={handleMouseLeave}
             >
-                <div 
+                <span 
                     className={`lg:w-[5px] md:w-[4px] w-[3px] lg:h-10 md:h-8 h-6 absolute transform lg:-translate-y-[0.8rem] md:-translate-y-[0.6rem] -translate-y-[0.5rem] rotate-45 dark:bg-cstm-yellow bg-green-500 z-10 rounded-full`}
                     style={shadowStyle}
                 />
-                <div 
+                <span 
                     className='lg:w-[5px] md:w-[4px] w-[3px] lg:h-10 md:h-8 h-6 absolute transform lg:translate-y-[0.8rem] md:translate-y-[0.6rem] translate-y-[0.5rem] rotate-[135deg] dark:bg-cstm-yellow bg-green-500 z-10 rounded-full'
                     style={shadowStyle}
                 />
