@@ -162,7 +162,7 @@ const StudySetDetailPage = () => {
             </Swiper>
       </section>
       
-      <section className='w-[50%] flex flex-col items-center gap-8 mb-16 z-10'>
+      <section className='w-[50%] min-h-screen flex flex-col items-center gap-8 z-10 py-16'>
         {questionNames.map((questionName, index) => (
           <div 
             className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
