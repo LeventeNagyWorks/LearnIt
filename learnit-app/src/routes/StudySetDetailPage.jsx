@@ -21,14 +21,24 @@ const StudySetDetailPage = () => {
   const questionNames = questions.map(question => question.question);
 
   return (
-    <div className='h-screen bg-cstm_bg_dark text-cstm_white font-poppins'>
-      <h1 className='text-4xl mb-4'>{studySet.name}</h1>
-      {questionNames.map((questionName, index) => (
-        <h2
-          className='text-2xl mb-2'
-          key={index}
-        >{questionName}</h2>
-      ))}
+    <div className='h-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto scrollbar'>
+      <h1 className='text-6xl my-8 font-semibold'>{studySet.name}</h1>
+
+      <div className=''>
+
+      </div>
+      
+      <div className='w-[50%] flex flex-col items-center gap-8 mb-16'>
+        {questionNames.map((questionName, index) => (
+          <div 
+            className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
+            key={index}
+          >
+            <h2 className='text-2xl mb-3 text-center'>{questionName}</h2>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 };
