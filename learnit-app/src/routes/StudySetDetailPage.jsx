@@ -84,7 +84,7 @@ const StudySetDetailPage = () => {
         </defs>
       </svg>
 
-      <div className='w-screen h-screen flex flex-col items-center z-10'>
+      <section className='w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8'>
         <h1 className='text-6xl my-8 font-semibold'>{studySet.name}</h1>
 
         <Swiper
@@ -132,11 +132,11 @@ const StudySetDetailPage = () => {
               {questionsWithAnswers.map((item, index) => (
                 <SwiperSlide
                   key={index}
-                  className='h-full w-[70%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
+                  className='h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
                 >
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
                     <div className="flex justify-center to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
-                      <div className="flex flex-col gap-4 lg:gap-8 w-full h-full p-8">
+                      <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
                         <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
                           {item.question}
                         </h1>
@@ -160,9 +160,9 @@ const StudySetDetailPage = () => {
               <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
               <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
             </Swiper>
-      </div>
+      </section>
       
-      <div className='w-[50%] flex flex-col items-center gap-8 mb-16 z-10'>
+      <section className='w-[50%] flex flex-col items-center gap-8 mb-16 z-10'>
         {questionNames.map((questionName, index) => (
           <div 
             className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
@@ -171,7 +171,7 @@ const StudySetDetailPage = () => {
             <h2 className='text-2xl mb-3 text-center'>{questionName}</h2>
           </div>
         ))}
-      </div>
+      </section>
 
     </div>
   );
