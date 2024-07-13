@@ -15,7 +15,7 @@ import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
 const StudySetDetailPage = () => {
 
   const swiperRef = useRef(null);
-  const MAXGLARE = 0.20;
+  const MAXGLARE = 0.05;
 
   const initializeTilt = (swiper) => {
     const tiltElement = swiper.slides[swiper.activeIndex];
