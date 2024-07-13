@@ -16,7 +16,7 @@ const ArrowButton = ({ className, onClick }) => {
         setIsHovered(false);
     }
 
-    //const shadowStyle = isHovered ? (darkMode ? { boxShadow: '0 0 28px 3px #E6B325' } : { boxShadow: '0 0 28px 10px #38b2ac'}) : {};
+    const shadowStyle = { boxShadow: '0 0 28px 3px #20CC00' };
 
     return (
         <button
@@ -31,11 +31,11 @@ const ArrowButton = ({ className, onClick }) => {
             >
                 <div 
                     className={`lg:w-[5px] md:w-[4px] w-[3px] lg:h-10 md:h-8 h-6 absolute transform lg:-translate-y-[0.8rem] md:-translate-y-[0.6rem] -translate-y-[0.5rem] rotate-45 dark:bg-cstm-yellow bg-green-500 z-10 rounded-full`}
-                    //style={shadowStyle}
+                    style={shadowStyle}
                 />
                 <div 
                     className='lg:w-[5px] md:w-[4px] w-[3px] lg:h-10 md:h-8 h-6 absolute transform lg:translate-y-[0.8rem] md:translate-y-[0.6rem] translate-y-[0.5rem] rotate-[135deg] dark:bg-cstm-yellow bg-green-500 z-10 rounded-full'
-                    //style={shadowStyle}
+                    style={shadowStyle}
                 />
             </div>
         </button>

@@ -158,8 +158,8 @@ const StudySetDetailPage = () => {
                   </div>
                 </SwiperSlide>
               ))}
-              <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
-              <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
+              <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-10 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
+              <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-10 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
             </Swiper>
       </section>
       
