@@ -16,7 +16,7 @@ import BackButton from '../components/BackButton';
 const StudySetDetailPage = () => {
 
   const swiperRef = useRef(null);
-  const MAXGLARE = 0.05;
+  const MAXGLARE = 0.10;
 
   const initializeTilt = (swiper) => {
     const tiltElement = swiper.slides[swiper.activeIndex];
@@ -115,7 +115,7 @@ const StudySetDetailPage = () => {
                     clickable: true,
                     renderBullet: (index, className) => {
                       //TODO: the index is not shown
-                        return '<span class="' + className + ' dark:bg-accent_green_dark bg-cstm-teal w-3 h-3 m-1 rounded-full">{item.index}</span>';
+                        return `<span class="${className} bg-accent_green_dark w-6 h-6 m-1 rounded-full font-poppins text-center select-none text-cstm_white">${index + 1}</span>`;
                     },
                 }}
                 onSwiper={(swiper) => {
