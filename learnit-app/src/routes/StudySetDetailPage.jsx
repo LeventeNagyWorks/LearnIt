@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
+import BackButton from '../components/BackButton';
 
 const StudySetDetailPage = () => {
 
@@ -86,7 +87,10 @@ const StudySetDetailPage = () => {
       </svg>
 
       <section className='w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8'>
-        <h1 className='text-6xl my-8 font-semibold'>{studySet.name}</h1>
+        <div className='w-full flex justify-center items-center py-8 px-5'>
+          <BackButton to={"/study-sets/"} className={'absolute left-6'}/>
+          <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
+        </div>
 
         <Swiper
                 ref={swiperRef}
@@ -110,7 +114,8 @@ const StudySetDetailPage = () => {
                 pagination={{
                     clickable: true,
                     renderBullet: (index, className) => {
-                        return '<span class="' + className + ' dark:bg-accent_green_dark bg-cstm-teal w-3 h-3 m-1 rounded-full"></span>';
+                      //TODO: the index is not shown
+                        return '<span class="' + className + ' dark:bg-accent_green_dark bg-cstm-teal w-3 h-3 m-1 rounded-full">{item.index}</span>';
                     },
                 }}
                 onSwiper={(swiper) => {
