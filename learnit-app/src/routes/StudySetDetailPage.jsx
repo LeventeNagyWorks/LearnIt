@@ -47,7 +47,8 @@ const StudySetDetailPage = () => {
     return <div>Study set not found</div>;
   }
   
-  const questionsWithAnswers = studySet.questions.map(question => ({
+  const questionsWithAnswers = studySet.questions.map((question, index) => ({
+    index: index + 1,
     question: question.question,
     answers: question.answer,
     rightAnswer: question.right_answer[0]
@@ -138,7 +139,7 @@ const StudySetDetailPage = () => {
                     <div className="flex justify-center to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                       <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
                         <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
-                          {item.question}
+                          {item.index}. {item.question}
                         </h1>
                         <div className="flex flex-col gap-4">
                           {item.answers.map((answer, answerIndex) => (
@@ -163,12 +164,12 @@ const StudySetDetailPage = () => {
       </section>
       
       <section className='w-[50%] min-h-screen flex flex-col items-center gap-8 z-10 py-16'>
-        {questionNames.map((questionName, index) => (
+      {questionsWithAnswers.map((item, index) => (
           <div 
             className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
             key={index}
           >
-            <h2 className='text-2xl mb-3 text-center'>{questionName}</h2>
+            <h2 className='text-2xl mb-3 text-center'>{item.index}. {item.question}</h2>
           </div>
         ))}
       </section>
