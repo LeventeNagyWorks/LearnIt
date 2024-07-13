@@ -41,18 +41,19 @@ const StudySetDetailPage = () => {
   const { itemName } = useParams();
   const studySets = studySetsData.value;
   
-  if (!Array.isArray(studySets) || studySets.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   const studySet = studySets.find(set => set.name === itemName);
 
   if (!studySet) {
     return <div>Study set not found</div>;
   }
-
-  const questions = studySet.questions;
-  const questionNames = questions.map(question => question.question);
+  
+  const questionsWithAnswers = studySet.questions.map(question => ({
+    question: question.question,
+    answers: question.answer,
+    rightAnswer: question.right_answer[0]
+  }));
+  
+  const questionNames = studySet.questions.map(question => question.question);
 
   return (
     <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative'>
@@ -128,32 +129,36 @@ const StudySetDetailPage = () => {
                 modules={[Pagination, Navigation, Keyboard, Mousewheel, EffectCoverflow, A11y]}
                 className="w-full md:h-full h-5/6 lg:pt-16 pt-4 pb-20"
             >
-                {questionNames.map((questionName, index) => (
-                    <SwiperSlide 
-                        key={questionName.id} 
-                        className='h-full w-[70%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
-                    >
-
-                        <div
-                            className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40"
-                        >
+              {questionsWithAnswers.map((item, index) => (
+                <SwiperSlide
+                  key={index}
+                  className='h-full w-[70%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
+                >
+                  <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
+                    <div className="flex justify-center to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
+                      <div className="flex flex-col gap-4 lg:gap-8 w-full h-full p-8">
+                        <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
+                          {item.question}
+                        </h1>
+                        <div className="flex flex-col gap-4">
+                          {item.answers.map((answer, answerIndex) => (
                             <div 
-                                className="flex justify-center to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer"
-                                onClick={() => true}
+                              key={answerIndex} 
+                              className={`p-4 rounded-lg bg-slate-700`}
                             >
-                                <div className="flex flex-col gap-4 lg:gap-8 w-fit h-fit mt-4 lg:mt-12">
-                                    <div className="flex flex-row gap-2 lg:gap-6 justify-center">
-                                        <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">{questionName} </h1>
-                                    </div>
-                                    {/* questin answers here */}
-                                    <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[20px] text-[16px] mx-8 lg:mx-28 text-shadow-lg dark:shadow-black dark:font-normal font-semibold">{} </p>
-                                </div>
+                              <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                {answer}
+                              </p>
                             </div>
+                          ))}
                         </div>
-                    </SwiperSlide>
-                ))}
-                <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
-                <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+              <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
+              <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-0 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
             </Swiper>
       </div>
       
