@@ -22,22 +22,22 @@ const ShowOnlyFavouriteToggleButton = () => {
         style={shadowStyle}
     >
 
-        <span className={`w-[200px] h-full absolute bg-slate-800 rounded-full z-0 
+        <span className={`w-[200px] h-full absolute bg-gradient-to-br from-slate-600 to-slate-800 rounded-full z-0 
         ${showOnlyFav.value //&& isClicked
             ? 'animate-showFav' 
-            : 'left-0 animate-showAll'
+            : 'animate-showAll'
         }`}>
         </span>
 
         <div 
-            className={`w-1/2 h-full flex justify-center items-center cursor-pointer rounded-l-full z-10 ${showOnlyFav.value ? 'text-cstm_bg_dark' : 'text-slate-300'}`}
+            className={`w-1/2 h-full flex justify-center items-center cursor-pointer rounded-l-full z-10 duration-1000 ${showOnlyFav.value ? 'text-cstm_bg_dark' : 'text-slate-300'}`}
             onClick={showAll}
         >
             <p className='py-1 px-3'>ALL</p>
         </div>
 
         <div 
-            className={`w-1/2 h-full flex justify-center items-center cursor-pointer rounded-r-full z-10 ${!showOnlyFav.value ? 'text-cstm_bg_dark' : 'text-slate-300'}`}
+            className={`w-1/2 h-full flex justify-center items-center cursor-pointer rounded-r-full z-10 duration-1000 ${!showOnlyFav.value ? 'text-cstm_bg_dark' : 'text-slate-300'}`}
             onClick={showFav}
         >
             <p className='py-1 px-3'>FAVOURITE</p>

@@ -56,7 +56,7 @@ export default {
         },
         showFav: {
           '0%': {
-            transform: 'translate(0px)',
+            transform: 'translate(-1px)',
           },
           '30%': {
             transform: 'translate(200px)',
@@ -79,19 +79,19 @@ export default {
             transform: 'translate(200px)',
           },
           '30%': {
-            transform: 'translate(0px)',
+            transform: 'translate(-1px)',
           },
           '45%': {
             transform: 'translate(60px)',
           },
           '60%': {
-            transform: 'translate(0px)',
+            transform: 'translate(-1px)',
           },
           '80%': {
             transform: 'translate(20px)',
           },
           '100%': {
-            transform: 'translate(0px)',
+            transform: 'translate(-1px)',
           }
         }
       },
