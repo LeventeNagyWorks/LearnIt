@@ -72,6 +72,25 @@ app.delete('/delete/:itemName', async (req, res) => {
   }
 });
 
+app.post('/updateFavorite', async (req, res) => {
+  const { itemName, isFavorite } = req.body;
+  try {
+    const data = await fs.promises.readFile('./data.json', 'utf8');
+    let jsonData = JSON.parse(data);
+    const itemIndex = jsonData.findIndex(item => item.name === itemName);
+    if (itemIndex !== -1) {
+      jsonData[itemIndex].isFavorite = isFavorite;
+      await fs.promises.writeFile('./data.json', JSON.stringify(jsonData, null, 2));
+      res.send('Favorite status updated successfully');
+    } else {
+      res.status(404).send('Item not found');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update favorite status' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

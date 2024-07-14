@@ -44,7 +44,8 @@
           "A architektúra kizárólag szofver"
         ]
       }
-    ]
+    ],
+    "isFavorite": true
   },
   {
     "name": "Szamitas Tudomany",
@@ -173,7 +174,8 @@
           "A architektúra kizárólag szofver"
         ]
       }
-    ]
+    ],
+    "isFavorite": false
   },
   {
     "name": "Archi 1",
@@ -3851,7 +3853,8 @@
           "Igaz"
         ]
       }
-    ]
+    ],
+    "isFavorite": true
   },
   {
     "name": "Archi 2",
@@ -7529,6 +7532,7 @@
           "Igaz"
         ]
       }
-    ]
+    ],
+    "isFavorite": false
   }
 ]

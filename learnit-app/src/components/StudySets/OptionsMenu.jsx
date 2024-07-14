@@ -22,12 +22,26 @@ const OptionsMenu = ({
 
     const isHovered = optionsHoverStates[itemName] || false;
 
-    const handleIsFavourite = (itemName) => {
-        setIsFavourite((prevState) => {
-          const newState = { ...prevState, [itemName]: !prevState[itemName] };
-          localStorage.setItem('favorites', JSON.stringify(newState));
-          return newState;
+    const handleIsFavourite = async (itemName) => {
+      try {
+        const newFavoriteStatus = !isFavourite[itemName];
+        setIsFavourite(prevState => ({
+          ...prevState,
+          [itemName]: newFavoriteStatus
+        }));
+    
+        await axios.post('http://localhost:3001/updateFavorite', {
+          itemName,
+          isFavorite: newFavoriteStatus
         });
+    
+        // Update the data state to reflect the change
+        setData(prevData => prevData.map(item => 
+          item.name === itemName ? {...item, isFavorite: newFavoriteStatus} : item
+        ));
+      } catch (error) {
+        console.error('Error updating favorite status:', error);
+      }
     };
 
     const handleDelete = async (itemName) => {
