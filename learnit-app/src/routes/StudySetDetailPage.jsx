@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef } from 'react'
-import { useParams } from 'react-router-dom'
-import { studySetsData } from '../signals'
+import { useNavigate, useParams } from 'react-router-dom'
+import { startTransitionFromStudySetDetail, startTransitionToStudySetDetail, studySetsData } from '../signals'
 import VanillaTilt from "vanilla-tilt"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation, Keyboard, Mousewheel, A11y} from "swiper/modules";
@@ -14,6 +14,25 @@ import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
 import BackButton from '../components/BackButton';
 
 const StudySetDetailPage = () => {
+
+  useEffect(() => {
+    startTransitionFromStudySetDetail.value = false;
+    startTransitionToStudySetDetail.value = true;
+    setTimeout(() => {
+      startTransitionToStudySetDetail.value = false;
+    }, 1000);
+  }, [])
+
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    startTransitionFromStudySetDetail.value = true;
+    e.preventDefault();
+    setTimeout(() => {
+      navigate(`/study-sets/`);
+    }, 2000);
+  }
+  
 
   const swiperRef = useRef(null);
   const MAXGLARE = 0.10;
@@ -103,9 +122,12 @@ const StudySetDetailPage = () => {
         </defs>
       </svg>
 
-      <section className='w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8'>
+      <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000
+        ${startTransitionFromStudySetDetail.value ? '-translate-y-full' : ''}
+        ${startTransitionToStudySetDetail.value ? '-translate-y-full' : ''}
+      `}>
         <div className='w-full flex justify-center items-center py-8 px-5'>
-          <BackButton to={"/study-sets/"} className={'absolute left-6'}/>
+          <BackButton onClick={handleClick} className={'absolute left-6'}/>
           <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
         </div>
 

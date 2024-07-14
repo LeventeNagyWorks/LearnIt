@@ -48,135 +48,6 @@
     "isFavorite": true
   },
   {
-    "name": "Szamitas Tudomany",
-    "desc": "",
-    "questions": [
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
-        "question": "Mi az a hardver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része"
-        ],
-        "answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része",
-          "A hardver nem kézzel fogható",
-          "A hardver egy szoftver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
-        "question": "Mi az a szoftver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A szoftver (angolul: software) a számítógép program"
-        ],
-        "answer": [
-          "A szoftver (angolul: software) a számítógép program",
-          "A szofver a számítógép fizikai része",
-          "A szofver kézzel fogható",
-          "A szofver egy hardver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
-        "question": "Mi az a architektúra?",
-        "que_type": "Choice",
-        "right_answer": [
-          "Az architektúra a számítógép felépítése"
-        ],
-        "answer": [
-          "Az architektúra a számítógép felépítése",
-          "A architektúra kizárólag a számítógép fizikai része",
-          "A architektúra kizárólag szofver",
-          "A architektúra kizárólag szofver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
-        "question": "Mi az a hardver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része"
-        ],
-        "answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része",
-          "A hardver nem kézzel fogható",
-          "A hardver egy szoftver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
-        "question": "Mi az a szoftver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A szoftver (angolul: software) a számítógép program"
-        ],
-        "answer": [
-          "A szoftver (angolul: software) a számítógép program",
-          "A szofver a számítógép fizikai része",
-          "A szofver kézzel fogható",
-          "A szofver egy hardver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
-        "question": "Mi az a architektúra?",
-        "que_type": "Choice",
-        "right_answer": [
-          "Az architektúra a számítógép felépítése"
-        ],
-        "answer": [
-          "Az architektúra a számítógép felépítése",
-          "A architektúra kizárólag a számítógép fizikai része",
-          "A architektúra kizárólag szofver",
-          "A architektúra kizárólag szofver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
-        "question": "Mi az a hardver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része"
-        ],
-        "answer": [
-          "A hardver (angolul: hardware) a számítógép fizikai része",
-          "A hardver nem kézzel fogható",
-          "A hardver egy szoftver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
-        "question": "Mi az a szoftver?",
-        "que_type": "Choice",
-        "right_answer": [
-          "A szoftver (angolul: software) a számítógép program"
-        ],
-        "answer": [
-          "A szoftver (angolul: software) a számítógép program",
-          "A szofver a számítógép fizikai része",
-          "A szofver kézzel fogható",
-          "A szofver egy hardver"
-        ]
-      },
-      {
-        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
-        "question": "Mi az a architektúra?",
-        "que_type": "Choice",
-        "right_answer": [
-          "Az architektúra a számítógép felépítése"
-        ],
-        "answer": [
-          "Az architektúra a számítógép felépítése",
-          "A architektúra kizárólag a számítógép fizikai része",
-          "A architektúra kizárólag szofver",
-          "A architektúra kizárólag szofver"
-        ]
-      }
-    ]
-  },
-  {
     "name": "Archi 1",
     "desc": "",
     "questions": [
@@ -3850,6 +3721,135 @@
         ],
         "answer": [
           "Igaz"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Szamitas Tudomany",
+    "desc": "",
+    "questions": [
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
+        "question": "Mi az a hardver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
+        "question": "Mi az a szoftver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A szoftver (angolul: software) a számítógép program"
+        ],
+        "answer": [
+          "A szoftver (angolul: software) a számítógép program",
+          "A szofver a számítógép fizikai része",
+          "A szofver kézzel fogható",
+          "A szofver egy hardver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
+        "question": "Mi az a architektúra?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az architektúra a számítógép felépítése"
+        ],
+        "answer": [
+          "Az architektúra a számítógép felépítése",
+          "A architektúra kizárólag a számítógép fizikai része",
+          "A architektúra kizárólag szofver",
+          "A architektúra kizárólag szofver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
+        "question": "Mi az a hardver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
+        "question": "Mi az a szoftver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A szoftver (angolul: software) a számítógép program"
+        ],
+        "answer": [
+          "A szoftver (angolul: software) a számítógép program",
+          "A szofver a számítógép fizikai része",
+          "A szofver kézzel fogható",
+          "A szofver egy hardver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
+        "question": "Mi az a architektúra?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az architektúra a számítógép felépítése"
+        ],
+        "answer": [
+          "Az architektúra a számítógép felépítése",
+          "A architektúra kizárólag a számítógép fizikai része",
+          "A architektúra kizárólag szofver",
+          "A architektúra kizárólag szofver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a hardver?",
+        "question": "Mi az a hardver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része"
+        ],
+        "answer": [
+          "A hardver (angolul: hardware) a számítógép fizikai része",
+          "A hardver nem kézzel fogható",
+          "A hardver egy szoftver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a szoftver?",
+        "question": "Mi az a szoftver?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A szoftver (angolul: software) a számítógép program"
+        ],
+        "answer": [
+          "A szoftver (angolul: software) a számítógép program",
+          "A szofver a számítógép fizikai része",
+          "A szofver kézzel fogható",
+          "A szofver egy hardver"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany.txt_Mi az a architektúra?",
+        "question": "Mi az a architektúra?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az architektúra a számítógép felépítése"
+        ],
+        "answer": [
+          "Az architektúra a számítógép felépítése",
+          "A architektúra kizárólag a számítógép fizikai része",
+          "A architektúra kizárólag szofver",
+          "A architektúra kizárólag szofver"
         ]
       }
     ],
@@ -7531,7 +7531,6 @@
           "Igaz"
         ]
       }
-    ],
-    "isFavorite": false
+    ]
   }
 ]

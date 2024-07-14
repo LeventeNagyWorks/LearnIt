@@ -4,7 +4,7 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets } from '../signals'
+import { isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
 import { useEffect } from 'react'
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
@@ -16,6 +16,10 @@ const StudySetsPage = () => {
 
   useEffect(() => {
     startTransitionFromStudySets.value = false;
+    startTransitionToStudySets.value = true;
+    setTimeout(() => {
+      startTransitionToStudySets.value = false;
+    }, 1000);
   }, [])
    
 
