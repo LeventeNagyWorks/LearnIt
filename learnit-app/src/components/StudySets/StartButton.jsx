@@ -16,7 +16,7 @@ const StartButton = ({ itemName }) => {
     e.preventDefault();
     setTimeout(() => {
       navigate(`/study-sets/${itemName}`);
-    }, 3500);
+    }, 3000);
   }
 
   return (
