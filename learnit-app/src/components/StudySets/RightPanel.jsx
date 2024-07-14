@@ -10,7 +10,7 @@ import QuestionCounter from './QuestionCounter';
 import Progress from './Progress';
 import OptionsMenu from './OptionsMenu';
 import RightPanelHeader from './RightPanelHeader';
-import { studySetsData } from '../../signals';
+import { showOnlyFav, studySetsData } from '../../signals';
 
 const RightPanel = () => {
   const [data, setData] = useState([]);
@@ -98,7 +98,60 @@ const RightPanel = () => {
         <RightPanelHeader selectedItemNum={selectedItemNum}/>
 
         <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
-          {data.map((item) => (
+          {!showOnlyFav.value ? data.map((item) => (
+            <div
+              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
+              key={item.name}
+              onMouseEnter={() => handleMouseEnter(item.name)}
+              onMouseLeave={() => handleMouseLeave(item.name)}
+              onClick={() => handleItemSelected(item.name)}
+            >
+          
+              <div className='flex flex-row items-center justify-between'>
+                <div className='flex gap-6'>
+
+                  <div className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}>
+                    <StartButton itemName={item.name}/>
+                    <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
+                  </div>
+                  
+                </div>
+                <div className='flex justify-center items-center gap-10 relative'>
+                  {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark '/>)}
+
+                  <QuestionCounter questionLength={item.questions.length}/>
+
+                  <div
+                    onMouseEnter={() => handleOptionsMouseEnter(item.name)}
+                    onMouseLeave={() => handleOptionsMouseLeave(item.name)}
+                  >
+                    <OptionsButton />
+                  </div>
+
+                  <OptionsMenu 
+                    itemName={item.name}
+                    data={data}
+                    setData={setData}
+                    optionsHoverStates={optionsHoverStates}
+                    isFavourite={isFavourite}
+                    setIsFavourite={setIsFavourite}
+                    handleOptionsMouseEnter={handleOptionsMouseEnter}
+                    handleOptionsMouseLeave={handleOptionsMouseLeave}
+                    handleMouseLeave={handleMouseLeave}
+                    setItemSelected={setItemSelected}
+                    setSelectedItemNum={setSelectedItemNum}
+                  />
+
+                </div>
+              </div>
+
+              <Progress 
+                hoverStates={hoverStates}
+                itemName={item.name}
+              />
+
+            </div>
+          )) : data.filter(item => isFavourite[item.name]).map((item) => (
             <div
               className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
               key={item.name}

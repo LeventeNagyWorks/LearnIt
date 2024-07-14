@@ -18,11 +18,16 @@ const ShowOnlyFavouriteToggleButton = () => {
 
   return (
     <div 
-        className='w-[400px] flex items-center font-poppins font-medium text-lg rounded-full bg-slate-300 duration-500 select-none relative'
+        className='w-[400px] flex items-center font-poppins font-medium text-lg rounded-full bg-slate-300 duration-1000 select-none relative'
         style={shadowStyle}
     >
 
-        <span className={`w-[200px] h-full absolute bg-slate-800 rounded-full z-0 ${showOnlyFav.value ? 'right-0' : 'left-0'}`}/>
+        <span className={`w-[200px] h-full absolute bg-slate-800 rounded-full z-0 
+        ${showOnlyFav.value //&& isClicked
+            ? 'animate-showFav' 
+            : 'left-0 animate-showAll'
+        }`}>
+        </span>
 
         <div 
             className={`w-1/2 h-full flex justify-center items-center cursor-pointer rounded-l-full z-10 ${showOnlyFav.value ? 'text-cstm_bg_dark' : 'text-slate-300'}`}
