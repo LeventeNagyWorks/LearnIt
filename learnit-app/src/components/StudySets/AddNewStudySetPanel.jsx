@@ -13,7 +13,7 @@ const AddNewStudySetPanel = ({ closeAddStudySetPanel, setIsStudySetAlreadyExists
 
   return (
     <div className='absolute z-30 w-screen h-screen flex justify-center items-center bg-black/70'>
-        <div className='w-[85%] h-[90%] bg-gradient-to-b from-zinc-800 from-60% to-green-900 rounded-[30px]'>
+        <div className='w-[85%] h-[90%] bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-[30px]'>
 
             <div className='h-[70px] flex justify-between items-center px-[14px]'>
                 <InformationButton isInformationHovered={isInformationHovered} setIsInformationHovered={setIsInformationHovered}/>

@@ -52,9 +52,12 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
       onDragLeave: () => setOnDrag(false),
     });
 
+    const shadowStyle = isDragActive ? { boxShadow: '0 0 50px 3px #20CC00' } : {};
+
   return (
     <div {...getRootProps()} 
-      className={`dropzone w-[60%] h-[500px] flex justify-center items-center rounded-[40px] bg-gradient-to-b from-zinc-900 to-zinc-700 cursor-pointer border-2 border-dashed shadow-accent_green_dark duration-300 ${isDragActive ? 'border-accent_green_dark shadow-xl' : 'border-cstm_white shadow-none'}`}
+      className={`dropzone w-[60%] h-[500px] flex justify-center items-center rounded-[40px]  bg-zinc-800 cursor-pointer border-2 border-dashed duration-300 ${isDragActive ? 'border-accent_green_dark' : 'border-cstm_white shadow-none'}`}
+      style={shadowStyle}
       onMouseEnter = {() => setIsHovered(true)}
       onMouseLeave = {() => setIsHovered(false)}
     >
