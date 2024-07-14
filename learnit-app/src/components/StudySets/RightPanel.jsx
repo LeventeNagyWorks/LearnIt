@@ -95,7 +95,13 @@ const RightPanel = () => {
     <div className='w-[85%] flex justify-center items-center relative z-10 font-poppins'>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
         
-        <RightPanelHeader selectedItemNum={selectedItemNum}/>
+        <RightPanelHeader 
+          setData={setData}
+          selectedItemNum={selectedItemNum} 
+          itemSelected={itemSelected} 
+          setItemSelected={setItemSelected} 
+          setSelectedItemNum={setSelectedItemNum}
+        />
 
         <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
           {!showOnlyFav.value ? data.map((item) => (

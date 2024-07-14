@@ -5,8 +5,27 @@ import React from 'react'
 import DeleteButton from './DeleteButton'
 import { LuTextSelect } from "react-icons/lu";
 import ShowOnlyFavouriteToggleButton from './ShowOnlyFavouriteToggleButton';
+import axios from 'axios';
 
-const RightPanelHeader = ({ selectedItemNum }) => {
+const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setSelectedItemNum, setData  }) => {
+
+
+  const handleDelete = async () => {
+    const selectedItems = Object.keys(itemSelected).filter(item => itemSelected[item]);
+    
+    for (const item of selectedItems) {
+      try {
+        await axios.delete(`/delete/${item}`);
+        setData(prevData => prevData.filter(dataItem => dataItem.name !== item));
+      } catch (error) {
+        console.error(`Error deleting ${item}:`, error);
+      }
+    }
+
+    setItemSelected({});
+    setSelectedItemNum(0);
+  };
+
   return (
     <div className={`w-full h-24 flex justify-center items-center rounded-t-[40px] px-7`}>
       <div className='w-full flex items-center justify-start'>
@@ -21,7 +40,10 @@ const RightPanelHeader = ({ selectedItemNum }) => {
             <p className='text-accent_green_dark'>{selectedItemNum}</p>
           </div>
         )}
-        <DeleteButton isWide={false}/>
+        <DeleteButton 
+          isWide={false}
+          onClick={handleDelete}
+        />
       </div>
     </div>
   )
