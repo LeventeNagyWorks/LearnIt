@@ -3,7 +3,7 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { isStudySetAccepted, showSuccessfullyAdded } from '../../signals';
+import { isStudySetAccepted, showSuccessfullyAdded, showNotAcceptableFileErrorMessage  } from '../../signals';
 
 const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
 
@@ -12,12 +12,18 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
   
     const onDrop = useCallback(async (acceptedFiles) => {
       const file = acceptedFiles[0];
+    
+      if (!file.name.toLowerCase().endsWith('.txt')) {
+        showNotAcceptableFileErrorMessage.value = true;
+        return;
+      }
+    
       const existingData = await axios.get('http://localhost:3001/data');
       const existingNames = existingData.data.map(item => item.name);
     
       if (existingNames.includes(file.name.replace('.txt', ''))) {
         setIsStudySetAlreadyExistsActive(true);
-        return; // Exit the function without sending the POST request
+        return;
       }
     
       const formData = new FormData();

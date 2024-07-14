@@ -10,7 +10,7 @@ const SuccessfullyAdded = ({ type }) => {
         showSuccessfullyAdded.value = false;
         isStudySetAccepted.value = { _a: false };
         console.log("Closing message", showSuccessfullyAdded.value, isStudySetAccepted.value);
-      };
+    };
 
     return (
         <div className='fixed inset-0 z-[9999] w-screen h-screen bg-black/70 flex justify-center items-center'>

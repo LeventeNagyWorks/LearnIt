@@ -4,7 +4,7 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isLoading, isStudySetAccepted, showSuccessfullyAdded } from '../signals'
+import { isLoading, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded } from '../signals'
 import { useEffect } from 'react'
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
@@ -37,6 +37,12 @@ const StudySetsPage = () => {
             showSuccessfullyAdded.value = false;
             isStudySetAccepted.value = { _a: false };
           }}
+        />
+      )}
+      {showNotAcceptableFileErrorMessage.value && (
+        <Error 
+          type={'FileFormatIsNotAcceptable'} 
+          onClick={() => showNotAcceptableFileErrorMessage.value = false}
         />
       )}
       {isStudySetAlreadyExistsActive && (

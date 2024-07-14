@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
+import { showOnlyFav } from '../../signals';
 
 const OptionsMenu = ({ 
   optionsHoverStates, 
@@ -17,18 +18,26 @@ const OptionsMenu = ({
   data, 
   setData,
   setItemSelected,
-  setSelectedItemNum
+  setSelectedItemNum,
+  setHoverStates,
+  setOptionsHoverStates
 }) => {
 
     const isHovered = optionsHoverStates[itemName] || false;
 
     const handleIsFavourite = async (itemName) => {
+
       try {
         const newFavoriteStatus = !isFavourite[itemName];
         setIsFavourite(prevState => ({
           ...prevState,
           [itemName]: newFavoriteStatus
         }));
+
+        if (showOnlyFav.value) {
+          setHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }))
+          setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
+        }
     
         await axios.post('http://localhost:3001/updateFavorite', {
           itemName,

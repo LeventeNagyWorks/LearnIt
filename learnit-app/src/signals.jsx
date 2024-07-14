@@ -7,25 +7,9 @@ const isLoading = signal({ _l: false });
 const isStudyLoading = signal({ _l: false });
 const isStudySetAccepted = signal({ _a: false });
 const showSuccessfullyAdded = signal(false);
+const showNotAcceptableFileErrorMessage = signal(false);
 const showOnlyFav = signal(false);
 const studySetsData = signal([]);
-
-// const studySetsData = signal([
-//     {
-//       name: "",
-//       favourite: false,
-//       desc: "",
-//       questions: [
-//         {
-//           _id: "",
-//           question: "",
-//           que_type: "",
-//           right_answer: [],
-//           answer: [],
-//         }
-//       ]
-//     }
-//   ]);
 
 export {
     isLoading,
@@ -33,5 +17,6 @@ export {
     isStudySetAccepted,
     showSuccessfullyAdded,
     studySetsData,
-    showOnlyFav
+    showOnlyFav,
+    showNotAcceptableFileErrorMessage
 }

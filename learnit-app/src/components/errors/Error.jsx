@@ -39,6 +39,12 @@ const Error = ({ type, onClick }) => {
                             <p className="font-bold text-cstm_white text-[28px]">Please rename your file before you drop it in.</p>
                         </div>                      
                     )} 
+                    {type === 'FileFormatIsNotAcceptable' && (
+                        <div className="flex flex-col justify-start self-start">
+                            <h1 className="font-poetsen font-bold text-cstm_white text-[80px] mb-10">Ooops!</h1>
+                            <p className="font-bold text-cstm_white text-[28px]">I accept file with <span className='text-red-700'>.txt</span> extension only.</p>
+                        </div>                      
+                    )} 
                     
                 </div>
 

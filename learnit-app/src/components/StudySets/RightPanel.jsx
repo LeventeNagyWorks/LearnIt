@@ -138,6 +138,8 @@ const RightPanel = () => {
                     itemName={item.name}
                     data={data}
                     setData={setData}
+                    setHoverStates={setHoverStates}
+                    setOptionsHoverStates={setOptionsHoverStates}
                     optionsHoverStates={optionsHoverStates}
                     isFavourite={isFavourite}
                     setIsFavourite={setIsFavourite}
