@@ -4,14 +4,16 @@ import React from 'react'
 
 import DeleteButton from './DeleteButton'
 import { LuTextSelect } from "react-icons/lu";
+import ShowOnlyFavouriteToggleButton from './ShowOnlyFavouriteToggleButton';
 
 const RightPanelHeader = ({ selectedItemNum }) => {
   return (
-    <div className='w-full h-24 flex justify-center items-center rounded-t-[40px]'>
-      <div className='w-full flex items-center justify-center'>
+    <div className={`w-full h-24 flex justify-center items-center rounded-t-[40px] px-7`}>
+      <div className='w-full flex items-center justify-start'>
         <h1 className='w-fit text-5xl font-medium text-cstm_white select-none z-10'>Your Study Sets</h1>
       </div>
-      <div className='w-1/5 h-12 flex justify-end items-center gap-3 pr-6 py-1'>
+      <div className={`w-fit h-12 flex justify-end items-center gap-3 py-1`}>
+        <ShowOnlyFavouriteToggleButton />
         {selectedItemNum !== 0 && (
           <div className='w-fit h-full flex justify-center items-center gap-2 select-none bg-slate-800 px-3 rounded-lg font-poppins font-medium text-2xl text-cstm_bg_dark'>
             <LuTextSelect className='w-7 h-7 text-cstm_white'/>

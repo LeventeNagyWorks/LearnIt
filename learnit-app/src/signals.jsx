@@ -7,6 +7,7 @@ const isLoading = signal({ _l: false });
 const isStudyLoading = signal({ _l: false });
 const isStudySetAccepted = signal({ _a: false });
 const showSuccessfullyAdded = signal(false);
+const showOnlyFav = signal(false);
 const studySetsData = signal([]);
 
 // const studySetsData = signal([
@@ -31,5 +32,6 @@ export {
     isStudyLoading,
     isStudySetAccepted,
     showSuccessfullyAdded,
-    studySetsData
+    studySetsData,
+    showOnlyFav
 }
