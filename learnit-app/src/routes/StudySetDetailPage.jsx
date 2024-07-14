@@ -166,10 +166,20 @@ const StudySetDetailPage = () => {
                   className='h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
                 >
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
-                    <div className="flex justify-center to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
+                    <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
+                      
+                      <div className='w-full h-24 flex items-center px-8'>
+                        <div className='flex items-center gap-3 text-[35px]'>
+                          <p className=''> {item.index} </p>
+                          <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
+                          <p className='text-green-400'> {studySet.questions.length} </p>
+                        </div>
+                      </div>
+
                       <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
+
                         <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
-                          {item.index}. {item.question}
+                          {item.question}
                         </h1>
                         <div className="flex flex-col gap-4">
                           {item.answers.map((answer, answerIndex) => (

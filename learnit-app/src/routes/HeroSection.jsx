@@ -19,12 +19,12 @@ const HeroSection = () => {
                 style={{ backgroundImage: `url(${darkHatImage})` }}
             >
 
-                <div className="w-[60%] h-[90%] flex flex-col justify-start items-center px-8 py-36 gap-40">
+                <div className="w-[60%] h-[90%] flex flex-col justify-start items-center px-8 py-36 gap-20">
 
                     <div className="flex flex-col justify-between gap-5">
-                        <h1 className="text-black text-[150px] mb-14 select-none self-end font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-                        <p className="text-white text-7xl select-none font-poppins">Learn everything you want.</p>
-                        <p className="text-white text-5xl select-none self-end">Let me help you.</p>
+                        <h1 className="text-black lg:text-[150px] md:text-[110px] mb-14 select-none self-end font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
+                        <p className="text-white lg:text-6xl select-none font-poppins">Learn everything you want.</p>
+                        <p className="text-white lg:text-5xl select-none self-end">Let me help you.</p>
                     </div>
                 
                     <Link
