@@ -9,6 +9,7 @@ const isStudySetAccepted = signal({ _a: false });
 const showSuccessfullyAdded = signal(false);
 const showNotAcceptableFileErrorMessage = signal(false);
 const showOnlyFav = signal(false);
+const startTransitionFromStudySets = signal(false);
 const studySetsData = signal([]);
 
 export {
@@ -18,5 +19,6 @@ export {
     showSuccessfullyAdded,
     studySetsData,
     showOnlyFav,
-    showNotAcceptableFileErrorMessage
+    showNotAcceptableFileErrorMessage,
+    startTransitionFromStudySets
 }

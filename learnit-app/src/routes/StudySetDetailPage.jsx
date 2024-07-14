@@ -73,13 +73,11 @@ const StudySetDetailPage = () => {
     answers: question.answer,
     rightAnswer: question.right_answer[0]
   }));
-  
-  const questionNames = studySet.questions.map(question => question.question);
 
   return (
     <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative'>
 
-      <svg className='absolute left-40 -top-96 -rotate-[65deg] scale-[70%] z-0' width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg className='absolute -translate-x-[334px] -translate-y-[500px] -rotate-[65deg] scale-[70%] z-0 duration-[2000ms]' width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="163.5" cy="964.5" r="163.5" fill="url(#paint0_linear_150_2)"/>
         <circle cx="585.5" cy="814.5" r="54.5" fill="url(#paint1_linear_150_2)"/>
         <circle cx="203" cy="521" r="98" fill="url(#paint2_linear_150_2)"/>

@@ -10,7 +10,7 @@ import QuestionCounter from './QuestionCounter';
 import Progress from './Progress';
 import OptionsMenu from './OptionsMenu';
 import RightPanelHeader from './RightPanelHeader';
-import { showOnlyFav, studySetsData } from '../../signals';
+import { showOnlyFav, startTransitionFromStudySets, studySetsData } from '../../signals';
 
 const RightPanel = () => {
   const [data, setData] = useState([]);
@@ -92,7 +92,7 @@ const RightPanel = () => {
   };
 
   return (
-    <div className='w-[85%] flex justify-center items-center relative z-10 font-poppins'>
+    <div className={`w-[85%] flex justify-center items-center relative z-10 font-poppins duration-1000 ${startTransitionFromStudySets.value ? 'translate-x-full' : ''}`}>
       <div className='w-[90%] h-[90%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
         
         <RightPanelHeader 
