@@ -207,7 +207,7 @@ const StudySetDetailPage = () => {
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
                     <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                       
-                      <div className='w-full h-24 flex items-center px-8'>
+                      <div className='w-full h-28 flex justify-end items-center px-12'>
                         <div className='flex items-center gap-4 text-[35px]'>
                           <p className=''> {item.index} </p>
                           <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
