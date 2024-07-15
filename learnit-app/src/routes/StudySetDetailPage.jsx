@@ -159,7 +159,7 @@ const StudySetDetailPage = () => {
                     clickable: true,
                     renderBullet: (index, className) => {
                       //TODO: the index is not shown
-                        return `<span class="${className} bg-accent_green_dark w-6 h-6 m-1 rounded-full font-poppins text-center select-none text-cstm_white">${index + 1}</span>`;
+                        return `<span class="${className} bg-accent_green_dark w-6 h-6 m-1 rounded-full font-poppins text-center select-none text-cstm_bg_dark font-semibold">${index + 1}</span>`;
                     },
                 }}
                 onInit={(swiper) => {
