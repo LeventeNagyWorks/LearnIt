@@ -12,8 +12,11 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
 import BackButton from '../components/BackButton';
+import { useSignals } from '@preact/signals-react/runtime';
 
 const StudySetDetailPage = () => {
+
+  useSignals()
 
   useEffect(() => {
     startTransitionFromStudySetDetail.value = false;
@@ -60,21 +63,23 @@ const StudySetDetailPage = () => {
 
   useEffect(() => {
     const tiltElement = document.querySelector('.swiper-slide-active');
-    VanillaTilt.init(tiltElement, {
+    if (tiltElement) {
+      VanillaTilt.init(tiltElement, {
         max: 5,
         speed: 10,
         glare: true,
         'max-glare': MAXGLARE,
         perspective: 1000,
         style: {
-            'transform-style': 'preserve-3d',
+          'transform-style': 'preserve-3d',
         },
-    });
-
-    const innerElements = tiltElement.querySelectorAll('.inner-element-class');
-    innerElements.forEach(element => {
+      });
+  
+      const innerElements = tiltElement.querySelectorAll('.inner-element-class');
+      innerElements.forEach(element => {
         element.style.transform = 'translateZ(20px)';
-    });
+      });
+    }
   }, []);
 
   const { itemName } = useParams();
@@ -157,6 +162,18 @@ const StudySetDetailPage = () => {
                         return `<span class="${className} bg-accent_green_dark w-6 h-6 m-1 rounded-full font-poppins text-center select-none text-cstm_white">${index + 1}</span>`;
                     },
                 }}
+                onInit={(swiper) => {
+                  const activeSlide = swiper.slides[swiper.activeIndex];
+                  if (activeSlide) {
+                    VanillaTilt.init(activeSlide, {
+                      max: 5,
+                      speed: 10,
+                      glare: true,
+                      'max-glare': MAXGLARE,
+                      perspective: 1000,
+                    });
+                  }
+                }}
                 onSlideChange={(swiper) => {
                     // Remove tilt effect from all slides
                     const previousActiveSlide = swiper.slides[swiper.previousIndex];
@@ -191,7 +208,7 @@ const StudySetDetailPage = () => {
                     <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                       
                       <div className='w-full h-24 flex items-center px-8'>
-                        <div className='flex items-center gap-3 text-[35px]'>
+                        <div className='flex items-center gap-4 text-[35px]'>
                           <p className=''> {item.index} </p>
                           <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
                           <p className='text-green-400'> {studySet.questions.length} </p>
