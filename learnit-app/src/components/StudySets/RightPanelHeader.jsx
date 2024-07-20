@@ -6,9 +6,11 @@ import DeleteButton from './DeleteButton'
 import { LuTextSelect } from "react-icons/lu";
 import ShowOnlyFavouriteToggleButton from './ShowOnlyFavouriteToggleButton';
 import axios from 'axios';
+import { useSignals } from '@preact/signals-react/runtime';
 
 const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setSelectedItemNum, setData  }) => {
 
+  useSignals();
 
   const handleDelete = async () => {
     const selectedItems = Object.keys(itemSelected).filter(item => itemSelected[item]);
