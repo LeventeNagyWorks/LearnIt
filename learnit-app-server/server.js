@@ -26,19 +26,20 @@ app.post('/upload', async (req, res) => {
     return res.status(400).send('No files were uploaded.');
   }
 
-  let file = req.files.file;
+  const uploadedFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
 
-  // Read the file content
-  const fileContent = file.data.toString('utf8');
+  for (const file of uploadedFiles) {
+    const fileContent = file.data.toString('utf8');
+    const parsedData = txtToJSON({ name: file.name, content: fileContent });
+    
+    const existingData = await fs.promises.readFile('./data.json', 'utf8');
+    const newData = JSON.parse(existingData);
+    newData.push(parsedData);
 
-  const parsedData = txtToJSON({ name: file.name, content: fileContent });
-  const existingData = await fs.promises.readFile('./data.json', 'utf8');
-  const newData = JSON.parse(existingData);
-  newData.push(parsedData);
+    await fs.promises.writeFile('./data.json', JSON.stringify(newData, null, 2));
+  }
 
-  fs.writeFileSync('./data.json', JSON.stringify(newData, null, 2));
-
-  res.send(`File uploaded successfully!`);
+  res.send(`Files uploaded successfully!`);
 });
 
 app.get('/data', async (req, res) => {

@@ -11,39 +11,37 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
     const [isHovered, setIsHovered] = useState(false);
   
     const onDrop = useCallback(async (acceptedFiles) => {
-      const file = acceptedFiles[0];
+      for (const file of acceptedFiles) {
+        if (!file.name.toLowerCase().endsWith('.txt')) {
+          showNotAcceptableFileErrorMessage.value = true;
+          continue;
+        }
     
-      if (!file.name.toLowerCase().endsWith('.txt')) {
-        showNotAcceptableFileErrorMessage.value = true;
-        return;
+        const existingData = await axios.get('http://localhost:3001/data');
+        const existingNames = existingData.data.map(item => item.name);
+    
+        if (existingNames.includes(file.name.replace('.txt', ''))) {
+          setIsStudySetAlreadyExistsActive(true);
+          continue;
+        }
+    
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+          const response = await axios.post('http://localhost:3001/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          console.log(response.data);
+          isStudySetAccepted.value = { _a: true };
+          showSuccessfullyAdded.value = true;
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
       }
-    
-      const existingData = await axios.get('http://localhost:3001/data');
-      const existingNames = existingData.data.map(item => item.name);
-    
-      if (existingNames.includes(file.name.replace('.txt', ''))) {
-        setIsStudySetAlreadyExistsActive(true);
-        return;
-      }
-    
-      const formData = new FormData();
-      formData.append('file', file);
-    
-      axios.post('http://localhost:3001/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        isStudySetAccepted.value = { _a: true };
-        showSuccessfullyAdded.value = true;
-        console.log(isStudySetAccepted.value._a);
-      })
-      .catch(error => {
-        console.error('Error uploading file:', error);
-      });
-    }, [setIsStudySetAlreadyExistsActive]);
+    }, [setIsStudySetAlreadyExistsActive]);    
   
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       accept: '.txt',
