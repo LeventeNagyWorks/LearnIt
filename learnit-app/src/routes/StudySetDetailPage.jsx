@@ -246,9 +246,9 @@ const StudySetDetailPage = () => {
       </section>
       
       <section className='w-[50%] min-h-screen flex flex-col items-center gap-8 z-10 py-16'>
-      {questionsWithAnswers.map((item, index) => (
+        {questionsWithAnswers.map((item, index) => (
           <div 
-            className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
+            className='w-full h-fit flex flex-col justify-center items-start bg-slate-800 rounded-2xl py-3 px-5'
             key={index}
           >
             <div className='w-full flex justify-between items-center'>
@@ -258,6 +258,19 @@ const StudySetDetailPage = () => {
                 isHovered={hoveredItem === index}
                 setHoveredItem={setHoveredItem}
               />
+            </div>
+
+            <span className='w-[90%] h-[4px] rounded-full bg-gradient-to-r from-green-500 my-3'/>
+
+            <div className='w-full h-fit flex-col gap-3'>
+              {item.answers.map((answer, answerIndex) => (
+                <div 
+                  className='w-full h-fit py-1'
+                  key={answerIndex}
+                >
+                  <p className='text-xl'>{answer}</p>
+                </div>
+              ))}
             </div>
             
           </div>

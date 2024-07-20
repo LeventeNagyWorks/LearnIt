@@ -7354,7 +7354,7 @@
         ]
       }
     ],
-    "isFavorite": false
+    "isFavorite": true
   },
   {
     "name": "Halozat",
@@ -7401,7 +7401,8 @@
           "A architektúra kizárólag szofver"
         ]
       }
-    ]
+    ],
+    "isFavorite": false
   },
   {
     "name": "Szamitas Tudomany",
