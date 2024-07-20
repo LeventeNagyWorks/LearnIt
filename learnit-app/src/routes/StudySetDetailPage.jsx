@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { startTransitionFromStudySetDetail, startTransitionToStudySetDetail, studySetsData } from '../signals'
 import VanillaTilt from "vanilla-tilt"
@@ -13,10 +13,13 @@ import "swiper/css/effect-coverflow";
 import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
 import BackButton from '../components/BackButton';
 import { useSignals } from '@preact/signals-react/runtime';
+import CustomizeButton from '../components/StudySets/CustomizeButton';
 
 const StudySetDetailPage = () => {
 
   useSignals()
+
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
     startTransitionFromStudySetDetail.value = false;
@@ -99,7 +102,7 @@ const StudySetDetailPage = () => {
   }));
 
   return (
-    <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative'>
+    <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative selection:bg-accent_green_dark'>
 
       <svg className='absolute -translate-x-[334px] -translate-y-[500px] -rotate-[65deg] scale-[70%] z-0 duration-[2000ms]' width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="163.5" cy="964.5" r="163.5" fill="url(#paint0_linear_150_2)"/>
@@ -248,7 +251,15 @@ const StudySetDetailPage = () => {
             className='w-full flex flex-col justify-center items-start gap-3 bg-slate-800 rounded-2xl py-3 px-5'
             key={index}
           >
-            <h2 className='text-2xl mb-3 text-center'>{item.index}. {item.question}</h2>
+            <div className='w-full flex justify-between items-center'>
+              <h2 className='text-2xl'>{item.index}. {item.question}</h2>
+              <CustomizeButton 
+                index={index}
+                isHovered={hoveredItem === index}
+                setHoveredItem={setHoveredItem}
+              />
+            </div>
+            
           </div>
         ))}
       </section>
