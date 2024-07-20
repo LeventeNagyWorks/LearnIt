@@ -54,7 +54,7 @@ export default {
             transform: 'translate(0px)',
           }
         },
-        showFav: {
+        showFavPoppin: {
           '0%': {
             transform: 'translate(-1px)',
           },
@@ -74,7 +74,7 @@ export default {
             transform: 'translate(200px)',
           }
         },
-        showAll: {
+        showAllPoppin: {
           '0%': {
             transform: 'translate(200px)',
           },
@@ -93,13 +93,31 @@ export default {
           '100%': {
             transform: 'translate(-1px)',
           }
+        },
+        showFav: {
+          '0%': {
+            transform: 'translate(-1px)',
+          },
+          '100%': {
+            transform: 'translate(200px)',
+          }
+        },
+        showAll: {
+          '0%': {
+            transform: 'translate(200px)',
+          },
+          '100%': {
+            transform: 'translate(-1px)',
+          }
         }
       },
       animation: {
         handRotation: 'handRotation 3s ease-in-out infinite',
         loading: 'loading 2s ease-in-out infinite',
-        showFav: 'showFav 1s ease-in-out forwards',
-        showAll: 'showAll 1s ease-in-out forwards',
+        showFavPoppin: 'showFavPoppin 1s ease-in-out forwards',
+        showFav: 'showFav 0.5s ease-in-out forwards',
+        showAllPoppin: 'showAllPoppin 1s ease-in-out forwards',
+        showAll: 'showAll 0.5s ease-in-out forwards',
       },
     },
   },

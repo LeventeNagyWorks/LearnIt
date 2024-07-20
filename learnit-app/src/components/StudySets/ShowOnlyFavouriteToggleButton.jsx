@@ -18,7 +18,7 @@ const ShowOnlyFavouriteToggleButton = () => {
 
   return (
     <div 
-        className='w-[400px] flex items-center font-poppins font-medium text-lg rounded-full bg-slate-300 duration-1000 select-none relative'
+        className='w-[400px] flex items-center font-poppins font-medium text-lg rounded-full bg-slate-300 duration-500 select-none relative'
         style={shadowStyle}
     >
 
