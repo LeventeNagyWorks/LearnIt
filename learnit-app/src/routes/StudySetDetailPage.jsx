@@ -36,33 +36,12 @@ const StudySetDetailPage = () => {
     e.preventDefault();
     setTimeout(() => {
       navigate(`/study-sets/`);
-    }, 2000);
+    }, 0);
   }
   
 
   const swiperRef = useRef(null);
   const MAXGLARE = 0.10;
-
-  // const initializeTilt = (swiper) => {
-  //   const tiltElement = swiper.slides[swiper.activeIndex];
-  //   if (tiltElement) {
-  //     VanillaTilt.init(tiltElement, {
-  //       max: 5,
-  //       speed: 10,
-  //       glare: true,
-  //       'max-glare': MAXGLARE,
-  //       perspective: 1000,
-  //       style: {
-  //         'transform-style': 'preserve-3d',
-  //       },
-  //     });
-
-  //     const innerElements = tiltElement.querySelectorAll('.inner-element-class');
-  //     innerElements.forEach(element => {
-  //       element.style.transform = 'translateZ(20px)';
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     const tiltElement = document.querySelector('.swiper-slide-active');
@@ -130,10 +109,7 @@ const StudySetDetailPage = () => {
         </defs>
       </svg>
 
-      <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000
-        ${startTransitionFromStudySetDetail.value ? '-translate-y-full' : ''}
-        ${startTransitionToStudySetDetail.value ? '-translate-y-full' : ''}
-      `}>
+      <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000`}>
         <div className='w-full flex justify-center items-center py-8 px-5'>
           <BackButton onClick={handleClick} className={'absolute left-6'}/>
           <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
