@@ -37,8 +37,9 @@ const RightPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/data');
+        const response = await axios.get('/api/data');
         setData(response.data);
+        studySetsData.value = [...response.data];
         const favorites = response.data.reduce((acc, item) => {
           acc[item.name] = item.isFavorite || false;
           return acc;
@@ -50,6 +51,10 @@ const RightPanel = () => {
     };
   
     fetchData();
+
+    const intervalId = setInterval(fetchData, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);  
 
   useEffect(() => {

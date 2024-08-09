@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { startTransitionFromStudySetDetail, startTransitionToStudySetDetail, studySetsData } from '../signals'
+import { startTransitionFromStudySetDetail, startTransitionToStudySetDetail } from '../signals'
 import VanillaTilt from "vanilla-tilt"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation, Keyboard, Mousewheel, A11y} from "swiper/modules";
@@ -16,32 +16,39 @@ import { useSignals } from '@preact/signals-react/runtime';
 import CustomizeButton from '../components/StudySets/CustomizeButton';
 
 const StudySetDetailPage = () => {
-
   useSignals()
 
+  const [studySet, setStudySet] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const { itemName } = useParams();
+  const navigate = useNavigate();
+  const swiperRef = useRef(null);
+  const MAXGLARE = 0.10;
 
   useEffect(() => {
+    const fetchStudySet = async () => {
+      try {
+        const response = await fetch('/api/data');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const foundSet = data.find(set => set.name === itemName);
+        setStudySet(foundSet);
+      } catch (error) {
+        console.error('Error fetching study set:', error);
+        // You might want to set an error state here to display to the user
+      }
+    };
+  
+    fetchStudySet();
+  
     startTransitionFromStudySetDetail.value = false;
     startTransitionToStudySetDetail.value = true;
     setTimeout(() => {
       startTransitionToStudySetDetail.value = false;
     }, 1000);
-  }, [])
-
-  const navigate = useNavigate();
-
-  const handleClick = (e) => {
-    startTransitionFromStudySetDetail.value = true;
-    e.preventDefault();
-    setTimeout(() => {
-      navigate(`/study-sets/`);
-    }, 0);
-  }
-  
-
-  const swiperRef = useRef(null);
-  const MAXGLARE = 0.10;
+  }, [itemName]);
 
   useEffect(() => {
     const tiltElement = document.querySelector('.swiper-slide-active');
@@ -56,7 +63,7 @@ const StudySetDetailPage = () => {
           'transform-style': 'preserve-3d',
         },
       });
-  
+
       const innerElements = tiltElement.querySelectorAll('.inner-element-class');
       innerElements.forEach(element => {
         element.style.transform = 'translateZ(20px)';
@@ -64,15 +71,18 @@ const StudySetDetailPage = () => {
     }
   }, []);
 
-  const { itemName } = useParams();
-  const studySets = studySetsData.value;
-  
-  const studySet = studySets.find(set => set.name === itemName);
+  const handleClick = (e) => {
+    startTransitionFromStudySetDetail.value = true;
+    e.preventDefault();
+    setTimeout(() => {
+      navigate(`/study-sets/`);
+    }, 0);
+  }
 
   if (!studySet) {
-    return <div>Study set not found</div>;
+    return <div>Loading...</div>;
   }
-  
+
   const questionsWithAnswers = studySet.questions.map((question, index) => ({
     index: index + 1,
     question: question.question,
