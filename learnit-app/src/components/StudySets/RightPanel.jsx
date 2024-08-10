@@ -37,7 +37,7 @@ const RightPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/data');
+        const response = await axios.get('/data');
         setData(response.data);
         studySetsData.value = [...response.data];
         const favorites = response.data.reduce((acc, item) => {
