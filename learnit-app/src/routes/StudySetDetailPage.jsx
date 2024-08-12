@@ -20,7 +20,7 @@ const StudySetDetailPage = () => {
 
   const [studySet, setStudySet] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [isFlipped, setIsFlipped] = useState({});
+  const [flippedIndex, setFlippedIndex] = useState(null);
   const { itemName } = useParams();
   const navigate = useNavigate();
   const swiperRef = useRef(null);
@@ -80,10 +80,9 @@ const StudySetDetailPage = () => {
     }, 0);
   }
 
-  const handleCardClick = () => {
-    setIsFlipped(prev => !prev);
-    console.log(isFlipped);
-  };  
+  const handleCardClick = (index) => {
+    setFlippedIndex(prevIndex => prevIndex === index ? null : index);
+  };
 
   if (!studySet) {
     return <div>Loading...</div>;
@@ -198,14 +197,13 @@ const StudySetDetailPage = () => {
                 <SwiperSlide
                   key={index}
                   className={`h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative 
-                    ${isFlipped ? 'animate-cardFlip' : ''}
-                    ${!isFlipped ? 'animate-cardFlipBack' : ''}
+                    ${flippedIndex === index ? 'animate-cardFlip' : 'animate-cardFlipBack'}
                   `}
-                  onClick={() => handleCardClick()}
+                  onClick={() => handleCardClick(index)}
                 >
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
 
-                    {!isFlipped && (
+                    {flippedIndex !== index && (
                       <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                         
                         <div className='w-full h-28 flex justify-end items-center px-12'>
@@ -238,7 +236,7 @@ const StudySetDetailPage = () => {
                       </div>
                     )}
 
-                    {isFlipped && (
+                    {flippedIndex === index && (
                       <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                         
                         <div className='w-full h-28 flex justify-end items-center px-12'>
