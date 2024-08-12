@@ -20,8 +20,7 @@ const StudySetDetailPage = () => {
 
   const [studySet, setStudySet] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState({});
   const { itemName } = useParams();
   const navigate = useNavigate();
   const swiperRef = useRef(null);
@@ -171,8 +170,6 @@ const StudySetDetailPage = () => {
                   }
                 }}
                 onSlideChange={(swiper) => {
-                    setActiveIndex(swiper.activeIndex);
-                    setIsFlipped(false);
                     // Remove tilt effect from all slides
                     const previousActiveSlide = swiper.slides[swiper.previousIndex];
                     if (previousActiveSlide) {
@@ -201,10 +198,10 @@ const StudySetDetailPage = () => {
                 <SwiperSlide
                   key={index}
                   className={`h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative 
-                    ${index === activeIndex && isFlipped ? 'animate-cardFlip' : ''}
-                    ${index === activeIndex && !isFlipped ? 'animate-cardFlipBack' : ''}
+                    ${isFlipped ? 'animate-cardFlip' : ''}
+                    ${!isFlipped ? 'animate-cardFlipBack' : ''}
                   `}
-                  onClick={() => index === activeIndex && handleCardClick()}
+                  onClick={() => handleCardClick()}
                 >
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
 
