@@ -11,6 +11,9 @@ export default {
   },
   theme: {
     extend: {
+      rotate: {
+        'y-180': 'rotateY(180deg)',
+      },
       fontFamily: {
         'poppins': ['poppins', 'sans-serif'],
         'poetsen': ['poetsen one', 'sans-serif']
@@ -109,9 +112,27 @@ export default {
           '100%': {
             transform: 'translate(-1px)',
           }
+        },
+        cardFlip: {
+          '0%': {
+            transform: 'rotateY(0deg)',
+          },
+          '100%': {
+            transform: 'rotateY(180deg)',
+          }
+        },
+        cardFlipBack: {
+          '0%': {
+            transform: 'rotateY(180deg)',
+          },
+          '100%': {
+            transform: 'rotateY(0deg)',
+          }
         }
       },
       animation: {
+        cardFlip: 'cardFlip 0.5s ease-in-out',
+        cardFlipBack: 'cardFlipBack 0.5s ease-in-out',
         handRotation: 'handRotation 3s ease-in-out infinite',
         loading: 'loading 2s ease-in-out infinite',
         showFavPoppin: 'showFavPoppin 1s ease-in-out forwards',

@@ -2,6 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.flipped {
+    transform: rotateY(180deg);
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

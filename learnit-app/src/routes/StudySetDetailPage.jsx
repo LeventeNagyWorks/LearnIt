@@ -20,6 +20,8 @@ const StudySetDetailPage = () => {
 
   const [studySet, setStudySet] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
   const { itemName } = useParams();
   const navigate = useNavigate();
   const swiperRef = useRef(null);
@@ -79,6 +81,11 @@ const StudySetDetailPage = () => {
     }, 0);
   }
 
+  const handleCardClick = () => {
+    setIsFlipped(prev => !prev);
+    console.log(isFlipped);
+  };  
+
   if (!studySet) {
     return <div>Loading...</div>;
   }
@@ -87,7 +94,7 @@ const StudySetDetailPage = () => {
     index: index + 1,
     question: question.question,
     answers: question.answer,
-    rightAnswer: question.right_answer[0]
+    rightAnswer: question.right_answer
   }));
 
   return (
@@ -164,6 +171,8 @@ const StudySetDetailPage = () => {
                   }
                 }}
                 onSlideChange={(swiper) => {
+                    setActiveIndex(swiper.activeIndex);
+                    setIsFlipped(false);
                     // Remove tilt effect from all slides
                     const previousActiveSlide = swiper.slides[swiper.previousIndex];
                     if (previousActiveSlide) {
@@ -186,43 +195,85 @@ const StudySetDetailPage = () => {
                     });
                 }}
                 modules={[Pagination, Navigation, Keyboard, Mousewheel, EffectCoverflow, A11y]}
-                className="w-full md:h-full h-5/6 lg:pt-16 pt-4 pb-20"
+                className="w-full md:h-full h-5/6 lg:pt-16 pt-4 pb-20 overflow-visible"
             >
               {questionsWithAnswers.map((item, index) => (
                 <SwiperSlide
                   key={index}
-                  className='h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative'
+                  className={`h-full w-[65%] rounded-[30px] lg:rounded-[50px] bg-transparent backdrop-blur-md shadow-lg overflow-hidden z-20 relative 
+                    ${index === activeIndex && isFlipped ? 'animate-cardFlip' : ''}
+                    ${index === activeIndex && !isFlipped ? 'animate-cardFlipBack' : ''}
+                  `}
+                  onClick={() => index === activeIndex && handleCardClick()}
                 >
                   <div className="flex h-full lg:w-full rounded-[30px] lg:rounded-[50px] bg-slate-500/40">
-                    <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
-                      
-                      <div className='w-full h-28 flex justify-end items-center px-12'>
-                        <div className='flex items-center gap-4 text-[35px]'>
-                          <p className=''> {item.index} </p>
-                          <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
-                          <p className='text-green-400'> {studySet.questions.length} </p>
-                        </div>
-                      </div>
 
-                      <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
-
-                        <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
-                          {item.question}
-                        </h1>
-                        <div className="flex flex-col gap-4">
-                          {item.answers.map((answer, answerIndex) => (
-                            <div 
-                              key={answerIndex} 
-                              className={`p-4 rounded-lg bg-slate-700`}
-                            >
-                              <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
-                                {answer}
-                              </p>
-                            </div>
-                          ))}
+                    {!isFlipped && (
+                      <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
+                        
+                        <div className='w-full h-28 flex justify-end items-center px-12'>
+                          <div className='flex items-center gap-4 text-[35px]'>
+                            <p className=''> {item.index} </p>
+                            <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
+                            <p className='text-green-400'> {studySet.questions.length} </p>
+                          </div>
                         </div>
+
+                        <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
+
+                          <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
+                            {item.question}
+                          </h1>
+                          <div className="flex flex-col gap-4">
+                            {item.answers.map((answer, answerIndex) => (
+                              <div 
+                                key={answerIndex} 
+                                className={`p-4 rounded-lg bg-slate-700`}
+                              >
+                                <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                  {answer}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
                       </div>
-                    </div>
+                    )}
+
+                    {isFlipped && (
+                      <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
+                        
+                        <div className='w-full h-28 flex justify-end items-center px-12'>
+                          <div className='flex items-center gap-4 text-[35px]'>
+                            <p className=''> {item.index} </p>
+                            <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
+                            <p className='text-green-400'> {studySet.questions.length} </p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8">
+
+                          <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
+                            {item.question}
+                          </h1>
+                          <div className="flex flex-col gap-4">
+                            {item.rightAnswer.map((rightAnswer, answerIndex) => (
+                              <div 
+                                key={answerIndex} 
+                                className={`p-4 rounded-lg bg-slate-700`}
+                              >
+                                <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                  {rightAnswer}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        
+                      </div>
+                    )}
+
                   </div>
                 </SwiperSlide>
               ))}
