@@ -63,7 +63,7 @@ const LearnStudySet = () => {
       }
 
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-gradient-to-br from-cstm_bg_dark to-zinc-900 text-cstm_white font-poppins text-2xl'>
+    <div className='w-full h-screen flex justify-center items-center bg-gradient-to-br from-cstm_bg_dark to-zinc-900 text-cstm_white font-poppins text-2xl selection:bg-accent_green_dark selection:text-cstm_bg_dark'>
 
         <div className='w-[80%] h-full flex flex-col justify-evenly items-center'>
             <h2 className='text-4xl mb-8 select-none'>Score: <span className='text-accent_green_dark'>{score}</span> </h2>
@@ -73,7 +73,7 @@ const LearnStudySet = () => {
                 <button
                     key={index}
                     onClick={() => handleAnswerClick(option)}
-                    className='bg-slate-700 hover:bg-slate-600 py-2 px-4 rounded-lg'
+                    className='bg-slate-700 hover:bg-slate-600 py-2 px-4 rounded-xl'
                 >
                     {option}
                 </button>
