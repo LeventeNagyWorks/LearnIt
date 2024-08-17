@@ -14,6 +14,7 @@ import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
 import BackButton from '../components/BackButton';
 import { useSignals } from '@preact/signals-react/runtime';
 import CustomizeButton from '../components/StudySets/CustomizeButton';
+import PrimaryButton from '../components/PrimaryButton';
 
 const StudySetDetailPage = () => {
   useSignals()
@@ -126,8 +127,9 @@ const StudySetDetailPage = () => {
 
       <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000`}>
         <div className='w-full flex justify-center items-center py-8 px-5'>
-          <BackButton onClick={handleClick} className={'absolute left-6'}/>
+          <BackButton onClick={handleClick} className={'fixed left-6'}/>
           <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
+          <PrimaryButton to={`/study-sets/${itemName}/learning`} text='LEARN IT' className={'fixed right-9'}/>
         </div>
 
         <Swiper

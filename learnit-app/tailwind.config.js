@@ -11,6 +11,9 @@ export default {
   },
   theme: {
     extend: {
+      boxShadow: {
+        'custom': '0 4px 6px -1px rgba(0, 255, 0, 0.1), 0 2px 4px -1px rgba(0, 255, 0, 0.06)',
+      },
       rotate: {
         'y-180': 'rotateY(180deg)',
       },
@@ -22,6 +25,7 @@ export default {
         'cstm_bg_dark': '#0f0f0f',
         'cstm_white': '#EEEEEE',
         'accent_green_dark': '#20CC00',
+        'accent_green_dark2': '#28ff00',
 
         'accent_purple_dark': '#9400FF',
         'accent_orange_dark': '#e58c23',

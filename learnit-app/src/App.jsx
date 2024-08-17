@@ -7,12 +7,14 @@ import StudySetsPage from './routes/StudySetsPage';
 import StudySetDetailPage from './routes/StudySetDetailPage';
 import LoadingScreen from './components/LoadingScreen';
 import { isLoading, isStudyLoading } from './signals';
+import LearnStudySet from './routes/LearnStudySet';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
     <Route path="/" element={<HeroSection />}/>
     <Route path="/study-sets" element={<StudySetsPage />}/>
     <Route path="/study-sets/:itemName" element={<StudySetDetailPage />}/>
+    <Route path="/study-sets/:itemName/learning" element={<LearnStudySet />}/>
   </Route>
 )
 
@@ -30,7 +32,5 @@ function App() {
     </>
   )
 }
-
-console.log(isLoading.value._l);
 
 export default App;
