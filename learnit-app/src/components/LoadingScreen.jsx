@@ -2,9 +2,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react'
-import { isLoading } from '../signals';
-import { Link, useNavigate } from "react-router-dom";
-import { useSignals } from '@preact/signals-react/runtime';
 
 function LoadingScreen() {
 
@@ -15,7 +12,7 @@ function LoadingScreen() {
   // }, []);
 
   return (
-    <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500 ${isLoading.value._l ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}>
+    <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500`}>
       <div className='w-full flex flex-col justify-center items-center'>
         <h1 className="text-cstm_white text-[150px] mb-14 select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
         <div className='w-[50%] h-16 flex items-center overflow-x-hidden overflow-y-visible relative'>

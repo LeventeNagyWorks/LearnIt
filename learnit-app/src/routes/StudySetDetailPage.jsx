@@ -15,6 +15,7 @@ import BackButton from '../components/BackButton';
 import { useSignals } from '@preact/signals-react/runtime';
 import CustomizeButton from '../components/StudySets/CustomizeButton';
 import PrimaryButton from '../components/PrimaryButton';
+import LoadingScreen from '../components/LoadingScreen';
 
 const StudySetDetailPage = () => {
   useSignals()
@@ -86,7 +87,7 @@ const StudySetDetailPage = () => {
   };
 
   if (!studySet) {
-    return <div>Loading...</div>;
+    return LoadingScreen;
   }
 
   const questionsWithAnswers = studySet.questions.map((question, index) => ({

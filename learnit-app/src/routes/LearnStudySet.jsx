@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSignals } from '@preact/signals-react/runtime';
 import { useParams } from 'react-router-dom';
+import LoadingScreen from '../components/LoadingScreen';
 
 const LearnStudySet = () => {
 
@@ -59,16 +60,16 @@ const LearnStudySet = () => {
       };
     
       if (!studySet || !currentQuestion) {
-        return <div>Loading...</div>;
+        return LoadingScreen;
       }
 
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-gradient-to-br from-cstm_bg_dark to-zinc-900 text-cstm_white font-poppins text-2xl selection:bg-accent_green_dark selection:text-cstm_bg_dark'>
+    <div className='w-full h-screen flex justify-center items-center bg-gradient-to-br from-cstm_bg_dark to-zinc-900 text-cstm_white font-poppins text-2xl selection:bg-accent_green_dark selection:text-cstm_bg_dark duration-500'>
 
         <div className='w-[80%] h-full flex flex-col justify-evenly items-center'>
-            <h2 className='text-4xl mb-8 select-none'>Score: <span className='text-accent_green_dark'>{score}</span> </h2>
-            <p className='h-24 flex items-center justify-center text-[56px] mb-6 text-center'>{currentQuestion.question}</p>
-            <div className='w-full flex flex-col gap-4'>
+            <h2 className='text-4xl mb-8 select-none duration-500'>Score: <span className='text-accent_green_dark'>{score}</span> </h2>
+            <p className='h-24 flex items-center justify-center text-[56px] mb-6 text-center duration-500'>{currentQuestion.question}</p>
+            <div className='w-full flex flex-col gap-4 duration-500'>
                 {options.map((option, index) => (
                 <button
                     key={index}
