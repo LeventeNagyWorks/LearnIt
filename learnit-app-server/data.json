@@ -11211,5 +11211,150 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Szamitas Tudomany (kulon kerdesek))",
+    "desc": "",
+    "questions": [
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az operációs rendszer?",
+        "question": "Mi az operációs rendszer?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az operációs rendszer a számítógép alapvető szoftvere, amely kezeli a hardvert és a szoftvert"
+        ],
+        "answer": [
+          "Az operációs rendszer a számítógép alapvető szoftvere, amely kezeli a hardvert és a szoftvert",
+          "Az operációs rendszer a számítógép fizikai része",
+          "Az operációs rendszer kizárólag a felhasználói programok gyűjteménye",
+          "Az operációs rendszer csak egy böngészőprogram"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az alaplap?",
+        "question": "Mi az alaplap?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az alaplap a számítógép központi áramköri lapja, amely összeköti a hardver komponenseit"
+        ],
+        "answer": [
+          "Az alaplap a számítógép központi áramköri lapja, amely összeköti a hardver komponenseit",
+          "Az alaplap a számítógép háza",
+          "Az alaplap kizárólag a processzor",
+          "Az alaplap egy külső tárolóeszköz"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a RAM?",
+        "question": "Mi az a RAM?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A RAM (Random Access Memory) egy olyan számítógépes memória, amely ideiglenesen tárolja az adatokat"
+        ],
+        "answer": [
+          "A RAM (Random Access Memory) egy olyan számítógépes memória, amely ideiglenesen tárolja az adatokat",
+          "A RAM egy típusú processzor",
+          "A RAM a számítógép állandó tárolóeszköze",
+          "A RAM kizárólag a programok tárolására szolgál, de nem ideiglenesen"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a merevlemez?",
+        "question": "Mi az a merevlemez?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A merevlemez (HDD) egy adattároló eszköz, amely nagy mennyiségű adatot képes tárolni hosszú távon"
+        ],
+        "answer": [
+          "A merevlemez (HDD) egy adattároló eszköz, amely nagy mennyiségű adatot képes tárolni hosszú távon",
+          "A merevlemez a számítógép processzora",
+          "A merevlemez kizárólag operációs rendszert futtat",
+          "A merevlemez a számítógép memóriája, amely az adatokat csak rövid ideig tárolja"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az USB-port?",
+        "question": "Mi az USB-port?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az USB-port egy csatlakozó, amely lehetővé teszi különböző eszközök csatlakoztatását a számítógéphez"
+        ],
+        "answer": [
+          "Az USB-port egy csatlakozó, amely lehetővé teszi különböző eszközök csatlakoztatását a számítógéphez",
+          "Az USB-port kizárólag adatátvitelre szolgál",
+          "Az USB-port egy típusú tápegység",
+          "Az USB-port a számítógép belső memóriájának része"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a GPU?",
+        "question": "Mi az a GPU?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A GPU (Graphics Processing Unit) egy speciális processzor, amely a grafikus feldolgozást végzi"
+        ],
+        "answer": [
+          "A GPU (Graphics Processing Unit) egy speciális processzor, amely a grafikus feldolgozást végzi",
+          "A GPU kizárólag a számítógép hűtéséért felelős",
+          "A GPU a számítógép RAM-ja",
+          "A GPU egy típusú merevlemez"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a BIOS?",
+        "question": "Mi az a BIOS?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A BIOS (Basic Input/Output System) egy alapszoftver, amely a számítógép indításakor a hardverek inicializálását végzi"
+        ],
+        "answer": [
+          "A BIOS (Basic Input/Output System) egy alapszoftver, amely a számítógép indításakor a hardverek inicializálását végzi",
+          "A BIOS egy típusú operációs rendszer",
+          "A BIOS kizárólag a merevlemezhez kapcsolódik",
+          "A BIOS a számítógép állandó tárolója"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Az alaplap az a központi áramköri lap, amely összeköti a számítógép összes hardver komponensét.",
+        "question": "Az alaplap az a központi áramköri lap, amely összeköti a számítógép összes hardver komponensét.",
+        "que_type": "True/False",
+        "right_answer": [
+          "Igaz"
+        ],
+        "answer": [
+          "Igaz",
+          "True"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a SSD?",
+        "question": "Mi az a SSD?",
+        "que_type": "Choice",
+        "right_answer": [
+          "Az SSD (Solid State Drive) egy adattároló eszköz, amely gyorsabb adatátvitelt biztosít, mint a hagyományos merevlemez"
+        ],
+        "answer": [
+          "Az SSD (Solid State Drive) egy adattároló eszköz, amely gyorsabb adatátvitelt biztosít, mint a hagyományos merevlemez",
+          "Az SSD a számítógép hűtőrendszere",
+          "Az SSD egy típusú processzor",
+          "Az SSD kizárólag memóriakártyák tárolására szolgál"
+        ]
+      },
+      {
+        "_id": "Szamitas Tudomany (kulon kerdesek)).txt_Mi az a hálózati kártya?",
+        "question": "Mi az a hálózati kártya?",
+        "que_type": "Choice",
+        "right_answer": [
+          "A hálózati kártya lehetővé teszi a számítógép számára, hogy hálózathoz, például az internethez csatlakozzon"
+        ],
+        "answer": [
+          "A hálózati kártya lehetővé teszi a számítógép számára, hogy hálózathoz, például az internethez csatlakozzon",
+          "A hálózati kártya a számítógép memóriájának része",
+          "A hálózati kártya kizárólag vezeték nélküli eszközökkel működik",
+          "A hálózati kártya kizárólag nyomtatókhoz használatos"
+        ]
+      }
+    ],
+    "isFavorite": true
   }
 ]

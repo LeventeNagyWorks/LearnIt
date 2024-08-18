@@ -18,6 +18,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import LoadingScreen from '../components/LoadingScreen';
 
 const StudySetDetailPage = () => {
+  
   useSignals()
 
   const [studySet, setStudySet] = useState(null);
@@ -103,7 +104,7 @@ const StudySetDetailPage = () => {
   }));
 
   return (
-    <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative selection:bg-accent_green_dark'>
+    <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative selection:bg-accent_green_dark pb-5'>
 
       <svg className='absolute -translate-x-[334px] -translate-y-[500px] -rotate-[65deg] scale-[70%] z-0 duration-[2000ms]' width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="163.5" cy="964.5" r="163.5" fill="url(#paint0_linear_150_2)"/>
@@ -285,7 +286,7 @@ const StudySetDetailPage = () => {
             </Swiper>
       </section>
       
-      <section className='w-[50%] min-h-screen flex flex-col items-center gap-8 z-10 py-16'>
+      <section className='w-[50%] screen-fit min-h-screen h-fit flex flex-col items-center gap-8 z-10 py-16'>
         {questionsWithAnswers.map((item, index) => (
           <div 
             className='w-full h-fit flex flex-col justify-center items-start bg-slate-800 rounded-2xl py-3 px-5'

@@ -14,6 +14,7 @@ const startTransitionToStudySets = signal(false);
 const startTransitionFromStudySetDetail = signal(false);
 const startTransitionToStudySetDetail = signal(false);
 const isLoadingEnabled = signal(false);
+const sessionLength = signal(10);
 const studySetsData = signal([]);
 
 export {
@@ -29,5 +30,6 @@ export {
     startTransitionFromStudySetDetail,
     startTransitionToStudySetDetail,
     toggleDropBox,
-    isLoadingEnabled
+    isLoadingEnabled,
+    sessionLength
 }
