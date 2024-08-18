@@ -13,6 +13,7 @@ const startTransitionFromStudySets = signal(false);
 const startTransitionToStudySets = signal(false);
 const startTransitionFromStudySetDetail = signal(false);
 const startTransitionToStudySetDetail = signal(false);
+const isLoadingEnabled = signal(false);
 const studySetsData = signal([]);
 
 export {
@@ -27,5 +28,6 @@ export {
     startTransitionToStudySets,
     startTransitionFromStudySetDetail,
     startTransitionToStudySetDetail,
-    toggleDropBox
+    toggleDropBox,
+    isLoadingEnabled
 }

@@ -2,14 +2,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react'
+import { isLoadingEnabled } from '../signals';
+import { useSignal } from '@preact/signals-react';
 
 function LoadingScreen() {
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     isLoading.value = { _l: false };
-  //   }, 2000);
-  // }, []);
+  useSignal();
+
+  useEffect(() => {
+    setTimeout(() => {
+      isLoadingEnabled.value = false;
+    }, 2000);
+  }, []);
 
   return (
     <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500`}>

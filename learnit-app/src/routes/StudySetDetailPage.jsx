@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { startTransitionFromStudySetDetail, startTransitionToStudySetDetail } from '../signals'
+import { isLoading, isLoadingEnabled, startTransitionFromStudySetDetail, startTransitionToStudySetDetail } from '../signals'
 import VanillaTilt from "vanilla-tilt"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation, Keyboard, Mousewheel, A11y} from "swiper/modules";
@@ -74,6 +74,11 @@ const StudySetDetailPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    isLoadingEnabled.value = true;
+  }, [])
+  
+
   const handleClick = (e) => {
     startTransitionFromStudySetDetail.value = true;
     e.preventDefault();
@@ -86,8 +91,8 @@ const StudySetDetailPage = () => {
     setFlippedIndex(prevIndex => prevIndex === index ? null : index);
   };
 
-  if (!studySet) {
-    return LoadingScreen;
+  if (!studySet || isLoadingEnabled.value === true) {
+    return <LoadingScreen />;
   }
 
   const questionsWithAnswers = studySet.questions.map((question, index) => ({

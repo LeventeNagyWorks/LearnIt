@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useSignals } from '@preact/signals-react/runtime';
 import { useParams } from 'react-router-dom';
 import LoadingScreen from '../components/LoadingScreen';
+import { isLoadingEnabled } from '../signals';
 
 const LearnStudySet = () => {
 
@@ -39,6 +40,10 @@ const LearnStudySet = () => {
         }
     }, [studySet]);
 
+    useEffect(() => {
+      isLoadingEnabled.value = true;
+    }, [])
+
     const pickRandomQuestion = () => {
         const randomIndex = Math.floor(Math.random() * studySet.questions.length);
         const question = studySet.questions[randomIndex];
@@ -60,7 +65,7 @@ const LearnStudySet = () => {
       };
     
       if (!studySet || !currentQuestion) {
-        return LoadingScreen;
+        return <LoadingScreen />;
       }
 
   return (
