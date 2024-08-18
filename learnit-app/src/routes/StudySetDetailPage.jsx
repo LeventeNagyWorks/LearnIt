@@ -265,7 +265,7 @@ const StudySetDetailPage = () => {
                             {item.rightAnswer.map((rightAnswer, answerIndex) => (
                               <div 
                                 key={answerIndex} 
-                                className={`p-4 rounded-lg bg-slate-700`}
+                                className={`p-4 rounded-lg bg-green-700`}
                               >
                                 <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
                                   {rightAnswer}
