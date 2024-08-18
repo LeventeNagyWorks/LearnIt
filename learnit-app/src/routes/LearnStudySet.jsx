@@ -19,6 +19,10 @@ const LearnStudySet = () => {
     const [questionsAnsweredCounter, setQuestionsAnsweredCounter] = useState(0);
     const [isSessionComplete, setIsSessionComplete] = useState(false);
     const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+    const [correctlyAnsweredQuestions, setCorrectlyAnsweredQuestions] = useState([]);
+    const [lastQuestion, setLastQuestion] = useState(null);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
     useEffect(() => {
         const fetchStudySet = async () => {
@@ -67,30 +71,57 @@ const LearnStudySet = () => {
     };
 
     const handleAnswerClick = (selectedAnswer) => {
-      if (currentQuestion.right_answer.includes(selectedAnswer)) {
-        setScore(prevScore => prevScore + 1);
-        // Remove the question from incorrectQuestions if it was answered correctly
-        setIncorrectQuestions(prev => prev.filter(q => q.question !== currentQuestion.question));
-      } else {
-        // Add the question to incorrectQuestions if it wasn't answered correctly
-        setIncorrectQuestions(prev => [...prev, currentQuestion]);
-      }
-      setQuestionsAnsweredCounter(prevCount => prevCount + 1);
-      pickNextQuestion();
+      setSelectedAnswer(selectedAnswer);
+      const isCorrect = currentQuestion.right_answer.includes(selectedAnswer);
+      setIsAnswerCorrect(isCorrect);
+    
+      setTimeout(() => {
+        if (isCorrect) {
+          setScore(prevScore => prevScore + 1);
+          setCorrectlyAnsweredQuestions(prev => [...prev, currentQuestion]);
+        } else {
+          setIncorrectQuestions(prev => [...prev, currentQuestion]);
+        }
+
+        setQuestionsAnsweredCounter(prevCount => prevCount + 1);
+        setSelectedAnswer(null);
+        setIsAnswerCorrect(null);
+        pickNextQuestion();
+      }, 1000);
     };
+    
 
     const pickNextQuestion = () => {
+      let nextQuestion;
       if (incorrectQuestions.length > 0) {
-        // Pick a random question from the incorrect questions
         const randomIndex = Math.floor(Math.random() * incorrectQuestions.length);
-        setCurrentQuestion(incorrectQuestions[randomIndex]);
-        const allOptions = [...incorrectQuestions[randomIndex].answer];
-        const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
-        setOptions(shuffledOptions);
+        nextQuestion = incorrectQuestions[randomIndex];
+        // Remove the question from incorrectQuestions after asking
+        setIncorrectQuestions(prev => prev.filter((_, index) => index !== randomIndex));
       } else {
-        // If no incorrect questions, pick a new random question
-        pickRandomQuestion();
+        const availableQuestions = studySet.questions.filter(q => 
+          !correctlyAnsweredQuestions.some(cq => cq.question === q.question) && q !== lastQuestion
+        );
+        if (availableQuestions.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+          nextQuestion = availableQuestions[randomIndex];
+        } else {
+          setIsSessionComplete(true);
+          return;
+        }
       }
+      
+      // Ensure we're not asking the same question again
+      if (nextQuestion === currentQuestion) {
+        pickNextQuestion();
+        return;
+      }
+      
+      setLastQuestion(currentQuestion);
+      setCurrentQuestion(nextQuestion);
+      const allOptions = [...nextQuestion.answer];
+      const shuffledOptions = allOptions.sort(() => Math.random() - 0.5);
+      setOptions(shuffledOptions);
     };
     
     if (!studySet || !currentQuestion || isLoadingEnabled.value === true) {
@@ -98,7 +129,7 @@ const LearnStudySet = () => {
     }
 
     if (isSessionComplete) {
-      return <Result score={score}/>;
+      return <Result score={score} itemName={itemName}/>;
     }
 
   return (
@@ -110,17 +141,28 @@ const LearnStudySet = () => {
       </div>
 
         <div className='w-[80%] h-full flex flex-col justify-evenly items-center'>
-            <p className='h-24 flex items-center justify-center text-[56px] mb-6 text-center duration-500'>{currentQuestion.question}</p>
+
+            <div className='w-full h-[40%] flex justify-center items-center overflow-y-auto'>
+              <p className='text-4xl md:text-5xl lg:text-[56px] duration-500 text-center px-4 py-2'>{currentQuestion.question}</p>
+            </div>
+
             <div className='w-full flex flex-col gap-4 duration-500'>
-                {options.map((option, index) => (
+              {options.map((option, index) => (
                 <button
-                    key={index}
-                    onClick={() => handleAnswerClick(option)}
-                    className='bg-slate-700 hover:bg-slate-600 py-2 px-4 rounded-xl'
+                  key={index}
+                  onClick={() => handleAnswerClick(option)}
+                  className={`py-2 px-4 rounded-xl ${
+                    selectedAnswer === option
+                      ? isAnswerCorrect
+                        ? 'bg-green-700'
+                        : 'bg-red-700'
+                      : 'bg-slate-700 hover:bg-slate-600'
+                  }`}
+                  disabled={selectedAnswer !== null}
                 >
-                    {option}
+                  {option}
                 </button>
-                ))}
+              ))}
             </div>
         </div>
 

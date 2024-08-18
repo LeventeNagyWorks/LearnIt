@@ -1,5 +1,6 @@
 function txtToJSON(txt) {
   const fileContent = txt.content.toString('utf8');
+  const fileName = Buffer.from(txt.name, 'binary').toString('utf8');
   const questions = [];
   const lines = fileContent.split('\n');
 
@@ -35,9 +36,14 @@ function txtToJSON(txt) {
       currentAnswers = [];
       currentQuestionType = 'True/False';
     } else if (line.startsWith('/ra')) {
-      currentAnswers.push(line.substring(4).trim());
+      const answer = line.substring(4).trim();
+      currentAnswers.push(answer);
       if (currentQuestionType === 'True/False') {
-        currentAnswers.push(line.substring(4).trim() === 'True' ? 'False' : 'True');
+        if (answer === 'True' || answer === 'Igaz') {
+          currentAnswers.push(answer === 'True' ? 'False' : 'Hamis');
+        } else if (answer === 'False' || answer === 'Hamis') {
+          currentAnswers.push(answer === 'False' ? 'True' : 'Igaz');
+        }
       }
     } else if (line.startsWith('/a')) {
       currentAnswers.push(line.substring(3).trim());
@@ -55,7 +61,7 @@ function txtToJSON(txt) {
   }
 
   const data = {
-    name: txt.name.replace('.txt', ''),
+    name: fileName.replace('.txt', ''),
     desc: '',
     questions,
   };
