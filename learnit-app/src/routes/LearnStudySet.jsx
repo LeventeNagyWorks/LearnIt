@@ -146,24 +146,48 @@ const LearnStudySet = () => {
               <p className='text-4xl md:text-5xl lg:text-[56px] duration-500 text-center px-4 py-2'>{currentQuestion.question}</p>
             </div>
 
-            <div className='w-full flex flex-col gap-4 duration-500'>
-              {options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerClick(option)}
-                  className={`py-2 px-4 rounded-xl ${
-                    selectedAnswer === option
-                      ? isAnswerCorrect
-                        ? 'bg-green-700'
-                        : 'bg-red-700'
-                      : 'bg-slate-700 hover:bg-slate-600'
-                  }`}
-                  disabled={selectedAnswer !== null}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
+            {currentQuestion.que_type === "Choice" && (
+              <div className='w-full flex flex-col gap-4 duration-500'>
+                {options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerClick(option)}
+                    className={`py-2 px-4 rounded-xl ${
+                      selectedAnswer === option
+                        ? isAnswerCorrect
+                          ? 'bg-green-700'
+                          : 'bg-red-700'
+                        : 'bg-slate-700 hover:bg-slate-600'
+                    }`}
+                    disabled={selectedAnswer !== null}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {currentQuestion.que_type === "True/False" && (
+              <div className='w-full flex flex-row gap-4 duration-500'>
+                {options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerClick(option)}
+                    className={`w-full py-2 px-4 rounded-xl ${
+                      selectedAnswer === option
+                        ? isAnswerCorrect
+                          ? 'bg-green-700'
+                          : 'bg-red-700'
+                        : 'bg-slate-700 hover:bg-slate-600'
+                    }`}
+                    disabled={selectedAnswer !== null}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
+
         </div>
 
     </div>
