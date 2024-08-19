@@ -100,7 +100,8 @@ const StudySetDetailPage = () => {
     index: index + 1,
     question: question.question,
     answers: question.answer,
-    rightAnswer: question.right_answer
+    rightAnswer: question.right_answer,
+    questionType: question.que_type
   }));
 
   return (
@@ -228,18 +229,37 @@ const StudySetDetailPage = () => {
                           <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
                             {item.question}
                           </h1>
-                          <div className="flex flex-col gap-4">
-                            {item.answers.map((answer, answerIndex) => (
-                              <div 
-                                key={answerIndex} 
-                                className={`p-4 rounded-lg bg-slate-700`}
-                              >
-                                <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
-                                  {answer}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
+
+                          {item.questionType === "Choice" && (
+                            <div className="flex flex-col gap-4">
+                              {item.answers.map((answer, answerIndex) => (
+                                <div 
+                                  key={answerIndex} 
+                                  className={`p-4 rounded-lg bg-slate-700`}
+                                >
+                                  <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                    {answer}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {item.questionType === "True/False" && (
+                            <div className="flex flex-row gap-4">
+                              {item.answers.map((answer, answerIndex) => (
+                                <div 
+                                  key={answerIndex} 
+                                  className={`w-full flex justify-center items-center p-4 rounded-lg bg-slate-700`}
+                                >
+                                  <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                    {answer}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
                         </div>
 
                       </div>
@@ -261,20 +281,38 @@ const StudySetDetailPage = () => {
                           <h1 className="dark:text-cstm-white text-cstm-black text-[26px] lg:text-[48px] text-center self-center text-shadow dark:shadow-black dark:font-normal font-semibold">
                             {item.question}
                           </h1>
-                          <div className="flex flex-col gap-4">
-                            {item.rightAnswer.map((rightAnswer, answerIndex) => (
-                              <div 
-                                key={answerIndex} 
-                                className={`p-4 rounded-lg bg-green-700`}
-                              >
-                                <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
-                                  {rightAnswer}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
+
+                          {item.questionType === "Choice" && (
+                            <div className="flex flex-col gap-4">
+                              {item.rightAnswer.map((rightAnswer, answerIndex) => (
+                                <div 
+                                  key={answerIndex} 
+                                  className={`p-4 rounded-lg bg-green-700`}
+                                >
+                                  <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                    {rightAnswer}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {item.questionType === "True/False" && (
+                            <div className="flex flex-col justify-items-center items-center gap-4">
+                              {item.rightAnswer.map((rightAnswer, answerIndex) => (
+                                <div 
+                                  key={answerIndex} 
+                                  className={`w-[50%] flex justify-center items-center p-4 rounded-lg bg-green-700`}
+                                >
+                                  <p className="dark:text-cstm-white text-cstm-black lg:text-[26px] md:text-[16px] text-[14px] text-shadow-lg dark:shadow-black dark:font-normal font-semibold">
+                                    {rightAnswer}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
                         </div>
-                        
                       </div>
                     )}
 
