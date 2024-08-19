@@ -14,7 +14,7 @@ const Result = ({ score, itemName }) => {
   return (
     <div className='w-full h-screen flex flex-col justify-center items-center gap-8 text-3xl px-[15%] py-[5%] font-poppins text-cstm_white bg-cstm_bg_dark selection:bg-accent_green_dark selection:text-cstm_bg_dark select-none'>
 
-        <div className='h-40 flex justify-center items-center'>
+        <div className='h-40 flex justify-center items-center pb-28'>
             <h1 className='text-[100px] text-center text-accent_green_dark'>Congratulations!</h1>
         </div>
 
