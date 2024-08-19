@@ -87,7 +87,7 @@ const LearnStudySet = () => {
         setSelectedAnswer(null);
         setIsAnswerCorrect(null);
         pickNextQuestion();
-      }, 1000);
+      }, 1500);
     };
     
 
@@ -154,9 +154,11 @@ const LearnStudySet = () => {
                     onClick={() => handleAnswerClick(option)}
                     className={`py-2 px-4 rounded-xl ${
                       selectedAnswer === option
-                        ? isAnswerCorrect
-                          ? 'bg-green-700'
-                          : 'bg-red-700'
+                      ? isAnswerCorrect
+                        ? 'bg-green-700'
+                        : 'bg-red-700'
+                      : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
+                        ? 'bg-slate-700 border-[4px] border-green-500'
                         : 'bg-slate-700 hover:bg-slate-600'
                     }`}
                     disabled={selectedAnswer !== null}
@@ -175,9 +177,11 @@ const LearnStudySet = () => {
                     onClick={() => handleAnswerClick(option)}
                     className={`w-full py-2 px-4 rounded-xl ${
                       selectedAnswer === option
-                        ? isAnswerCorrect
-                          ? 'bg-green-700'
-                          : 'bg-red-700'
+                      ? isAnswerCorrect
+                        ? 'bg-green-700'
+                        : 'bg-red-700'
+                      : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
+                        ? 'bg-slate-700 border-2 border-green-500'
                         : 'bg-slate-700 hover:bg-slate-600'
                     }`}
                     disabled={selectedAnswer !== null}
