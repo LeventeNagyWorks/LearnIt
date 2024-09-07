@@ -5,7 +5,7 @@ import React from 'react'
 import PrimaryButton from '../../../PrimaryButton'
 import BackButton from '../../../BackButton'
 
-const Result = ({ score, itemName }) => {
+const Result = ({ score, itemName, }) => {
 
     const refreshPage = () => {
         window.location.reload();

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -16,6 +17,7 @@ import { useSignals } from '@preact/signals-react/runtime';
 import CustomizeButton from '../components/StudySets/CustomizeButton';
 import PrimaryButton from '../components/PrimaryButton';
 import LoadingScreen from '../components/LoadingScreen';
+import KnowItButton from '../components/StudySets/StudySetsDetail/KnowItButton';
 
 const StudySetDetailPage = () => {
   
@@ -134,10 +136,30 @@ const StudySetDetailPage = () => {
       </svg>
 
       <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000`}>
-        <div className='w-full flex justify-center items-center py-8 px-5'>
-          <BackButton onClick={handleClick} className={'fixed left-6'}/>
-          <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
-          <PrimaryButton to={`/study-sets/${itemName}/learning`} text='LEARN IT' className={'fixed right-9'}/>
+        <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5 '>
+          <div className='flex justify-center items-center'>
+            <BackButton onClick={handleClick} className={'fixed left-6'}/>
+            <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
+            <PrimaryButton to={`/study-sets/${itemName}/learning`} text='LEARN IT' className={'fixed right-9'}/>
+          </div>
+          <div className=''>
+            <div className={`w-full flex justify-between items-center gap-10 duration-700 bg-slate-500/40 backdrop-blur-md px-2 py-3 rounded-2xl`}>
+
+                  <div className='flex justify-between items-center gap-2'>
+                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg relative z-10 px-3'>Progress</p>
+                    <div className='w-[300px] h-2 bg-white rounded-full'>
+                        {/* make the Progress bar here */}
+                    </div>
+                  </div>
+
+                  <div className='flex items-center gap-2'>
+
+                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 learnt</p>
+                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 still studying</p>
+                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 didn't learnt yet</p>
+                  </div>
+            </div>
+          </div>
         </div>
 
         <Swiper
@@ -201,7 +223,7 @@ const StudySetDetailPage = () => {
                     });
                 }}
                 modules={[Pagination, Navigation, Keyboard, Mousewheel, EffectCoverflow, A11y]}
-                className="w-full md:h-full h-5/6 lg:pt-16 pt-4 pb-20 overflow-visible"
+                className="w-full md:h-full h-5/6 lg:pt-0 pt-4 pb-20 overflow-visible"
             >
               {questionsWithAnswers.map((item, index) => (
                 <SwiperSlide
@@ -216,7 +238,10 @@ const StudySetDetailPage = () => {
                     {flippedIndex !== index && (
                       <div className="flex flex-col justify-center items-start to-transparent w-full h-full rounded-[30px] lg:rounded-[50px] cursor-pointer">
                         
-                        <div className='w-full h-28 flex justify-end items-center px-12'>
+                        <div className='w-full h-28 flex justify-between items-center px-12'>
+
+                          <KnowItButton />
+
                           <div className='flex items-center gap-4 text-[35px]'>
                             <p className=''> {item.index} </p>
                             <span className='w-[3px] h-[40px] bg-accent_green_dark'/>
