@@ -4,6 +4,8 @@ import { FaUser } from "react-icons/fa";
 import PrimaryButton from '../PrimaryButton';
 import BackButton from '../BackButton';
 import Email from './Email';
+import Password from './Password';
+import girlReadingImage from '../../images/girl_reading.png';
 
 const Login = () => {
 
@@ -13,7 +15,7 @@ const Login = () => {
   return (
     <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins selection:bg-accent_green_dark'>
       <div className='w-[38%] h-full flex items-center justify-center'>
-        <div className='w-[95%] h-[95%] bg-green-900 rounded-3xl'></div>
+        <div className='w-[95%] h-[95%] rounded-3xl bg-cover bg-center bg-no-repeat' style={{backgroundImage: `url(${girlReadingImage})`}}></div>
       </div>
       <div className='w-[62%] h-full flex flex-col items-center justify-center'>
         <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
@@ -37,7 +39,7 @@ const Login = () => {
                 />
             </div>
 
-            <Email />
+            <Password />
 
             <div className='w-full flex items-center justify-evenly'>
                 <BackButton to={'/'}/>
