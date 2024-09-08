@@ -11,7 +11,7 @@ const PrimaryButton = ({ to, text, className, onClick }) => {
     <Link 
         to={to}
         onClick={onClick}
-        className={`text-cstm_bg_dark bg-accent_green_dark font-poppins font-bold text-2xl rounded-2xl text-center px-8 py-3 cursor-pointer duration-500 z-50 
+        className={`text-cstm_bg_dark bg-accent_green_dark font-poppins font-bold text-2xl rounded-2xl text-center px-8 py-3 cursor-pointer duration-500 z-50 select-none
             ${className}
             ${isHovered ? 'bg-accent_green_dark2 shadow-[0_0_36px_rgba(40,255,0,0.7)]' : 'bg-accent_green_dark'}
         `}

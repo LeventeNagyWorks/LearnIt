@@ -9,11 +9,13 @@ import LoadingScreen from './components/LoadingScreen';
 import { isLoading, isStudyLoading } from './signals';
 import LearnStudySet from './routes/LearnStudySet';
 import Login from './components/loginAndRegistration/Login';
+import Registration from './components/loginAndRegistration/Registration';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
     <Route path="/" element={<HeroSection />}/>
     <Route path="/login" element={<Login />}/>
+    <Route path="/registration" element={<Registration />}/>
     <Route path="/study-sets" element={<StudySetsPage />}/>
     <Route path="/study-sets/:itemName" element={<StudySetDetailPage />}/>
     <Route path="/study-sets/:itemName/learning" element={<LearnStudySet />}/>

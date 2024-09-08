@@ -10,7 +10,7 @@ import Username from './Username';
 import CheckBox from '../CheckBox';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Registration = () => {
 
     const [isRegisterHovered, setIsRegisterHovered] = useState(false);
 
@@ -31,33 +31,35 @@ const Login = () => {
             <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
-            <div className='w-[50%] h-[50%] flex flex-col justify-evenly items-center '>
+            <div className='w-[50%] h-[60%] flex flex-col justify-evenly items-center '>
 
                 <Username />
+
+                <Email />
 
                 <Password />
 
                 <div className='w-full flex justify-center items-center text-xl gap-4'>
                     <CheckBox />
-                    <p className='select-none'>Remember me</p>
+                    <p className='select-none'>I accept the Terms of Use</p>
                 </div>
 
                 <div className='w-full flex items-center justify-evenly'>
                     <BackButton to={'/'}/>
-                    <PrimaryButton text={'Login'} to={'/study-sets'}/>
+                    <PrimaryButton text={'Registration'} to={'/Login'}/>
                 </div>
 
                 <div className='w-full flex flex-col items-center justify-evenly select-none relative'>
                     <p className='text-lg'>Or you can create a new account here: </p>
                     <Link 
-                            className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
-                            onMouseEnter={() => setIsRegisterHovered(true)}
-                            onMouseLeave={() => setIsRegisterHovered(false)}
-                            to={'/registration'}
-                        > 
-                        Registration
+                        className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
+                        onMouseEnter={() => setIsRegisterHovered(true)}
+                        onMouseLeave={() => setIsRegisterHovered(false)}
+                        to={'/login'}
+                    > 
+                        Login
                     </Link>
-                    <span className={`absolute -bottom-1 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[110px]' : 'w-0'}`}/>
+                    <span className={`absolute -bottom-1 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[55px]' : 'w-0'}`}/>
                 </div>
             </div>
         </div>
@@ -65,4 +67,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Registration
