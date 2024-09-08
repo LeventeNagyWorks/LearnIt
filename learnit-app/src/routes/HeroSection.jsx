@@ -35,7 +35,7 @@ const HeroSection = () => {
                     </div>
                 
                     <Link
-                        to="/study-sets"
+                        to="/login"
                         className="w-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none self-end mr-24"
                     >
                         Getting Started
