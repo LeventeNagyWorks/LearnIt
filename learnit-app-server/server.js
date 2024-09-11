@@ -5,6 +5,8 @@ const fs = require("fs");
 const path = require('path');
 const expressFileupload = require("express-fileupload");
 const txtToJSON = require("./txtToJSON");
+const mongoose = require('mongoose');
+const MUser = require('./models/user.js');
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -12,6 +14,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 const port = process.env.PORT || 3001;
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
@@ -20,6 +23,19 @@ app.use(expressFileupload());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+mongoose.set("strictQuery", true);
+mongoose.connect(CONNECTION_STRING)
+    .then(() => console.log("Connected to the database"))
+    .catch(e => {
+        console.error("Failed to connect to the database");
+        console.log("Error:");
+        console.log(e);
+    });
 
 // Ensure data.json exists
 if (!fs.existsSync('./data.json')) {
@@ -97,6 +113,28 @@ app.post('/updateFavorite', async (req, res) => {
   }
 });
 
+app.post('/registration', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    // Check if user already exists
+    const existingUser = await MUser.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username or email already exists' });
+    }
+
+    // Create new user
+    const newUser = new MUser({ username, email, password });
+    const savedUser = await newUser.save();
+
+    res.status(201).json({ message: 'User registered successfully', userId: savedUser._id });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Failed to register user' });
+  }
+});
+
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
   console.log('Serving index.html for path:', req.path);
@@ -109,6 +147,3 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});

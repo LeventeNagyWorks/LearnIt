@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useRef, useState } from 'react'
 import { FaUser } from "react-icons/fa";
 
-const Username = () => {
+const Username = ({ onChange }) => {
 
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isUsernameEmpty, setIsUsernameEmpty] = useState(true);
@@ -25,7 +26,10 @@ const Username = () => {
             ref={inputRef}
             onFocus={() => setIsUsernameFocused(true)}
             onBlur={() => setIsUsernameFocused(false)}
-            onChange={(e) => setIsUsernameEmpty(e.target.value.length === 0)}
+            onChange={(e) => {
+                setIsUsernameEmpty(e.target.value.length === 0); 
+                onChange(e);
+            }}
             className={`w-full h-12 outline-none bg-transparent lg:text-xl rounded-xl px-3 caret-accent_green_dark ${isUsernameFocused ? 'text-accent_green_dark selection:text-cstm_bg_dark' : 'text-cstm_white'}`}
         />
     </div>

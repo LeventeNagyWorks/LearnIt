@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from 'react'
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-const Password = () => {
+const Password = ({ onChange }) => {
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
     const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -33,7 +34,10 @@ const Password = () => {
                 type={isPasswordShowed ? "text" : "password"}
                 onFocus={() => setIsPasswordFocused(true)}
                 onBlur={() => setIsPasswordFocused(false)}
-                onChange={(e) => setIsPasswordEmpty(e.target.value.length === 0)}
+                onChange={(e) => {
+                    setIsPasswordEmpty(e.target.value.length === 0); 
+                    onChange(e);
+                }}
                 className={`w-full h-12 outline-none bg-transparent lg:text-xl rounded-xl px-3 caret-accent_green_dark 
                     ${isPasswordFocused ? 'text-accent_green_dark selection:text-cstm_bg_dark' : 'text-cstm_white'}
                 `}
