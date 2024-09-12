@@ -9,7 +9,7 @@ const PrimaryButton = ({ to, text, className, onClick, isDisabled }) => {
 
     return (
     <Link 
-        to={isDisabled ? '' : to}
+        to={to}
         onClick={onClick}
         className={`text-cstm_bg_dark bg-accent_green_dark font-poppins font-bold text-2xl rounded-2xl text-center px-8 py-3 duration-500 z-50 select-none
             ${className}

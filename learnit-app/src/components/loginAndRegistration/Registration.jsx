@@ -9,7 +9,7 @@ import girlReadingImageVector from '../../images/girl_reading_vector.png';
 import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
 import Username from './Username';
 import CheckBox from '../CheckBox';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Registration = () => {
 
@@ -25,14 +25,16 @@ const Registration = () => {
     const [usernameAttempted, setUsernameAttempted] = useState(false);
     const [emailAttempted, setEmailAttempted] = useState(false);
     const [passwordAttempted, setPasswordAttempted] = useState(false);
+    const navigate = useNavigate();
 
     async function submit(e) {
         e.preventDefault();
-        if (!isChecked) return;
-    
+        
         setUsernameAttempted(true);
         setEmailAttempted(true);
         setPasswordAttempted(true);
+    
+        if (!isChecked) return;
     
         if (isUsernameValid && isEmailValid && isPasswordValid) {
             console.log({username, email, password});
@@ -41,10 +43,11 @@ const Registration = () => {
                     username, email, password
                 });
                 console.log(response.data);
-                // Sikeres regisztráció kezelése (pl. átirányítás a bejelentkezési oldalra)
+                // Redirect to login page after successful registration
+                navigate('/login');
             } catch (error) {
-                console.error('Regisztrációs hiba:', error.response?.data?.error || error.message);
-                // Regisztrációs hiba kezelése (pl. hibaüzenet megjelenítése a felhasználónak)
+                console.error('Registration error:', error.response?.data?.error || error.message);
+                // Handle registration error (e.g., display error message to user)
             }
         }
     }
@@ -121,7 +124,6 @@ const Registration = () => {
                     <BackButton to={'/'}/>
                     <PrimaryButton 
                         text={'Registration'} 
-                        to={'/Login'} 
                         onClick={submit} 
                         isDisabled={!isChecked}
                     />
