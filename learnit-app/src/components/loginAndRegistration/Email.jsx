@@ -13,7 +13,7 @@ const Email = ({ onChange, className }) => {
 
   return (
     <div className='w-full flex justify-between items-center gap-2'>
-        <div className={`w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative border-[2px] border-slate-700 ${className}`}>
+        <div className={`w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative border-[2px] ${className}`}>
             <h2 
                 className={`absolute font-semibold lg:text-xl duration-500 select-none hover:cursor-text
                     ${isEmailFocused ? ' text-accent_green_dark' : ' text-cstm_white'}

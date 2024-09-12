@@ -50,9 +50,15 @@ const Login = () => {
                 action='POST'
             >
 
-                <Email onChange={(e)=>{setEmail(e.target.value)}}/>
+                <Email 
+                    onChange={(e)=>{setEmail(e.target.value)}}
+                    className={'border-slate-700'}
+                />
 
-                <Password onChange={(e)=>{setPassword(e.target.value)}}/>
+                <Password 
+                    onChange={(e)=>{setPassword(e.target.value)}}
+                    className={'border-slate-700'}
+                />
 
                 <div className='w-full flex justify-center items-center text-xl gap-4'>
                     <CheckBox isChecked={isChecked} setIsChecked={setIsChecked}/>
