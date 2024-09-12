@@ -4,7 +4,7 @@
 import React, { useState, useRef } from 'react'
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-const Password = ({ onChange }) => {
+const Password = ({ onChange, className }) => {
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
     const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -18,11 +18,11 @@ const Password = ({ onChange }) => {
     }
 
     return (
-        <div className='w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative'>
+        <div className={`w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative border-[2px] ${className}`}>
             <h2 
                 className={`absolute font-semibold lg:text-xl duration-500 select-none
                     ${isPasswordFocused ? ' text-accent_green_dark' : ' text-cstm_white hover:cursor-text'}
-                    ${isPasswordFocused || !isPasswordEmpty ? 'left-2 -top-8 ' : 'left-12 top-[10px]'}
+                    ${isPasswordFocused || !isPasswordEmpty ? 'left-2 -top-8 ' : 'left-12 top-[8px]'}
                 `}
                 onClick={() => inputRef.current.focus()}
             >

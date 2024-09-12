@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 const Login = () => {
 
     const [isRegisterHovered, setIsRegisterHovered] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -54,7 +55,7 @@ const Login = () => {
                 <Password onChange={(e)=>{setPassword(e.target.value)}}/>
 
                 <div className='w-full flex justify-center items-center text-xl gap-4'>
-                    <CheckBox />
+                    <CheckBox isChecked={isChecked} setIsChecked={setIsChecked}/>
                     <p className='select-none'>Remember me</p>
                 </div>
 

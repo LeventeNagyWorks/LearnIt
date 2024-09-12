@@ -3,18 +3,18 @@
 import React, { useRef, useState } from 'react'
 import { FaUser } from "react-icons/fa";
 
-const Username = ({ onChange }) => {
+const Username = ({ onChange, className }) => {
 
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isUsernameEmpty, setIsUsernameEmpty] = useState(true);
     const inputRef = useRef(null);
 
   return (
-    <div className='w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative'>
+    <div className={`w-full h-12 bg-slate-700 rounded-xl flex justify-start items-center px-3 relative border-[2px] ${className}`}>
         <h2 
-            className={`absolute font-semibold lg:text-xl duration-500 select-none
+            className={`absolute font-semibold lg:text-xl duration-500 select-none 
                 ${isUsernameFocused ? ' text-accent_green_dark' : ' text-cstm_white hover:cursor-text'}
-                ${isUsernameFocused || !isUsernameEmpty ? 'left-2 -top-8 ' : 'left-12 top-[10px]'}
+                ${isUsernameFocused || !isUsernameEmpty ? 'left-2 -top-8 ' : 'left-12 top-[8px]'}
             `}
             onClick={() => inputRef.current.focus()}
         >
