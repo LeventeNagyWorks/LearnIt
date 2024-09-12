@@ -66,7 +66,7 @@ const Registration = () => {
 
   return (
     <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
-        <div className='w-[50%] h-full flex items-center justify-center relative'>
+        <div className='w-[45%] h-full flex items-center justify-center relative'>
         
         <img 
             src={girlReadingImage} 
@@ -74,11 +74,11 @@ const Registration = () => {
             className='w-[650px] h-[800px] rounded-3xl object-cover object-center relative z-30'
         />
         </div>
-        <div className='w-[50%] h-full flex flex-col items-center justify-center'>
+        <div className='w-[55%] h-full flex flex-col items-center justify-center'>
             <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
-            <div className='w-[50%] h-[60%] flex flex-col justify-evenly items-center '>
+            <div className='w-[55%] h-[60%] flex flex-col justify-evenly items-center '>
 
                 <Username
                     onChange={(e) => {
