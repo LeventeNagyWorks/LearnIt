@@ -28,21 +28,23 @@ const Registration = () => {
 
     async function submit(e) {
         e.preventDefault();
+        if (!isChecked) return;
+    
         setUsernameAttempted(true);
         setEmailAttempted(true);
         setPasswordAttempted(true);
-      
-        if (isUsernameValid && isEmailValid && isPasswordValid && isChecked) {
+    
+        if (isUsernameValid && isEmailValid && isPasswordValid) {
             console.log({username, email, password});
             try {
                 const response = await axios.post("http://localhost:3001/registration", {
-                username, email, password
+                    username, email, password
                 });
                 console.log(response.data);
-                // Handle successful registration (e.g., redirect to login page)
+                // Sikeres regisztráció kezelése (pl. átirányítás a bejelentkezési oldalra)
             } catch (error) {
-                console.error('Registration error:', error.response?.data?.error || error.message);
-                // Handle registration error (e.g., display error message to user)
+                console.error('Regisztrációs hiba:', error.response?.data?.error || error.message);
+                // Regisztrációs hiba kezelése (pl. hibaüzenet megjelenítése a felhasználónak)
             }
         }
     }
@@ -117,7 +119,12 @@ const Registration = () => {
 
                 <div className='w-full flex items-center justify-evenly'>
                     <BackButton to={'/'}/>
-                    <PrimaryButton text={'Registration'} to={'/Login'} onClick={submit} isDisabled={!isChecked}/>
+                    <PrimaryButton 
+                        text={'Registration'} 
+                        to={'/Login'} 
+                        onClick={submit} 
+                        isDisabled={!isChecked}
+                    />
                 </div>
 
                 <div className='w-full flex flex-col items-center justify-evenly select-none relative'>
