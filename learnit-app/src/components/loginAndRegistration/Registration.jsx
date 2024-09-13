@@ -55,7 +55,7 @@ const Registration = () => {
     const validateUsername = (username) => username.length >= 4;
 
     const validateEmail = (email) => {
-        const emailRegex = /@(gmail\.hu|freemail\.hu)$/i;
+        const emailRegex = /@(gmail\.com|gmail\.hu|freemail\.com|freemail\.hu)$/i;
         return emailRegex.test(email);
     };
 
