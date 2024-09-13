@@ -84,6 +84,7 @@ const Registration = () => {
             <div className='w-[55%] h-[60%] flex flex-col justify-evenly items-center '>
 
                 <Username
+                    type="registration"
                     onChange={(e) => {
                         const value = e.target.value;
                         setUsername(value);
@@ -93,6 +94,7 @@ const Registration = () => {
                 />
 
                 <Email
+                    type="registration"
                     onChange={(e) => {
                         const value = e.target.value;
                         setEmail(value);
@@ -102,6 +104,7 @@ const Registration = () => {
                 />
 
                 <Password
+                    type="registration"
                     onChange={(e) => {
                         const value = e.target.value;
                         setPassword(value);

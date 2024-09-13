@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { FaUser } from "react-icons/fa";
 import RegInformationButton from './RegInformationButton';
 
-const Username = ({ onChange, className }) => {
+const Username = ({ onChange, className, type }) => {
 
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isUsernameEmpty, setIsUsernameEmpty] = useState(true);
@@ -36,7 +36,7 @@ const Username = ({ onChange, className }) => {
             />
         </div>
 
-        <RegInformationButton />
+        {type === "registration" && <RegInformationButton type="username"/>}
     </div>
 
   )

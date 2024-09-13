@@ -5,7 +5,7 @@ import React, { useState, useRef } from 'react'
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import RegInformationButton from './RegInformationButton';
 
-const Password = ({ onChange, className }) => {
+const Password = ({ onChange, className, type }) => {
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
     const [isPasswordShowed, setIsPasswordShowed] = useState(false);
@@ -57,7 +57,7 @@ const Password = ({ onChange, className }) => {
                 </div>
             </div>
 
-            <RegInformationButton />
+            {type === "registration" && <RegInformationButton type="password"/>}
         </div>
     )
 }

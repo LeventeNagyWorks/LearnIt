@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react'
 import { MdEmail } from "react-icons/md";
 import RegInformationButton from './RegInformationButton';
 
-const Email = ({ onChange, className }) => {
+const Email = ({ onChange, className, type }) => {
 
     const inputRef = useRef(null);
     const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -37,7 +37,7 @@ const Email = ({ onChange, className }) => {
             />
         </div>
 
-        <RegInformationButton />
+        {type === "registration" && <RegInformationButton type="email"/>}
     </div>
   )
 }
