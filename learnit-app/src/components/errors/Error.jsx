@@ -6,8 +6,8 @@ import React from 'react'
 const Error = ({ type, onClick }) => {
 
     return (
-        <div className='absolute w-screen h-screen z-50 bg-black/70'>
-            <div className="absolute w-[60%] h-[60%] top-[15%] left-[20%] flex flex-col justify-center items-center bg-gradient-to-br from-50% from-gray-900 to-red-950 backdrop-blur-sm rounded-[40px] font-poppins overflow-hidden select-none">
+        <div className='absolute w-screen h-screen z-50 bg-black/70 backdrop-blur-md'>
+            <div className="absolute w-[60%] h-[60%] top-[15%] left-[20%] flex flex-col justify-center items-center bg-gradient-to-br from-50% from-gray-900 to-red-950 rounded-[40px] font-poppins overflow-hidden select-none">
                 <div className='w-full flex justify-evenly items-center gap-5'>
                     <svg className='' width="320" height="320" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_118_4)">
@@ -43,6 +43,12 @@ const Error = ({ type, onClick }) => {
                         <div className="flex flex-col justify-start self-start">
                             <h1 className="font-poetsen font-bold text-cstm_white text-[80px] mb-10">Ooops!</h1>
                             <p className="font-bold text-cstm_white text-[28px]">I accept file with <span className='text-red-700'>.txt</span> extension only.</p>
+                        </div>                      
+                    )} 
+                    {type === 'InvalidEmailOrPw' && (
+                        <div className="flex flex-col justify-start self-start">
+                            <h1 className="font-poetsen font-bold text-cstm_white text-[80px] mb-10">Ooops!</h1>
+                            <p className="font-bold text-cstm_white text-[28px]">Your <span className='text-red-700'>email</span> or <span className='text-red-700'>password</span> is invalid.</p>
                         </div>                      
                     )} 
                     

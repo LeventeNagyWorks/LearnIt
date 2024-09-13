@@ -8,6 +8,7 @@ import Password from './Password';
 import girlReadingImageVector from '../../images/girl_reading_vector.png';
 import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
 import Username from './Username';
+import SuccessfullyRegistered from './SuccessfullyRegistered';
 import CheckBox from '../CheckBox';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -26,6 +27,7 @@ const Registration = () => {
     const [emailAttempted, setEmailAttempted] = useState(false);
     const [passwordAttempted, setPasswordAttempted] = useState(false);
     const navigate = useNavigate();
+    const [showRegisteredMessage, setShowRegisteredMessage] = useState(false);
 
     async function submit(e) {
         e.preventDefault();
@@ -43,14 +45,18 @@ const Registration = () => {
                     username, email, password
                 });
                 console.log(response.data);
-                // Redirect to login page after successful registration
-                navigate('/login');
+                setShowRegisteredMessage(true);
             } catch (error) {
                 console.error('Registration error:', error.response?.data?.error || error.message);
                 // Handle registration error (e.g., display error message to user)
             }
         }
     }
+
+    const closeRegisteredMessage = () => {
+        setShowRegisteredMessage(false);
+        navigate('/login');
+    };
 
     const validateUsername = (username) => username.length >= 4;
 
@@ -69,6 +75,8 @@ const Registration = () => {
 
   return (
     <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
+        {showRegisteredMessage && <SuccessfullyRegistered onClick={closeRegisteredMessage} type="registeredSuccesfully"/>}
+
         <div className='w-[45%] h-full flex items-center justify-center relative'>
         
         <img 

@@ -10,6 +10,7 @@ import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
 import Username from './Username';
 import CheckBox from '../CheckBox';
 import { Link, useNavigate } from 'react-router-dom';
+import Error from '../errors/Error';
 
 const Login = () => {
 
@@ -19,6 +20,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const [showError, setShowError] = useState(false);
 
 
     async function submit(e) {
@@ -35,11 +37,14 @@ const Login = () => {
         } catch (error) {
             console.error('Login error:', error.response?.data?.error || error.message);
             setError(error.response?.data?.error || 'Failed to login');
+            setShowError(true);
         }
     }
 
   return (
     <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
+        {showError && <Error type="InvalidEmailOrPw" onClick={() => setShowError(false)} />}
+
         <div className='w-[45%] h-full flex items-center justify-center relative overflow-hidden'>
         
         <img 
