@@ -9,7 +9,7 @@ import girlReadingImageVector from '../../images/girl_reading_vector.png';
 import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
 import Username from './Username';
 import CheckBox from '../CheckBox';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -17,18 +17,25 @@ const Login = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
 
     async function submit(e) {
         e.preventDefault();
+        setError('');
 
         try {
-            await axios.post("http://localhost:8080/login", {
-                email,password
-            })
-        } catch (e){
-            console.log(e);
+            const response = await axios.post("http://localhost:3001/login", {
+                email, password
+            });
+            console.log(response.data);
+            // Redirect to study sets page after successful login
+            navigate('/study-sets');
+        } catch (error) {
+            console.error('Login error:', error.response?.data?.error || error.message);
+            setError(error.response?.data?.error || 'Failed to login');
         }
-        
     }
 
   return (
