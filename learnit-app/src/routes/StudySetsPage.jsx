@@ -39,9 +39,6 @@ const StudySetsPage = () => {
 
   return (
     <div className='w-screen h-screen flex flex-col items-center font-poppins bg-cstm_bg_dark overflow-hidden'>
-        <NavigationBar />
-        <div className='w-screen h-[92%] min-h-[92%] flex relative'>
-
           {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
             <SuccessfullyAdded
               type={'StudySetAccepted'}
@@ -70,6 +67,10 @@ const StudySetsPage = () => {
               setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
             />
           )}
+
+        <NavigationBar />
+
+        <div className='w-screen h-[92%] min-h-[92%] flex relative'>
 
           <LeftPanel 
             isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} 
