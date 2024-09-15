@@ -70,7 +70,7 @@ const StudySetsPage = () => {
 
         <NavigationBar />
 
-        <div className='w-screen h-[92%] min-h-[92%] flex relative'>
+        <div className='w-screen h-[88%] min-h-[88%] flex relative'>
 
           <LeftPanel 
             isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive} 

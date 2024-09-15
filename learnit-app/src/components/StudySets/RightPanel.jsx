@@ -97,7 +97,7 @@ const RightPanel = () => {
   };
 
   return (
-    <div className={`w-[85%] flex justify-center items-center relative z-10 font-poppins duration-1000 
+    <div className={`w-[85%] flex justify-center items-start relative z-10 font-poppins duration-1000 
       ${startTransitionFromStudySets.value ? 'translate-x-full' : ''}
       ${startTransitionToStudySets.value ? 'translate-x-full' : ''}
     `}>
