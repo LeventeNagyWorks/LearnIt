@@ -32,6 +32,8 @@ const Login = () => {
                 email, password
             });
             console.log(response.data);
+            localStorage.setItem('username', response.data.username);
+            console.log(localStorage.getItem('username'));
             // Redirect to study sets page after successful login
             navigate('/study-sets');
         } catch (error) {
