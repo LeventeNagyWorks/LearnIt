@@ -69,6 +69,13 @@ const Registration = () => {
         return password.length >= 8 && (password.match(/\d/g) || []).length >= 2;
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submit(e);
+        }
+    };
+
     useEffect(() => {
         setIsDisabled(!(isUsernameValid && isEmailValid && isPasswordValid));
     }, [isUsernameValid, isEmailValid, isPasswordValid]);
@@ -89,7 +96,10 @@ const Registration = () => {
             <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
-            <div className='w-[55%] h-[60%] flex flex-col justify-evenly items-center '>
+            <div 
+                className='w-[55%] h-[60%] flex flex-col justify-evenly items-center'
+                onKeyDown={handleKeyDown}
+            >
 
                 <Username
                     type="registration"

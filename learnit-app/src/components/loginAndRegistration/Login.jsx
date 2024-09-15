@@ -43,6 +43,13 @@ const Login = () => {
         }
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submit(e);
+        }
+    };
+
   return (
     <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
         {showError && <Error type="InvalidEmailOrPw" onClick={() => setShowError(false)} />}
@@ -62,6 +69,7 @@ const Login = () => {
             <form 
                 className='w-[55%] h-[50%] flex flex-col justify-evenly items-center '
                 action='POST'
+                onKeyDown={handleKeyDown}
             >
 
                 <Email 
