@@ -73,12 +73,15 @@ app.post('/upload', async (req, res) => {
 app.get('/data', async (req, res) => {
   console.log('Data endpoint hit');
   try {
+    console.log('Attempting to read data.json');
     const data = await fs.promises.readFile('./data.json', 'utf8');
-    console.log('Data read successfully:', data);
-    res.json(JSON.parse(data));
+    console.log('Data read successfully, length:', data.length);
+    const parsedData = JSON.parse(data);
+    console.log('Data parsed successfully, number of items:', parsedData.length);
+    res.json(parsedData);
   } catch (err) {
-    console.error('Error reading data:', err);
-    res.status(500).json({ error: 'Failed to read data.json' });
+    console.error('Error reading or parsing data:', err);
+    res.status(500).json({ error: 'Failed to read or parse data.json', details: err.message });
   }
 });
 

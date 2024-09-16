@@ -27,7 +27,7 @@ const RightPanel = () => {
   useEffect(() => {
     axios.get('/data')
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         setData(data);
         studySetsData.value = [...data];
       })
@@ -51,9 +51,7 @@ const RightPanel = () => {
     };
   
     fetchData();
-
     const intervalId = setInterval(fetchData, 5000);
-
     return () => clearInterval(intervalId);
   }, []);  
 
@@ -61,7 +59,7 @@ const RightPanel = () => {
     const intervalId = setInterval(() => {
       axios.get('/data')
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
           setData(data);
           studySetsData.value = [...data];
         })
