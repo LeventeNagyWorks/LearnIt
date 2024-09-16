@@ -26,12 +26,12 @@ const HeroSection = () => {
 
                 <HeroSectionVisuals />
 
-                <div className="w-[45%] h-full flex flex-col justify-evenly items-center px-8 py-36">
+                <div className="lg:w-[45%] md:w-[65%] h-full flex flex-col justify-evenly items-center px-8 py-36">
 
                     <div className="flex flex-col justify-between items-end">
-                        <p className="text-white lg:text-[53px] text-right select-none font-poppins self-end">LEARN EVERYTHING</p>
+                        {/* <p className="text-white lg:text-[53px] text-right select-none font-poppins self-end">LEARN EVERYTHING</p>
                         <p className="text-white lg:text-[92px] text-right select-none font-poppins self-end">YOU WANT</p>
-                        <p className="text-white lg:text-[61px] select-none self-end">LET ME HELP YOU</p>
+                        <p className="text-white lg:text-[61px] select-none self-end">LET ME HELP YOU</p> */}
                     </div>
                 
                     <Link
