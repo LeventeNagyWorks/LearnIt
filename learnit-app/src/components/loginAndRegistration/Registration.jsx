@@ -89,7 +89,7 @@ const Registration = () => {
         <img 
             src={girlReadingImage} 
             alt="Girl reading" 
-            className='w-[650px] h-[800px] rounded-3xl object-cover object-center relative z-30'
+            className='w-fit h-[75%] rounded-3xl object-cover object-center relative z-30'
         />
         </div>
         <div className='w-[55%] h-full flex flex-col items-center justify-center'>

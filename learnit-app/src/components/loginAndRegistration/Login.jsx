@@ -58,7 +58,7 @@ const Login = () => {
             <img 
                 src={girlReadingImage} 
                 alt="Girl reading" 
-                className='lg:w-fit lg:h-[680px] md:w-[555px] md:h-[680px] rounded-3xl object-cover object-center relative z-30'
+                className='w-fit h-[75%] rounded-3xl object-cover object-center relative z-30'
             />
         </div>
         <div className='w-[55%] h-full flex flex-col items-center justify-center'>
