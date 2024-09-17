@@ -4,7 +4,7 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
+import { isProfileFocused, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
 import { useEffect } from 'react'
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
@@ -38,7 +38,10 @@ const StudySetsPage = () => {
   }
 
   return (
-    <div className='w-screen h-screen flex flex-col items-center font-poppins bg-cstm_bg_dark overflow-hidden'>
+    <div 
+      className='w-screen h-screen flex flex-col items-center font-poppins bg-cstm_bg_dark overflow-hidden'
+      onClick={() => isProfileFocused.value = false}
+    >
           {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
             <SuccessfullyAdded
               type={'StudySetAccepted'}

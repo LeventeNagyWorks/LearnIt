@@ -14,6 +14,7 @@ const startTransitionToStudySets = signal(false);
 const startTransitionFromStudySetDetail = signal(false);
 const startTransitionToStudySetDetail = signal(false);
 const isLoadingEnabled = signal(false);
+const isProfileFocused = signal(false);
 const sessionLength = signal(10);
 const studySetsData = signal([]);
 
@@ -31,5 +32,6 @@ export {
     startTransitionToStudySetDetail,
     toggleDropBox,
     isLoadingEnabled,
-    sessionLength
+    sessionLength,
+    isProfileFocused
 }

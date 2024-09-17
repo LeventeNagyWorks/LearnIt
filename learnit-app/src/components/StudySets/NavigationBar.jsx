@@ -2,11 +2,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import DefaultProfilePicture from '../../images/default_profile_pic.png';
+import { isProfileFocused } from '../../signals';
 
 const NavigationBar = () => {
 
   const [username, setUsername] = useState('');
-  const [isProfileHovered, setIsProfileHovered] = useState(false);
+
+  const onClickProfile = () => {
+    isProfileFocused.value = !isProfileFocused.value;
+    console.log('Updated isProfileFocused:', isProfileFocused.value);
+  }
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -21,14 +26,16 @@ const NavigationBar = () => {
           <p className='lg:text-[38px] select-none'>Welcome back, <span className='text-accent_green_dark2'>{username ? ` ${username}` : ''}</span>!</p>
           <div className='flex'>
             <div className='flex justify-center items-center px-2 overflow-hidden'>
-              <p className={`lg:text-2xl duration-500 select-none ${isProfileHovered ? 'translate-x-0' : 'translate-x-[110%]'}`}>{username}</p>
+              <p className={`lg:text-2xl duration-500 select-none ${isProfileFocused.value ? 'translate-x-0' : 'translate-x-[110%]'}`}>{username}</p>
             </div>
             <div 
-              className='w-12 h-12 rounded-full cursor-pointer border-2 border-transparent hover:border-cstm_white duration-500 overflow-hidden'
-              onMouseEnter={() => setIsProfileHovered(true)}
-              onMouseLeave={() => setIsProfileHovered(false)}
+              className={`w-12 h-12 rounded-full cursor-pointer border-2 duration-500 overflow-hidden hover:border-cstm_white ${isProfileFocused.value ? 'border-cstm_white' : 'border-transparent'}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickProfile();
+              }}
             >
-              <img src={DefaultProfilePicture} alt="Profile" className="w-full h-full object-cover" />
+              <img src={DefaultProfilePicture} alt="Profile" className="w-full h-full select-none object-cover" />
             </div>
           </div>
       </div>
