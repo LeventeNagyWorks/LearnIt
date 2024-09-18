@@ -16,13 +16,13 @@ const LeftPanel = ({ setIsStudySetAlreadyExistsActive, openAddStudySetPanel }) =
       <div className='w-full h-[67%] flex flex-col justify-between items-center relative'>
 
         <AddStudySetButton 
-          className={'self-start'} 
+          className={'self-center'} 
           setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive} 
           onClick={openAddStudySetPanel}
         />
 
         <BackButton
-          className='self-start'
+          className='self-center'
           to={"/"}
         />
 
