@@ -66,7 +66,7 @@ const Login = () => {
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
             <form 
-                className='w-[55%] h-[50%] flex flex-col justify-evenly items-center relative z-20'
+                className='w-[55%] h-[50%] flex flex-col justify-center items-center gap-10 relative z-20'
                 action='POST'
                 onKeyDown={handleKeyDown}
             >

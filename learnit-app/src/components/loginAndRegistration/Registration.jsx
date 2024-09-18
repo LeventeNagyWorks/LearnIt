@@ -92,12 +92,12 @@ const Registration = () => {
             className='w-fit h-[75%] rounded-3xl object-cover object-center relative z-30'
         />
         </div>
-        <div className='w-[55%] h-full flex flex-col items-center justify-center'>
-            <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
+        <div className='w-[55%] h-full flex flex-col items-center justify-center relative'>
+            <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen mb-10">
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
             <div 
-                className='w-[55%] h-[60%] flex flex-col justify-evenly items-center'
+                className='w-[55%] h-[60%] flex flex-col justify-center items-center gap-10 pt-20'
                 onKeyDown={handleKeyDown}
             >
 
