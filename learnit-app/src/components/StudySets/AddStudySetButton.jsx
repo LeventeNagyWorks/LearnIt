@@ -15,7 +15,7 @@ const AddStudySetButton = ({ onClick, className}) => {
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onClick()}
     >
-        <HiOutlinePlus className='w-[90%] h-[9R0%] text-cstm_white'/>
+        <HiOutlinePlus className='w-[90%] h-[90%] text-cstm_white'/>
     </div>
   )
 }
