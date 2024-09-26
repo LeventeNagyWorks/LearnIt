@@ -132,9 +132,14 @@ export default {
           '100%': {
             transform: 'rotateY(0deg)',
           }
-        }
+        },
+        spin: {
+          from: { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
+          to: { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' },
+        },
       },
       animation: {
+        spin: 'spin 3s linear infinite',
         cardFlip: 'cardFlip 0.5s ease-in-out',
         cardFlipBack: 'cardFlipBack 0.5s ease-in-out',
         handRotation: 'handRotation 3s ease-in-out infinite',
