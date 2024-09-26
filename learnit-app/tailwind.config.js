@@ -137,8 +137,14 @@ export default {
           from: { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
           to: { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' },
         },
+        loadingSpin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '80%': { transform: 'rotate(0)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
       },
       animation: {
+        loadingSpin: 'loadingSpin 2s linear infinite',
         spin: 'spin 3s linear infinite',
         cardFlip: 'cardFlip 0.5s ease-in-out',
         cardFlipBack: 'cardFlipBack 0.5s ease-in-out',
