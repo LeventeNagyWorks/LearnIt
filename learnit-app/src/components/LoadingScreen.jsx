@@ -11,7 +11,7 @@ function LoadingScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      isLoadingEnabled.value = false;
+      isLoadingEnabled.value = true;
     }, 2000);
   }, []);
 
@@ -19,9 +19,8 @@ function LoadingScreen() {
     <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500`}>
       <div className='w-full flex flex-col justify-center items-center'>
         <h1 className="text-cstm_white text-[150px] mb-14 select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-        <div className='w-[50%] h-16 flex items-center overflow-x-hidden overflow-y-visible relative'>
-          <span className='absolute z-30 w-[102%] h-4 bg-gradient-to-l from-accent_green_dark to-green-600 rounded-r-full shadow-lg shadow-accent_green_dark animate-loading'/>
-          <span className='absolute z-20 w-[100%] h-4 bg-slate-600'/>
+        <div className='w-[50%] h-[60%] flex items-center relative'>
+          <span></span>
         </div>
       </div>
     </div>
