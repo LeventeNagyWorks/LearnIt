@@ -21,6 +21,7 @@
     "react-dropzone": "^14.2.3",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.1",
+    "rive-react": "^4.14.4",
     "sort-by": "^0.0.2",
     "swiper": "^11.1.4",
     "vanilla-tilt": "^1.8.1"
