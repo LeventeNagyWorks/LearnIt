@@ -8,10 +8,7 @@ import { startTransitionFromStudySets, startTransitionToStudySets } from '../../
 const LeftPanel = ({ setIsStudySetAlreadyExistsActive, openAddStudySetPanel }) => {
 
   return (
-    <div className={`w-[15%] flex flex-col justify-end items-end pl-14 py-6 relative z-20 duration-1000 
-      ${startTransitionFromStudySets.value ? '-translate-x-full' : ''}
-      ${startTransitionToStudySets.value ? '-translate-x-full' : ''}
-    `}>
+    <div className={`w-[15%] flex flex-col justify-end items-end pl-14 py-6 relative z-20 duration-1000`}>
       
       <div className='w-full h-[67%] flex flex-col justify-between items-center relative'>
 
