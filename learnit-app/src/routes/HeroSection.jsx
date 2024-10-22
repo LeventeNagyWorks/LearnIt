@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate  } from "react-router-dom"
 
 import darkHatImage from './../images/dark_hat_fixed.png';
-import { useEffect } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import { isLoading } from '../signals';
 import { useSignals } from '@preact/signals-react/runtime';
@@ -11,7 +10,21 @@ import HeroSectionVisuals from '../components/HeroSectionVisuals';
 
 const HeroSection = () => {
 
-    useSignals();
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleButtonClick = () => {
+        if (isLoggedIn) {
+            navigate('/study-sets');
+        } else {
+            navigate('/login');
+        }
+    };
 
   return (
     <>
@@ -34,12 +47,12 @@ const HeroSection = () => {
                         <p className="text-white lg:text-[61px] select-none self-end">LET ME HELP YOU</p> */}
                     </div>
                 
-                    <Link
-                        to="/login"
+                    <button
+                        onClick={handleButtonClick}
                         className="w-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none self-end mr-24"
                     >
-                        Getting Started
-                    </Link>
+                        {isLoggedIn ? 'Go to Study Sets' : 'Getting Started'}
+                    </button>
 
                 </div>
             

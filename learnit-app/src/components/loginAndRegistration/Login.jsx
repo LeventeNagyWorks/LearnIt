@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import axios from 'axios'
 import PrimaryButton from '../PrimaryButton';
 import BackButton from '../BackButton';
@@ -21,7 +22,14 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [showError, setShowError] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/study-sets');
+        }
+    }, []);
 
     async function submit(e) {
         e.preventDefault();
@@ -29,12 +37,15 @@ const Login = () => {
 
         try {
             const response = await axios.post("http://localhost:3001/login", {
-                email, password
+                email, password, rememberMe
             });
             console.log(response.data);
             localStorage.setItem('username', response.data.username);
-            console.log(localStorage.getItem('username'));
-            // Redirect to study sets page after successful login
+            if (rememberMe) {
+                localStorage.setItem('token', response.data.token);
+            } else {
+                sessionStorage.setItem('token', response.data.token);
+            }
             navigate('/study-sets');
         } catch (error) {
             console.error('Login error:', error.response?.data?.error || error.message);
@@ -82,7 +93,7 @@ const Login = () => {
                 />
 
                 <div className='w-full flex justify-center items-center text-xl gap-4'>
-                    <CheckBox isChecked={isChecked} setIsChecked={setIsChecked}/>
+                    <CheckBox isChecked={rememberMe} setIsChecked={setRememberMe}/>
                     <p className='select-none'>Remember me</p>
                 </div>
 

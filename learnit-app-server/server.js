@@ -8,6 +8,7 @@ const txtToJSON = require("./txtToJSON");
 const mongoose = require('mongoose');
 const MUser = require('./models/user.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 const app = express();
 const port = process.env.PORT || 3001;
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
+const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
@@ -144,26 +146,30 @@ app.post('/registration', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
 
   try {
-    // Find user by email
     const user = await MUser.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    // Login successful
-    res.json({ 
-      message: 'Login successful', 
-      userId: user._id, 
-      username: user.username
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      SECRET_KEY,
+      { expiresIn: rememberMe ? '30d' : '1h' }
+    );
+
+    res.json({
+      message: 'Login successful',
+      userId: user._id,
+      username: user.username,
+      token
     });
 
   } catch (error) {
