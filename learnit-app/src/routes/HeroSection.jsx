@@ -1,16 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-
-import darkHatImage from './../images/dark_hat_fixed.png';
-import LoadingScreen from '../components/LoadingScreen';
-import { isLoading, isLoggedIn } from '../signals';
+import { isLoggedIn } from '../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 import HeroSectionVisuals from '../components/HeroSectionVisuals';
 
 const HeroSection = () => {
 
     const navigate = useNavigate();
+
+    useSignals();
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -50,7 +49,7 @@ const HeroSection = () => {
                         onClick={handleButtonClick}
                         className="w-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none self-end mr-24"
                     >
-                        {isLoggedIn ? 'Go to Study Sets' : 'Getting Started'}
+                        {isLoggedIn.value ? 'Go to Study Sets' : 'Getting Started'}
                     </button>
 
                 </div>

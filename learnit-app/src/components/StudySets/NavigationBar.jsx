@@ -1,24 +1,34 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import DefaultProfilePicture from '../../images/default_profile_pic.png';
-import { isProfileFocused } from '../../signals';
+import { isLoggedIn, isProfileFocused } from '../../signals';
 
 const NavigationBar = () => {
 
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   const onClickProfile = () => {
     isProfileFocused.value = !isProfileFocused.value;
-    console.log('Updated isProfileFocused:', isProfileFocused.value);
   }
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
-      setUsername(storedUsername);
+        setUsername(storedUsername);
     }
   }, []);
+
+  const handleLogout = () => {
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      localStorage.removeItem('username');
+      isLoggedIn.value = false;
+      setUsername('');
+      navigate('/');
+  };
 
   return (
     <div className='w-[92%] h-[12%] min-h-[12%] flex flex-col justify-center font-poppins font-semibold text-cstm_white z-20'>
@@ -38,7 +48,10 @@ const NavigationBar = () => {
               <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
                 <p className=''>Friends</p>
               </div>
-              <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
+              <div 
+                className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'
+                onClick={handleLogout}
+              >
                 <p className=''>Logout</p>
               </div>
               
