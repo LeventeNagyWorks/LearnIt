@@ -1,25 +1,24 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate  } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 
 import darkHatImage from './../images/dark_hat_fixed.png';
 import LoadingScreen from '../components/LoadingScreen';
-import { isLoading } from '../signals';
+import { isLoading, isLoggedIn } from '../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 import HeroSectionVisuals from '../components/HeroSectionVisuals';
 
 const HeroSection = () => {
 
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        setIsLoggedIn(!!token);
+        isLoggedIn.value = !!token;
     }, []);
 
     const handleButtonClick = () => {
-        if (isLoggedIn) {
+        if (isLoggedIn.value) {
             navigate('/study-sets');
         } else {
             navigate('/login');

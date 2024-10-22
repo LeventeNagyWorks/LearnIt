@@ -26,17 +26,20 @@ const NavigationBar = () => {
           <p className='lg:text-[38px] select-none'>Welcome back, <span className='text-accent_green_dark2'>{username ? ` ${username}` : ''}</span>!</p>
           <div className='flex justify-center items-center relative'>
 
-            <div className={`absolute -bottom-[310%] w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-green-600 to-green-900 rounded-2xl z-40 duration-500 px-5 py-5 ${isProfileFocused.value ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`absolute -bottom-[415%] w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-green-600 to-green-900 rounded-2xl z-40 duration-500 px-5 py-5 ${isProfileFocused.value ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
 
               <svg className='absolute -top-[16px] right-[62px]' width="30" height="20" viewBox="0 0 150 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M75 0L150 100H0L75 0Z" fill="#168640"/>
               </svg>
 
               <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
-                <p className=''>Profile Settings</p>
+                <p className=''>My Profile</p>
               </div>
               <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
                 <p className=''>Friends</p>
+              </div>
+              <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
+                <p className=''>Logout</p>
               </div>
               
             </div>

@@ -17,6 +17,7 @@ const isLoadingEnabled = signal(true);
 const isProfileFocused = signal(false);
 const sessionLength = signal(10);
 const studySetsData = signal([]);
+const isLoggedIn = signal(false);
 
 export {
     isLoading,
@@ -33,5 +34,6 @@ export {
     toggleDropBox,
     isLoadingEnabled,
     sessionLength,
-    isProfileFocused
+    isProfileFocused,
+    isLoggedIn
 }
