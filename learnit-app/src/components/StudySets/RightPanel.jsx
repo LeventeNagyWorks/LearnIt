@@ -43,40 +43,25 @@ const RightPanel = () => {
           }
         });
         
-        // Load stored favorites once
-        const storedFavorites = localStorage.getItem('favorites');
-        const existingFavorites = storedFavorites ? JSON.parse(storedFavorites) : {};
+        // Create favorites object from server data
+        const favorites = responseData.reduce((acc, item) => {
+          acc[item.name] = item.isFavorite;
+          return acc;
+        }, {});
+  
+        setData(responseData);
+        studySetsData.value = [...responseData];
+        setIsFavourite(favorites);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
         
-        const updatedData = responseData.map(item => ({
-          ...item,
-          isFavorite: existingFavorites[item.name] || item.isFavorite || false
-        }));
-        
-        setData(updatedData);
-        studySetsData.value = [...updatedData];
-        
-        // Update favorites state without triggering re-render
-        if (!Object.keys(existingFavorites).length) {
-          const newFavorites = updatedData.reduce((acc, item) => {
-            acc[item.name] = item.isFavorite || false;
-            return acc;
-          }, {});
-          setIsFavourite(newFavorites);
-          localStorage.setItem('favorites', JSON.stringify(newFavorites));
-        }
       } catch (error) {
-        if (error.response?.status === 401) {
-          console.log('Token expired or invalid');
-        } else {
-          console.error('Error fetching data:', error);
-        }
+        console.error('Error fetching data:', error);
       }
     };
   
     fetchData();
-    const intervalId = setInterval(fetchData, 5000);
-    return () => clearInterval(intervalId);
-  }, []); // Empty dependency array to run only on mount
+  }, []);
+  
   
 
   const handleMouseEnter = (itemName) => {

@@ -59,7 +59,7 @@ const OptionsMenu = ({
       } catch (error) {
         console.error('Error updating favorite status:', error);
       }
-    };
+    };    
 
     const handleDelete = async (itemName) => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
