@@ -39,14 +39,27 @@ const RightPanel = () => {
           }
         });
         
-        setData(responseData);
-        studySetsData.value = [...responseData];
+        // Load stored favorites once
+        const storedFavorites = localStorage.getItem('favorites');
+        const existingFavorites = storedFavorites ? JSON.parse(storedFavorites) : {};
         
-        const favorites = responseData.reduce((acc, item) => {
-          acc[item.name] = item.isFavorite || false;
-          return acc;
-        }, {});
-        setIsFavourite(favorites);
+        const updatedData = responseData.map(item => ({
+          ...item,
+          isFavorite: existingFavorites[item.name] || item.isFavorite || false
+        }));
+        
+        setData(updatedData);
+        studySetsData.value = [...updatedData];
+        
+        // Update favorites state without triggering re-render
+        if (!Object.keys(existingFavorites).length) {
+          const newFavorites = updatedData.reduce((acc, item) => {
+            acc[item.name] = item.isFavorite || false;
+            return acc;
+          }, {});
+          setIsFavourite(newFavorites);
+          localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        }
       } catch (error) {
         if (error.response?.status === 401) {
           console.log('Token expired or invalid');
@@ -56,15 +69,11 @@ const RightPanel = () => {
       }
     };
   
-    // Initial fetch
     fetchData();
-  
-    // Set up polling interval
     const intervalId = setInterval(fetchData, 5000);
-  
-    // Cleanup
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array since we're handling all updates internally
+  }, []); // Empty dependency array to run only on mount
+  
 
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
