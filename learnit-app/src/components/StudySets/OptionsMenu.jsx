@@ -30,16 +30,7 @@ const OptionsMenu = ({
       
       try {
         const newFavoriteStatus = !isFavourite[itemName];
-        setIsFavourite(prevState => ({
-          ...prevState,
-          [itemName]: newFavoriteStatus
-        }));
-
-        if (showOnlyFav.value) {
-          setHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }))
-          setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
-        }
-
+        
         await axios.post('/updateFavorite', {
           itemName,
           isFavorite: newFavoriteStatus
@@ -48,7 +39,12 @@ const OptionsMenu = ({
             'Authorization': `Bearer ${token}`
           }
         });
-
+    
+        setIsFavourite(prev => ({
+          ...prev,
+          [itemName]: newFavoriteStatus
+        }));
+    
         setData(prevData => prevData.map(item =>
           item.name === itemName ? {...item, isFavorite: newFavoriteStatus} : item
         ));
@@ -56,6 +52,7 @@ const OptionsMenu = ({
         console.error('Error updating favorite status:', error);
       }
     };
+    
 
     const handleDelete = async (itemName) => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');

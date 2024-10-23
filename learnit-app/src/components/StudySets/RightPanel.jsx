@@ -25,54 +25,46 @@ const RightPanel = () => {
   );
 
   useEffect(() => {
-    axios.get('/data')
-      .then(({ data }) => {
-        // console.log(data);
-        setData(data);
-        studySetsData.value = [...data];
-      })
-      .catch(error => console.error(error));
-  }, [setData]);
-
-  const fetchData = async () => {
-    try {
+    const fetchData = async () => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      const response = await axios.get('/data', {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      if (!token) {
+        console.log('No token found');
+        return;
+      }
+  
+      try {
+        const { data: responseData } = await axios.get('/data', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        setData(responseData);
+        studySetsData.value = [...responseData];
+        
+        const favorites = responseData.reduce((acc, item) => {
+          acc[item.name] = item.isFavorite || false;
+          return acc;
+        }, {});
+        setIsFavourite(favorites);
+      } catch (error) {
+        if (error.response?.status === 401) {
+          console.log('Token expired or invalid');
+        } else {
+          console.error('Error fetching data:', error);
         }
-      });
-      setData(response.data);
-      studySetsData.value = [...response.data];
-      const favorites = response.data.reduce((acc, item) => {
-        acc[item.name] = item.isFavorite || false;
-        return acc;
-      }, {});
-      setIsFavourite(favorites);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
+      }
+    };
+  
+    // Initial fetch
     fetchData();
+  
+    // Set up polling interval
     const intervalId = setInterval(fetchData, 5000);
+  
+    // Cleanup
     return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      axios.get('/data')
-        .then(({ data }) => {
-          // console.log(data);
-          setData(data);
-          studySetsData.value = [...data];
-        })
-        .catch(error => console.error(error));
-    }, 1000); // Fetch data every 1 second
-
-    return () => clearInterval(intervalId);
-  }, [setData]); // Add setData as a dependency
+  }, []); // Empty dependency array since we're handling all updates internally
 
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
