@@ -14,10 +14,20 @@ const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setS
 
   const handleDelete = async () => {
     const selectedItems = Object.keys(itemSelected).filter(item => itemSelected[item]);
-    
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    if (!token) {
+      console.log('No token found');
+      return;
+    }
+
     for (const item of selectedItems) {
       try {
-        await axios.delete(`/delete/${item}`);
+        await axios.delete(`/delete/${item}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setData(prevData => prevData.filter(dataItem => dataItem.name !== item));
       } catch (error) {
         console.error(`Error deleting ${item}:`, error);
