@@ -11,27 +11,35 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
     const [isHovered, setIsHovered] = useState(false);
   
     const onDrop = useCallback(async (acceptedFiles) => {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+         
       for (const file of acceptedFiles) {
         if (!file.name.toLowerCase().endsWith('.txt')) {
           showNotAcceptableFileErrorMessage.value = true;
           continue;
         }
     
-        const existingData = await axios.get('http://localhost:3001/data');
+        const cleanFileName = decodeURIComponent(file.name).replace(/\.txt$/i, '');
+        const existingData = await axios.get('/data', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const existingNames = existingData.data.map(item => item.name);
     
-        if (existingNames.includes(file.name.replace('.txt', ''))) {
+        if (existingNames.includes(cleanFileName)) {
           setIsStudySetAlreadyExistsActive(true);
           continue;
         }
     
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', new File([file], cleanFileName + '.txt', { type: file.type }));
     
         try {
-          const response = await axios.post('http://localhost:3001/upload', formData, {
+          const response = await axios.post('/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`
             },
           });
           console.log(response.data);
@@ -41,7 +49,8 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
           console.error('Error uploading file:', error);
         }
       }
-    }, [setIsStudySetAlreadyExistsActive]);    
+    }, [setIsStudySetAlreadyExistsActive]);
+    
   
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       accept: '.txt',

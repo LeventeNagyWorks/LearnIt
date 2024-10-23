@@ -51,48 +51,77 @@ app.post('/upload', async (req, res) => {
     return res.status(400).send('No files were uploaded.');
   }
 
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
   const uploadedFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
 
   try {
-    for (const file of uploadedFiles) {
-      const fileContent = file.data.toString('utf8');
-      const parsedData = txtToJSON({ name: file.name, content: fileContent });
-      
-      const existingData = await fs.promises.readFile('./data.json', 'utf8');
-      const newData = JSON.parse(existingData);
-      newData.push(parsedData);
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userId = decoded.userId;
 
-      await fs.promises.writeFile('./data.json', JSON.stringify(newData, null, 2));
+    for (const file of uploadedFiles) {
+      // Convert Buffer to string with UTF-8 encoding
+      const fileContent = Buffer.from(file.data).toString('utf8');
+      const cleanFileName = Buffer.from(file.name, 'binary').toString('utf8').replace(/\.txt$/i, '');
+      
+      const parsedData = txtToJSON({ 
+        name: cleanFileName, 
+        content: Buffer.from(fileContent, 'utf8')
+      });
+     
+      await MUser.findByIdAndUpdate(userId, {
+        $push: {
+          studySets: {
+            name: cleanFileName,
+            questions: parsedData.questions,
+            isFavorite: false
+          }
+        }
+      });
     }
 
-    res.send(`Files uploaded successfully!`);
+    res.send('Files uploaded successfully!');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error processing upload');
   }
 });
 
+
+
 app.get('/data', async (req, res) => {
-  console.log('Data endpoint hit');
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
   try {
-    console.log('Attempting to read data.json');
-    const data = await fs.promises.readFile('./data.json', 'utf8');
-    console.log('Data read successfully, length:', data.length);
-    const parsedData = JSON.parse(data);
-    console.log('Data parsed successfully, number of items:', parsedData.length);
-    res.json(parsedData);
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const user = await MUser.findById(decoded.userId);
+    res.json(user.studySets || []);
   } catch (err) {
-    console.error('Error reading or parsing data:', err);
-    res.status(500).json({ error: 'Failed to read or parse data.json', details: err.message });
+    console.error('Error fetching data:', err);
+    res.status(500).json({ error: 'Failed to fetch study sets' });
   }
 });
 
 app.delete('/delete/:itemName', async (req, res) => {
   const { itemName } = req.params;
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
   try {
-    const data = await fs.promises.readFile('./data.json', 'utf8');
-    const newData = JSON.parse(data).filter((item) => item.name !== itemName);
-    await fs.promises.writeFile('./data.json', JSON.stringify(newData, null, 2));
+    const decoded = jwt.verify(token, SECRET_KEY);
+    await MUser.findByIdAndUpdate(decoded.userId, {
+      $pull: {
+        studySets: { name: itemName }
+      }
+    });
     res.send(`Study set "${itemName}" deleted successfully!`);
   } catch (err) {
     console.error(err);
@@ -102,17 +131,23 @@ app.delete('/delete/:itemName', async (req, res) => {
 
 app.post('/updateFavorite', async (req, res) => {
   const { itemName, isFavorite } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
   try {
-    const data = await fs.promises.readFile('./data.json', 'utf8');
-    let jsonData = JSON.parse(data);
-    const itemIndex = jsonData.findIndex(item => item.name === itemName);
-    if (itemIndex !== -1) {
-      jsonData[itemIndex].isFavorite = isFavorite;
-      await fs.promises.writeFile('./data.json', JSON.stringify(jsonData, null, 2));
-      res.send('Favorite status updated successfully');
-    } else {
-      res.status(404).send('Item not found');
-    }
+    const decoded = jwt.verify(token, SECRET_KEY);
+    await MUser.findOneAndUpdate(
+      { 
+        _id: decoded.userId,
+        'studySets.name': itemName 
+      },
+      {
+        $set: { 'studySets.$.isFavorite': isFavorite }
+      }
+    );
+    res.send('Favorite status updated successfully');
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to update favorite status' });

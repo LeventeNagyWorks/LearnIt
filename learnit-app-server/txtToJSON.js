@@ -1,6 +1,6 @@
 function txtToJSON(txt) {
   const fileContent = txt.content.toString('utf8');
-  const fileName = Buffer.from(txt.name, 'binary').toString('utf8');
+  const fileName = decodeURIComponent(txt.name).replace(/\.txt$/i, '');
   const questions = [];
   const lines = fileContent.split('\n');
 

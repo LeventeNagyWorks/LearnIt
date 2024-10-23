@@ -34,26 +34,31 @@ const RightPanel = () => {
       .catch(error => console.error(error));
   }, [setData]);
 
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const response = await axios.get('/data', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setData(response.data);
+      studySetsData.value = [...response.data];
+      const favorites = response.data.reduce((acc, item) => {
+        acc[item.name] = item.isFavorite || false;
+        return acc;
+      }, {});
+      setIsFavourite(favorites);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/data');
-        setData(response.data);
-        studySetsData.value = [...response.data];
-        const favorites = response.data.reduce((acc, item) => {
-          acc[item.name] = item.isFavorite || false;
-          return acc;
-        }, {});
-        setIsFavourite(favorites);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-  
     fetchData();
     const intervalId = setInterval(fetchData, 5000);
     return () => clearInterval(intervalId);
-  }, []);  
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

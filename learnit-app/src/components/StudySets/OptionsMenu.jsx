@@ -26,7 +26,8 @@ const OptionsMenu = ({
     const isHovered = optionsHoverStates[itemName] || false;
 
     const handleIsFavourite = async (itemName) => {
-
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      
       try {
         const newFavoriteStatus = !isFavourite[itemName];
         setIsFavourite(prevState => ({
@@ -38,14 +39,17 @@ const OptionsMenu = ({
           setHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }))
           setOptionsHoverStates((prevOptionsHoverStates) => ({ ...prevOptionsHoverStates, [itemName]: false }));
         }
-    
-        await axios.post('http://localhost:3001/updateFavorite', {
+
+        await axios.post('/updateFavorite', {
           itemName,
           isFavorite: newFavoriteStatus
+        }, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
-    
-        // Update the data state to reflect the change
-        setData(prevData => prevData.map(item => 
+
+        setData(prevData => prevData.map(item =>
           item.name === itemName ? {...item, isFavorite: newFavoriteStatus} : item
         ));
       } catch (error) {
@@ -54,6 +58,8 @@ const OptionsMenu = ({
     };
 
     const handleDelete = async (itemName) => {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      
       try {
         await setItemSelected((prevState) => {
           const newState = { ...prevState, [itemName]: false };
@@ -63,8 +69,13 @@ const OptionsMenu = ({
         });
         await handleMouseLeave(itemName);
         await handleOptionsMouseLeave(itemName);
-        await axios.delete(`/delete/${itemName}`);
-        // Update the local state by filtering out the deleted item
+        
+        await axios.delete(`/delete/${itemName}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
         setData(data.filter((item) => item.name !== itemName));
       } catch (error) {
         console.error(error);
