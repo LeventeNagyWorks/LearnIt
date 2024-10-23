@@ -11,8 +11,12 @@ import Progress from './Progress';
 import OptionsMenu from './OptionsMenu';
 import RightPanelHeader from './RightPanelHeader';
 import { showOnlyFav, startTransitionFromStudySets, startTransitionToStudySets, studySetsData } from '../../signals';
+import { useSignals } from '@preact/signals-react/runtime';
 
 const RightPanel = () => {
+
+  useSignals();
+
   const [data, setData] = useState([]);
   const [hoverStates, setHoverStates] = useState({});
   const [optionsHoverStates, setOptionsHoverStates] = useState({});
