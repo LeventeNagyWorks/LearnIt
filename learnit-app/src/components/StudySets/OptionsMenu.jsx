@@ -31,7 +31,6 @@ const OptionsMenu = ({
       try {
         const newFavoriteStatus = !isFavourite[itemName];
         
-        // First update the server
         const response = await axios.post('/updateFavorite', {
           itemName,
           isFavorite: newFavoriteStatus
@@ -41,20 +40,16 @@ const OptionsMenu = ({
           }
         });
     
-        // If server update successful, update local state
         if (response.status === 200) {
           const newFavorites = {
             ...isFavourite,
             [itemName]: newFavoriteStatus
           };
     
-          // Update local state
           setIsFavourite(newFavorites);
-          
-          // Update localStorage
           localStorage.setItem('favorites', JSON.stringify(newFavorites));
           
-          // Update data state to reflect changes
+          // Update the main data state
           setData(prevData => prevData.map(item =>
             item.name === itemName 
               ? {...item, isFavorite: newFavoriteStatus} 
@@ -65,7 +60,6 @@ const OptionsMenu = ({
         console.error('Error updating favorite status:', error);
       }
     };
-    
 
     const handleDelete = async (itemName) => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');

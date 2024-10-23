@@ -6,14 +6,12 @@ const MUser = new mongoose.Schema({
   password: String,
   studySets: [{
     name: String,
-    questions: [{
-      _id: String,
-      question: String,
-      que_type: String,
-      right_answer: [String],
-      answer: [String]
-    }]
+    questions: Array,
+    isFavorite: {
+      type: Boolean,
+      default: false
+    }
   }]
 });
 
-module.exports = mongoose.model("user", MUser);
+module.exports = mongoose.model('User', MUser);
