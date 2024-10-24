@@ -34,7 +34,14 @@ const StudySetDetailPage = () => {
   useEffect(() => {
     const fetchStudySet = async () => {
       try {
-        const response = await fetch('/api/data');
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/data', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -43,18 +50,12 @@ const StudySetDetailPage = () => {
         setStudySet(foundSet);
       } catch (error) {
         console.error('Error fetching study set:', error);
-        // You might want to set an error state here to display to the user
       }
     };
   
     fetchStudySet();
-  
-    startTransitionFromStudySetDetail.value = false;
-    startTransitionToStudySetDetail.value = true;
-    setTimeout(() => {
-      startTransitionToStudySetDetail.value = false;
-    }, 1000);
   }, [itemName]);
+
 
   useEffect(() => {
     const tiltElement = document.querySelector('.swiper-slide-active');

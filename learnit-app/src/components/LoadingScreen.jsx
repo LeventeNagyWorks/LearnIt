@@ -27,7 +27,7 @@ function LoadingScreen() {
     <div className={`absolute w-full h-screen bg-cstm_bg_dark flex justify-center items-center font-poppins font-medium text-cstm_white text-5xl select-none duration-500`}>
       <div className='w-full flex flex-col justify-center items-center'>
         <h1 className="text-cstm_white text-[150px] mb-14 select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-        <RiveComponent />
+        {/* <RiveComponent /> */}
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ const KnowItButton = () => {
 
   return (
     <div className={`w-14 h-14 flex justify-center items-center rounded-[12px] cursor-pointer duration-500 ${isHovered ? 'bg-green-600' : ''}`}
-        onClick={true}
+        onClick={null}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
     >

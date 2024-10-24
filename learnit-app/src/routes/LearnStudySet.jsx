@@ -25,21 +25,26 @@ const LearnStudySet = () => {
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
     useEffect(() => {
-        const fetchStudySet = async () => {
-          try {
-            const response = await fetch('/api/data');
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+      const fetchStudySet = async () => {
+        try {
+          const token = localStorage.getItem('token'); // Get token from storage
+          const response = await fetch('/api/data', {
+            headers: {
+              'Authorization': `Bearer ${token}`
             }
-            const data = await response.json();
-            const foundSet = data.find(set => set.name === itemName);
-            setStudySet(foundSet);
-          } catch (error) {
-            console.error('Error fetching study set:', error);
+          });
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        };
+          const data = await response.json();
+          const foundSet = data.find(set => set.name === itemName);
+          setStudySet(foundSet);
+        } catch (error) {
+          console.error('Error fetching study set:', error);
+        }
+      };
     
-        fetchStudySet();
+      fetchStudySet();
     }, [itemName]);
 
     useEffect(() => {
