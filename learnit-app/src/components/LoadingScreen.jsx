@@ -12,7 +12,7 @@ function LoadingScreen() {
   useEffect(() => {
     setTimeout(() => {
       isLoadingEnabled.value = false;
-    }, 3500);
+    }, 1000);
   }, []);
 
   const { RiveComponent } = useRive({

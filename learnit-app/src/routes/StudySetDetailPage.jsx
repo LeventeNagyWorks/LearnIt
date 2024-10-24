@@ -32,9 +32,14 @@ const StudySetDetailPage = () => {
   const MAXGLARE = 0.10;
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  
     const fetchStudySet = async () => {
       try {
-        const token = localStorage.getItem('token');
         const response = await fetch('/api/data', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -43,10 +48,18 @@ const StudySetDetailPage = () => {
         });
         
         if (!response.ok) {
+          if (response.status === 401) {
+            navigate('/login');
+            return;
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         const foundSet = data.find(set => set.name === itemName);
+        if (!foundSet) {
+          navigate('/study-sets');
+          return;
+        }
         setStudySet(foundSet);
       } catch (error) {
         console.error('Error fetching study set:', error);
@@ -54,7 +67,8 @@ const StudySetDetailPage = () => {
     };
   
     fetchStudySet();
-  }, [itemName]);
+  }, [itemName, navigate]);
+  
 
 
   useEffect(() => {
