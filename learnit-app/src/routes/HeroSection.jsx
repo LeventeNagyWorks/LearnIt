@@ -33,7 +33,7 @@ const HeroSection = () => {
 
                 <div className='w-1/2 h-full flex flex-col justify-evenly items-center px-8'>
                     <h1 className="text-cstm_white text-[96px] select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-                    <p className='font-poppins font-medium text-4xl text-cstm_white mx-24'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p className='font-poppins font-medium text-center text-4xl text-cstm_white mx-24'>Turn your handouts into study sets and make learning more enjoyable.</p>
                     <button
                         onClick={handleButtonClick}
                         className="w-fit h-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none"
