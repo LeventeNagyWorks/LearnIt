@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { isLoggedIn } from '../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 import HeroSectionVisuals from '../components/HeroSectionVisuals';
+import GirlReading from '../images/hero_girl_reading.png';
 
 const HeroSection = () => {
 
@@ -26,33 +27,32 @@ const HeroSection = () => {
 
   return (
     <>
-
             <div 
-                className="h-screen w-screen font-poppins flex justify-end items-end bg-cstm_bg_dark overflow-hidden"
+                className="h-screen w-screen font-poppins flex justify-start items-center bg-cstm_bg_dark overflow-hidden flex-grow"
             >
 
-                <div className='w-full self-start px-12'>
-                    <h1 className="text-cstm_white lg:text-[100px] md:text-[110px] mb-14 select-none self-end font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-                </div>
-
-                <HeroSectionVisuals />
-
-                <div className="lg:w-[45%] md:w-[65%] h-full flex flex-col justify-evenly items-center px-8 py-36">
-
-                    <div className="flex flex-col justify-between items-end">
-                        {/* <p className="text-white lg:text-[53px] text-right select-none font-poppins self-end">LEARN EVERYTHING</p>
-                        <p className="text-white lg:text-[92px] text-right select-none font-poppins self-end">YOU WANT</p>
-                        <p className="text-white lg:text-[61px] select-none self-end">LET ME HELP YOU</p> */}
-                    </div>
-                
+                <div className='w-1/2 h-full flex flex-col justify-evenly items-center px-8'>
+                    <h1 className="text-cstm_white text-[96px] select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
+                    <p className='font-poppins font-medium text-4xl text-cstm_white mx-24'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     <button
                         onClick={handleButtonClick}
-                        className="w-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none self-end mr-24"
+                        className="w-fit h-fit text-accent_green_dark hover:text-slate-950 font-medium hover:bg-accent_green_dark text-3xl border-2 border-accent_green_dark rounded-xl px-12 py-2 duration-700 select-none"
                     >
                         {isLoggedIn.value ? 'Go to Study Sets' : 'Getting Started'}
                     </button>
-
                 </div>
+
+                <div className='w-1/2 h-full flex flex-col justify-center items-center'>
+                    <div className='flex justify-center items-center px-[12%]'>
+                        <img
+                            className='w-full h-full object-cover rounded-[40px]'
+                            src={GirlReading} 
+                            alt="" 
+                        />
+                    </div>
+                </div>
+
+
             
             </div>
     </>
