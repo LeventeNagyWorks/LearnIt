@@ -10,7 +10,7 @@ const AddStudySetButton = ({ onClick, className}) => {
 
   return (
     <div 
-        className={`w-[90%] flex justify-center items-center bg-gradient-to-br from-green-900 to-accent_green_dark rounded-[40px] cursor-pointer duration-700 shadow-2xl hover:shadow-accent_green_dark ${className}`}
+        className={`w-32 h-32 flex justify-center items-center bg-gradient-to-br from-green-900 to-accent_green_dark2 rounded-full cursor-pointer duration-700 hover:shadow-[0_0_50px_rgba(40,255,0,0.7)] ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onClick()}
