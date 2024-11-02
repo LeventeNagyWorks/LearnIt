@@ -48,7 +48,7 @@ const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setS
       <div className={`w-fit h-12 flex justify-end items-center gap-3 py-1`}>
         <ShowOnlyFavouriteToggleButton />
         {selectedItemNum !== 0 && (
-          <div className='w-fit h-full flex justify-center items-center gap-2 select-none bg-slate-800 px-3 rounded-lg font-poppins font-medium text-2xl text-cstm_bg_dark'>
+          <div className='w-fit h-full flex justify-center items-center gap-2 select-none bg-slate-800 px-3 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
             <LuTextSelect className='w-7 h-7 text-cstm_white'/>
             <span className='rounded bg-cstm_white w-[2px] h-[20px]'/>
             <p className='text-accent_green_dark'>{selectedItemNum}</p>

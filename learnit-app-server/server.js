@@ -24,7 +24,6 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(expressFileupload());
 
-// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.listen(port, () => {
@@ -40,12 +39,10 @@ mongoose.connect(CONNECTION_STRING)
         console.log(e);
     });
 
-// Ensure data.json exists
 if (!fs.existsSync('./data.json')) {
   fs.writeFileSync('./data.json', '[]');
 }
 
-// API Routes
 app.post('/upload', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
@@ -63,7 +60,6 @@ app.post('/upload', async (req, res) => {
     const userId = decoded.userId;
 
     for (const file of uploadedFiles) {
-      // Convert Buffer to string with UTF-8 encoding
       const fileContent = Buffer.from(file.data).toString('utf8');
       const cleanFileName = Buffer.from(file.name, 'binary').toString('utf8').replace(/\.txt$/i, '');
       
@@ -90,8 +86,6 @@ app.post('/upload', async (req, res) => {
   }
 });
 
-
-
 app.get('/data', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -105,6 +99,69 @@ app.get('/data', async (req, res) => {
   } catch (err) {
     console.error('Error fetching data:', err);
     res.status(500).json({ error: 'Failed to fetch study sets' });
+  }
+});
+
+app.get('/api/data/:itemName/questions', async (req, res) => {
+    const { itemName } = req.params;
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+        return res.status(401).send('Unauthorized');
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const user = await MUser.findById(decoded.userId);
+        const studySet = user.studySets.find(set => set.name === itemName);
+        
+        if (studySet) {
+            res.json({ questions: studySet.questions });
+        } else {
+            res.json({ questions: [] });
+        }
+    } catch (err) {
+        console.error('Error fetching question states:', err);
+        res.status(500).json({ error: 'Failed to fetch question states' });
+    }
+});
+
+app.post('/api/updateQuestionStates', async (req, res) => {
+  const { itemName, questionStates } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      
+      for (const state of questionStates) {
+          await MUser.updateOne(
+              {
+                  _id: decoded.userId,
+                  'studySets.name': itemName,
+                  'studySets.questions.question': state.question
+              },
+              {
+                  $set: {
+                      'studySets.$[set].questions.$[que].learningState': state.state
+                  }
+              },
+              {
+                  arrayFilters: [
+                      { 'set.name': itemName },
+                      { 'que.question': state.question }
+                  ]
+              }
+          );
+      }
+      
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error updating question states:', err);
+      res.status(500).json({ error: 'Failed to update question states' });
   }
 });
 
@@ -158,17 +215,14 @@ app.post('/registration', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // Check if user already exists
     const existingUser = await MUser.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res.status(400).json({ error: 'Username or email already exists' });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = new MUser({ username, email, password: hashedPassword });
     const savedUser = await newUser.save();
 
@@ -213,7 +267,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
   console.log('Serving index.html for path:', req.path);
   res.sendFile(path.join(__dirname, 'build', 'index.html'), (err) => {
@@ -223,5 +276,3 @@ app.get('*', (req, res) => {
     }
   });
 });
-
-
