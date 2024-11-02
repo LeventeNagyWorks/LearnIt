@@ -119,7 +119,7 @@ const Login = () => {
                         >
                             Registration
                         </Link>
-                        <span className={`absolute -bottom-1 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[110px]' : 'w-0'}`}/>
+                        <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[110px]' : 'w-0'}`}/>
                     </div>
                 </form>
             </div>

@@ -81,23 +81,23 @@ const Registration = () => {
     }, [isUsernameValid, isEmailValid, isPasswordValid]);
 
   return (
-    <div className='w-full h-screen flex bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
+    <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
         {showRegisteredMessage && <SuccessfullyRegistered onClick={closeRegisteredMessage} type="registeredSuccesfully"/>}
 
-        <div className='w-[45%] h-full flex items-center justify-center relative'>
+        <div className='w-full md:w-[45%] h-1/3 md:h-full flex items-center justify-center relative'>
         
-        <img 
-            src={girlReadingImage} 
-            alt="Girl reading" 
-            className='w-fit h-[75%] rounded-3xl object-cover object-center relative z-30'
-        />
+            <img 
+                src={girlReadingImage} 
+                alt="Girl reading" 
+                className='w-fit h-[85%] md:h-[75%] rounded-3xl object-cover object-center relative z-30'
+            />
         </div>
-        <div className='w-[55%] h-full flex flex-col items-center justify-center relative'>
+        <div className='w-full md:w-[55%] h-full md:h-full flex flex-col items-center justify-start md:justify-center'>
             <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen mb-10">
             Learn <span className="text-accent_green_dark">It</span>
             </h1>
-            <div 
-                className='w-[55%] h-[60%] flex flex-col justify-center items-center gap-10 pt-20'
+            <form 
+                className='w-[80%] md:w-[55%] md:h-[60%] h-[80%] flex flex-col justify-center items-center gap-10 pt-20'
                 onKeyDown={handleKeyDown}
             >
 
@@ -150,7 +150,7 @@ const Registration = () => {
                     />
                 </div>
 
-                <div className='w-full flex flex-col items-center justify-evenly select-none relative'>
+                <div className='w-full flex flex-col items-center justify-evenly select-none relative pb-4'>
                     <p className='text-lg'>Already have an account?</p>
                     <Link 
                         className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
@@ -160,9 +160,9 @@ const Registration = () => {
                     > 
                         Login
                     </Link>
-                    <span className={`absolute -bottom-1 h-[3px] bg-accent_green_dark duration-500 ${isLoginHovered ? 'w-[55px]' : 'w-0'}`}/>
+                    <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isLoginHovered ? 'w-[55px]' : 'w-0'}`}/>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
   )
