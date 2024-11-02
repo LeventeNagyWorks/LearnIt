@@ -11,7 +11,7 @@ const BackButton = ({ to, className, onClick }) => {
 
   return (
     <a
-        className={`w-fit border-[2px] border-accent_green_dark hover:bg-accent_green_dark py-2 px-10 rounded-2xl text-accent_green_dark hover:text-cstm_bg_dark font-bold text-2xl duration-500 select-none cursor-pointer ${className}`}
+        className={`w-fit border-[2px] border-accent_green_dark hover:bg-accent_green_dark py-2 px-8 rounded-2xl text-accent_green_dark hover:text-cstm_bg_dark font-bold md:text-2xl duration-500 select-none cursor-pointer ${className}`}
         href={to}
         onClick={onClick}
     >

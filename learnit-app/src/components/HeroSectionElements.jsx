@@ -16,7 +16,7 @@ const HeroSectionElements = ({ isLarge, bgImg, text }) => {
         <div className={`w-full h-full rounded-[30px] bg-black/40 backdrop-blur-sm flex flex-col justify-center items-center px-4
             ${isHovered ? 'opacity-100' : 'opacity-0'} duration-500`}
         >
-            <h1 className='text-cstm_white text-4xl font-medium text-center select-none'>{text}</h1>
+            <h1 className='text-cstm_white text-xl md:text-4xl font-medium text-center select-none'>{text}</h1>
         </div>
     </div>
   )
