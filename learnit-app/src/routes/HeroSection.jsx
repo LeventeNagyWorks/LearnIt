@@ -9,6 +9,7 @@ import Laptop from '../images/hero_laptop.png';
 import Book from '../images/hero_book.png';
 import BoyLearning from '../images/hero_boy_learning.png';
 import Background from '../images/background.png';
+import Logo from '/learnit_icon.png';
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 
 const HeroSection = () => {
@@ -31,7 +32,7 @@ const HeroSection = () => {
     };
 
     const [text] = useTypewriter({
-        words: [' more enjoyable.', ' more easier.', ' time efficient.'],
+        words: [' more enjoyable.', ' easier.', ' time efficient.'],
         loop: true,
         typeSpeed: 100,
         deleteSpeed: 100,
@@ -46,8 +47,11 @@ const HeroSection = () => {
             >
 
                 <div className='w-1/2 h-full flex flex-col justify-evenly items-center px-8'>
-                    <h1 className="text-cstm_white text-[96px] select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
-
+                    <div className='w-full h-fit flex justify-center items-center gap-10'>
+                        <img src={Logo} alt="" />
+                        <h1 className="text-cstm_white text-[96px] select-none font-poetsen">Learn <span className="text-accent_green_dark">It</span></h1>
+                    </div>
+                    
                     <p className='font-poppins font-medium text-center text-4xl mx-24 select-none text-cstm_white'>
                         Turn your handouts into study sets and make learning
                         <span className='text-accent_green_dark'>{text}</span>
