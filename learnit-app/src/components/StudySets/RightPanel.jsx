@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
@@ -14,6 +15,8 @@ import { showOnlyFav, startTransitionFromStudySets, startTransitionToStudySets, 
 import { useSignals } from '@preact/signals-react/runtime';
 
 const RightPanel = () => {
+
+  //TODO: Added Study Sets doesn't show up but after refresh it does
 
   useSignals();
 
@@ -102,6 +105,13 @@ const RightPanel = () => {
         />
 
         <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
+
+          {data.length === 0 && !showOnlyFav.value ? (
+            <div className='w-full h-full flex flex-col justify-center items-center'>
+              <h1 className='text-cstm_white text-4xl font-medium select-none'>You don't have any Study Sets yet.</h1>
+            </div>
+          ) : null}
+
           {!showOnlyFav.value ? data.map((item) => (
             <div
               className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
@@ -157,7 +167,13 @@ const RightPanel = () => {
               />
 
             </div>
-          )) : data.filter(item => isFavourite[item.name]).map((item) => (
+          )) : 
+            data.filter(item => isFavourite[item.name]).length === 0 ? (
+              <div className='w-full h-full flex flex-col justify-center items-center'>
+                <h1 className='text-cstm_white text-4xl font-medium select-none'>You don't have any Favoure ones.</h1>
+              </div>
+            ) : data.filter(item => isFavourite[item.name]).map((item) => (
+
             <div
               className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
               key={item.name}

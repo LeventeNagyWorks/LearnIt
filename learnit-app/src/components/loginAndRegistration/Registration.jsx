@@ -14,6 +14,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Registration = () => {
 
+    //TODO: Already used email, username error message
+
     const [isLoginHovered, setIsLoginHovered] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
