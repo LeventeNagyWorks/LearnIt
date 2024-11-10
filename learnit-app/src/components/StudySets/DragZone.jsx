@@ -3,7 +3,7 @@
 import axios from 'axios';
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { isStudySetAccepted, showSuccessfullyAdded, showNotAcceptableFileErrorMessage  } from '../../signals';
+import { isStudySetAccepted, showSuccessfullyAdded, showNotAcceptableFileErrorMessage, studySetsData } from '../../signals';
 
 const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
 
@@ -42,6 +42,15 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
               'Authorization': `Bearer ${token}`
             },
           });
+
+          const { data: newData } = await axios.get('/data', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          studySetsData.value = [...newData];
+
           console.log(response.data);
           isStudySetAccepted.value = { _a: true };
           showSuccessfullyAdded.value = true;

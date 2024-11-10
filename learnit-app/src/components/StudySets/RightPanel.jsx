@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
@@ -65,7 +66,9 @@ const RightPanel = () => {
     fetchData();
   }, []);
   
-  
+  useEffect(() => {
+    setData(studySetsData.value);
+  }, [studySetsData.value]);
 
   const handleMouseEnter = (itemName) => {
     setHoverStates((prevHoverStates) => ({ ...prevHoverStates, [itemName]: true }));
@@ -170,7 +173,7 @@ const RightPanel = () => {
           )) : 
             data.filter(item => isFavourite[item.name]).length === 0 ? (
               <div className='w-full h-full flex flex-col justify-center items-center'>
-                <h1 className='text-cstm_white text-4xl font-medium select-none'>You don't have any Favoure ones.</h1>
+                <h1 className='text-cstm_white text-4xl font-medium select-none'>You don't have any Favoure ones yet.</h1>
               </div>
             ) : data.filter(item => isFavourite[item.name]).map((item) => (
 
