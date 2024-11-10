@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 
-const Progress = ({ hoverStates, itemName }) => {
-    const isHovered = hoverStates[itemName] || false;
+const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
+    const isHovered = isDetailedPage || hoverStates[itemName] || false;
     const [stats, setStats] = useState({
         mastered: 0,
         learning: 0,
@@ -66,8 +66,8 @@ const Progress = ({ hoverStates, itemName }) => {
 
     return (
         <div className={`w-full flex justify-between duration-700 ${isHovered ? 'translate-x-0' : '-translate-x-64'}`}>
-            <div className={`flex flex-col items-start gap-1 mx-5`}>
-                <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg relative z-10'>Progress</p>
+            <div className={`flex gap-1 mx-5 ${isDetailedPage ? 'flex-row items-center' : 'flex-col items-start'}`}>
+                <p className={`text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg relative z-10 ${isDetailedPage ? 'mr-4' : ''}`}>Progress</p>
 
                 <div className='flex items-center gap-2'>
                     <div className='relative w-[300px]'>

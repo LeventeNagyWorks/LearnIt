@@ -18,6 +18,7 @@ import CustomizeButton from '../components/StudySets/CustomizeButton';
 import PrimaryButton from '../components/PrimaryButton';
 import LoadingScreen from '../components/LoadingScreen';
 import KnowItButton from '../components/StudySets/StudySetsDetail/KnowItButton';
+import Progress from '../components/StudySets/Progress';
 
 const StudySetDetailPage = () => {
   
@@ -160,19 +161,8 @@ const StudySetDetailPage = () => {
           <div className=''>
             <div className={`w-full flex justify-between items-center gap-10 duration-700 bg-slate-500/40 backdrop-blur-md px-2 py-3 rounded-2xl`}>
 
-                  <div className='flex justify-between items-center gap-2'>
-                    <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg relative z-10 px-3'>Progress</p>
-                    <div className='w-[300px] h-2 bg-white rounded-full'>
-                        {/* make the Progress bar here */}
-                    </div>
-                  </div>
+              <Progress isDetailedPage={true} itemName={itemName}/>
 
-                  <div className='flex items-center gap-2'>
-
-                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 learnt</p>
-                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 still studying</p>
-                      <p className='text-cstm_white text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>0 didn't learnt yet</p>
-                  </div>
             </div>
           </div>
         </div>
