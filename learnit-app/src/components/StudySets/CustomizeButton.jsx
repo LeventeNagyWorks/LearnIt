@@ -6,7 +6,7 @@ import { FiEdit } from "react-icons/fi";
 const CustomizeButton = ({ index, isHovered, setHoveredItem }) => {
   return (
     <div 
-        className={`w-8 h-8 flex justify-center items-center p-1 rounded-md cursor-pointer duration-500 ${isHovered ? 'bg-accent_green_dark' : ''}`}
+        className={`w-8 h-8 min-w-8 min-h-8 flex justify-center items-center p-1 rounded-md cursor-pointer duration-500 ${isHovered ? 'bg-accent_green_dark' : ''}`}
         onMouseEnter={() => setHoveredItem(index)}
         onMouseLeave={() => setHoveredItem(null)}
     >
