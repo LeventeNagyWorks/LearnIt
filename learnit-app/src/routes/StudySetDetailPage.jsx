@@ -125,37 +125,11 @@ const StudySetDetailPage = () => {
   return (
     <div className='h-screen w-screen flex flex-col items-center bg-cstm_bg_dark text-cstm_white font-poppins overflow-y-auto overflow-hidden scrollbar relative selection:bg-accent_green_dark pb-5'>
 
-      <svg className='absolute -translate-x-[334px] -translate-y-[500px] -rotate-[65deg] scale-[70%] z-0 duration-[2000ms]' width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="163.5" cy="964.5" r="163.5" fill="url(#paint0_linear_150_2)"/>
-        <circle cx="585.5" cy="814.5" r="54.5" fill="url(#paint1_linear_150_2)"/>
-        <circle cx="203" cy="521" r="98" fill="url(#paint2_linear_150_2)"/>
-        <ellipse cx="777" cy="342.535" rx="346" ry="342.535" fill="url(#paint3_linear_150_2)"/>
-        <defs>
-        <linearGradient id="paint0_linear_150_2" x1="230" y1="1085" x2="44" y2="853" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#0D5200"/>
-        <stop offset="1" stopColor="#1DB800"/>
-        </linearGradient>
-        <linearGradient id="paint1_linear_150_2" x1="624" y1="851" x2="552" y2="783" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#0D5200"/>
-        <stop offset="1" stopColor="#1DB800"/>
-        </linearGradient>
-        <linearGradient id="paint2_linear_150_2" x1="272" y1="583" x2="118" y2="461" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#007728"/>
-        <stop offset="1" stopColor="#00DD4B"/>
-        </linearGradient>
-        <linearGradient id="paint3_linear_150_2" x1="549.508" y1="100.561" x2="1018.73" y2="578.757" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#20CC00"/>
-        <stop offset="0.453063" stopColor="#189C00"/>
-        <stop offset="1" stopColor="#106600"/>
-        </linearGradient>
-        </defs>
-      </svg>
-
       <section className={`w-screen h-screen min-h-screen flex flex-col items-center z-10 pb-8 duration-1000`}>
         <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5 '>
           <div className='flex justify-center items-center'>
             <BackButton onClick={handleClick} className={'fixed left-6'}/>
-            <h1 className='text-6xl font-semibold'>{studySet.name}</h1>
+            <h1 className='text-5xl font-semibold'>{studySet.name}</h1>
             <PrimaryButton to={`/study-sets/${itemName}/learning`} text='LEARN IT' className={'fixed right-9'}/>
           </div>
           <div className=''>
@@ -351,6 +325,32 @@ const StudySetDetailPage = () => {
               <ArrowButton onClick={() => swiperRef.current.swiper.slidePrev()} className={`absolute left-10 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2`}/>
               <ArrowButton onClick={() => swiperRef.current.swiper.slideNext()} className={`absolute right-10 md:top-[47%] top-[38%] z-10 lg:mx-4 md:mx-2 transition rotate-180`}/>
             </Swiper>
+
+            <svg className={`absolute z-0 rotate-[70deg] translate-x-[70%] translate-y-[30%] scale-[85%]`} width="1123" height="1128" viewBox="0 0 1123 1128" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="163.5" cy="964.5" r="163.5" fill="url(#paint0_linear_150_2)"/>
+                  <circle cx="585.5" cy="814.5" r="54.5" fill="url(#paint1_linear_150_2)"/>
+                  <circle cx="203" cy="521" r="98" fill="url(#paint2_linear_150_2)"/>
+                  <ellipse cx="777" cy="342.535" rx="346" ry="342.535" fill="url(#paint3_linear_150_2)"/>
+                  <defs>
+                  <linearGradient id="paint0_linear_150_2" x1="230" y1="1085" x2="44" y2="853" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#0D5200"/>
+                  <stop offset="1" stopColor="#1DB800"/>
+                  </linearGradient>
+                  <linearGradient id="paint1_linear_150_2" x1="624" y1="851" x2="552" y2="783" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#0D5200"/>
+                  <stop offset="1" stopColor="#1DB800"/>
+                  </linearGradient>
+                  <linearGradient id="paint2_linear_150_2" x1="272" y1="583" x2="118" y2="461" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#007728"/>
+                  <stop offset="1" stopColor="#00DD4B"/>
+                  </linearGradient>
+                  <linearGradient id="paint3_linear_150_2" x1="549.508" y1="100.561" x2="1018.73" y2="578.757" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#20CC00"/>
+                  <stop offset="0.453063" stopColor="#189C00"/>
+                  <stop offset="1" stopColor="#106600"/>
+              </linearGradient>
+              </defs>
+            </svg>
       </section>
       
       <section className='w-[50%] screen-fit min-h-screen h-fit flex flex-col items-center gap-8 z-10 py-16'>
