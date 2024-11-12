@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import KnowItButton from "./KnowItButton";
 import VanillaTilt from 'vanilla-tilt';
 
@@ -14,6 +14,15 @@ const Flashcard = ({
 }) => {
 
     const cardRef = useRef(null);
+    const [shouldRender, setShouldRender] = useState(true);
+
+    const handleFlip = () => {
+        setShouldRender(false);
+        setTimeout(() => {
+            setIsFlipped(!isFlipped);
+            setShouldRender(true);
+        }, 250);
+    };
 
     useEffect(() => {
         const card = cardRef.current;
@@ -42,28 +51,46 @@ const Flashcard = ({
                 ${isFlipped ? 'animate-cardFlip' : 'animate-cardFlipBack'}`}
                 onClick={() => setIsFlipped(!isFlipped)}
             >
-                <div className="card-front absolute w-full h-full rounded-[50px] bg-slate-500/40 backface-hidden">
-                    <div className="flex flex-col h-full rounded-[50px]">
-                        <div className='w-full h-28 flex justify-between items-center px-12 rounded-t-[50px]'>
-                            <KnowItButton />
-                            <div className='flex items-center gap-4 text-[35px] select-none'>
-                                <p>{currentIndex + 1}</p>
-                                <span className='w-[3px] h-[40px] bg-accent_green_dark' />
-                                <p className='text-green-400'>{totalQuestions}</p>
+                {!isFlipped ? (
+                    <div className="w-full h-full rounded-[50px] bg-slate-500/40">
+                        <div className="flex flex-col h-full rounded-[50px]">
+                            <div className='w-full h-28 flex justify-between items-center px-12 rounded-t-[50px]'>
+                                <KnowItButton />
+                                <div className='flex items-center gap-4 text-[35px] select-none'>
+                                    <p>{currentIndex + 1}</p>
+                                    <span className='w-[3px] h-[40px] bg-accent_green_dark' />
+                                    <p className='text-green-400'>{totalQuestions}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8 rounded-b-[50px]">
+                                <h1 className="text-[26px] lg:text-[48px] text-center self-center">
+                                    {currentQuestion.question}
+                                </h1>
                             </div>
                         </div>
+                    </div>
+                ) : (
+                    <div className="w-full h-full rounded-[50px] bg-slate-500/40">
+                        <div className="flex flex-col h-full rounded-[50px]">
+                            <div className='w-full h-28 flex justify-between items-center px-12 rounded-t-[50px]'>
+                                <KnowItButton />
+                                <div className='flex items-center gap-4 text-[35px] select-none'>
+                                    <p>{currentIndex + 1}</p>
+                                    <span className='w-[3px] h-[40px] bg-accent_green_dark' />
+                                    <p className='text-green-400'>{totalQuestions}</p>
+                                </div>
+                            </div>
 
-                        <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8 rounded-b-[50px]">
-                            <h1 className="text-[26px] lg:text-[48px] text-center self-center">
-                                {currentQuestion.question}
-                            </h1>
+                            <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8 rounded-b-[50px]">
+                                <h1 className="text-[26px] lg:text-[48px] text-center self-center">
+                                    {currentQuestion.right_answer}
+                                </h1>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
-                <div className="card-back absolute w-full h-full rounded-[50px] bg-slate-500/40 backface-hidden rotate-y-180">
-                    {/* Back content */}
-                </div>
             </div>
         </div>
     );
