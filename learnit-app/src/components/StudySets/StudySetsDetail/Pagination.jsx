@@ -1,5 +1,10 @@
 /* eslint-disable react/prop-types */
-const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+const Pagination = ({
+    totalPages,
+    currentPage,
+    onPageChange
+}) => {
+
     // Calculate start page to keep current page centered
     const startPage = Math.max(0, Math.min(totalPages - 9, currentPage - 4));
     const endPage = Math.min(startPage + 9, totalPages);

@@ -22,6 +22,8 @@ const StudySetDetailPage = () => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [displayedContent, setDisplayedContent] = useState(!isFlipped);
+  const [textRotation, setTextRotation] = useState(false);
   const { itemName } = useParams();
   const navigate = useNavigate();
 
@@ -80,6 +82,8 @@ const StudySetDetailPage = () => {
     if (currentIndex < studySet.questions.length - 1) {
       setIsFlipped(false);
       setCurrentIndex(prev => prev + 1);
+      setDisplayedContent(true);
+      setTextRotation(false);
     }
   };
 
@@ -87,8 +91,11 @@ const StudySetDetailPage = () => {
     if (currentIndex > 0) {
       setIsFlipped(false);
       setCurrentIndex(prev => prev - 1);
+      setDisplayedContent(true);
+      setTextRotation(false);
     }
   };
+
 
   if (!studySet || isLoadingEnabled.value === true) {
     return <LoadingScreen />;
@@ -135,13 +142,22 @@ const StudySetDetailPage = () => {
             setIsFlipped={setIsFlipped}
             currentQuestion={currentQuestion}
             totalQuestions={studySet.questions.length}
+            displayedContent={displayedContent}
+            setDisplayedContent={setDisplayedContent}
+            textRotation={textRotation}
+            setTextRotation={setTextRotation}
           />
 
           <div className="w-full flex justify-center items-center gap-20 mt-8">
             <Pagination
               totalPages={studySet.questions.length}
               currentPage={currentIndex}
-              onPageChange={setCurrentIndex}
+              onPageChange={(pageNumber) => {
+                setCurrentIndex(pageNumber);
+                setIsFlipped(false);
+                setDisplayedContent(true);
+                setTextRotation(false);
+              }}
             />
           </div>
         </div>

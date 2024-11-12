@@ -10,18 +10,35 @@ const Flashcard = ({
     isFlipped,
     setIsFlipped,
     currentQuestion,
-    totalQuestions
+    totalQuestions,
+    setDisplayedContent,
+    displayedContent,
+    setTextRotation,
+    textRotation
+
+
 }) => {
 
     const cardRef = useRef(null);
-    const [shouldRender, setShouldRender] = useState(true);
 
     const handleFlip = () => {
-        setShouldRender(false);
-        setTimeout(() => {
-            setIsFlipped(!isFlipped);
-            setShouldRender(true);
-        }, 250);
+        if (!isFlipped) {
+            setIsFlipped(true);
+            setTimeout(() => {
+                setDisplayedContent(false);
+                setTextRotation(true);
+                setTimeout(() => {
+                    setTextRotation(false);
+                }, 250);
+            }, 250);
+        } else {
+            setIsFlipped(false);
+            setTextRotation(true);
+            setTimeout(() => {
+                setDisplayedContent(true);
+                setTextRotation(false);
+            }, 250);
+        }
     };
 
     useEffect(() => {
@@ -30,7 +47,7 @@ const Flashcard = ({
         if (card) {
             VanillaTilt.init(card, {
                 max: 6,
-                speed: 2000,
+                speed: 3000,
                 glare: 0.1,
                 perspective: 1000,
                 scale: 1.0,
@@ -44,14 +61,14 @@ const Flashcard = ({
 
 
     return (
-        <div className={`w-[65%] h-[100%] relative rounded-[50px] perspective-3000`}>
+        <div className={`w-[65%] h-[100%] relative rounded-[50px] perspective-3000 select-none`}>
             <div
                 ref={cardRef}
                 className={`w-full h-full relative duration-500 cursor-pointer rounded-[50px] transform-style-3d
                 ${isFlipped ? 'animate-cardFlip' : 'animate-cardFlipBack'}`}
-                onClick={() => setIsFlipped(!isFlipped)}
+                onClick={handleFlip}
             >
-                {!isFlipped ? (
+                {displayedContent ? (
                     <div className="w-full h-full rounded-[50px] bg-slate-500/40">
                         <div className="flex flex-col h-full rounded-[50px]">
                             <div className='w-full h-28 flex justify-between items-center px-12 rounded-t-[50px]'>
@@ -71,7 +88,7 @@ const Flashcard = ({
                         </div>
                     </div>
                 ) : (
-                    <div className="w-full h-full rounded-[50px] bg-slate-500/40">
+                    <div className={`w-full h-full rounded-[50px] bg-slate-500/40 ${textRotation ? 'rotate-y-180' : ''}`}>
                         <div className="flex flex-col h-full rounded-[50px]">
                             <div className='w-full h-28 flex justify-between items-center px-12 rounded-t-[50px]'>
                                 <KnowItButton />
