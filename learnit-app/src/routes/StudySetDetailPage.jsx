@@ -90,10 +90,6 @@ const StudySetDetailPage = () => {
     }
   };
 
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
-
   if (!studySet || isLoadingEnabled.value === true) {
     return <LoadingScreen />;
   }
@@ -125,9 +121,9 @@ const StudySetDetailPage = () => {
           </div>
         </div>
 
-        <div className="flex-1 w-full h-full flex flex-col items-center justify-center flex-grow">
+        <div className="flex-1 w-full h-full flex flex-col items-center justify-center flex-grow relative">
 
-          <div className='absolute w-[85%] top-[14%] flex items-center justify-between'>
+          <div className='absolute w-[85%] top-[42%] flex items-center justify-between'>
             <ArrowButton onClick={handlePrev} className="" />
             <ArrowButton onClick={handleNext} className="rotate-180" />
           </div>
