@@ -106,6 +106,7 @@ const StudySetDetailPage = () => {
     question: question.question,
     answers: question.answer,
     rightAnswer: question.right_answer,
+    falseAnswer: question.answer.filter(answer => answer !== question.right_answer),
     questionType: question.que_type
   }));
 
@@ -181,7 +182,10 @@ const StudySetDetailPage = () => {
             <span className='w-[90%] h-[4px] rounded-full bg-gradient-to-r from-green-500 my-3' />
 
             <div className='w-full h-fit flex-col gap-3'>
-              {item.answers.map((answer, answerIndex) => (
+              <div className='w-full h-fit py-1'>
+                <p className='text-xl text-green-400'>{item.rightAnswer}</p>
+              </div>
+              {item.falseAnswer && item.falseAnswer.map((answer, answerIndex) => (
                 <div
                   className='w-full h-fit py-1'
                   key={answerIndex}
