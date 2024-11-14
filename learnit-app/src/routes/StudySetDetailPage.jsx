@@ -119,7 +119,7 @@ const StudySetDetailPage = () => {
         <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5'>
           <div className='flex justify-center items-center'>
             <BackButton onClick={handleClick} className={'fixed left-6'} />
-            <h1 className='text-5xl font-semibold'>{studySet.name}</h1>
+            <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
             <PrimaryButton to={`/study-sets/${itemName}/learning`} text='LEARN IT' className={'fixed right-9'} />
           </div>
           <div className=''>
@@ -149,7 +149,7 @@ const StudySetDetailPage = () => {
             setTextRotation={setTextRotation}
           />
 
-          <div className="w-full flex justify-center items-center gap-20 mt-8">
+          <div className="w-full flex justify-center items-center gap-20">
             <Pagination
               totalPages={studySet.questions.length}
               currentPage={currentIndex}

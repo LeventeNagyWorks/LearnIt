@@ -61,7 +61,7 @@ const Flashcard = ({
 
 
     return (
-        <div className={`w-[65%] h-[100%] relative rounded-[50px] perspective-3000 select-none`}>
+        <div className={`w-[55%] h-[100%] relative rounded-[50px] perspective-3000 select-none`}>
             <div
                 ref={cardRef}
                 className={`w-full h-full relative duration-500 cursor-pointer rounded-[50px] transform-style-3d
@@ -81,7 +81,7 @@ const Flashcard = ({
                             </div>
 
                             <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8 rounded-b-[50px]">
-                                <h1 className="text-[26px] lg:text-[48px] text-center self-center">
+                                <h1 className="text-center self-center w-full h-full flex items-center justify-center text-[min(4vw,_2.5rem)] leading-tight">
                                     {currentQuestion.question}
                                 </h1>
                             </div>
@@ -100,7 +100,7 @@ const Flashcard = ({
                             </div>
 
                             <div className="flex flex-col justify-evenly gap-4 lg:gap-8 w-full h-full p-8 rounded-b-[50px]">
-                                <h1 className="text-[26px] lg:text-[48px] text-center self-center">
+                                <h1 className="text-center self-center w-full h-full flex items-center justify-center text-[min(4vw,_2.5rem)] leading-tight">
                                     {currentQuestion.right_answer}
                                 </h1>
                             </div>

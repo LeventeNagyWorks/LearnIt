@@ -17,6 +17,10 @@ export default {
       rotate: {
         'y-180': 'rotateY(180deg)',
       },
+      fontSize: {
+        'fit': 'clamp(1rem, 4vw, 2.5rem)',
+        'fit-lg': 'clamp(1.5rem, 6vw, 3.5rem)'
+      },
       fontFamily: {
         'poppins': ['poppins', 'sans-serif'],
         'poetsen': ['poetsen one', 'sans-serif']

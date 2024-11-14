@@ -17,8 +17,6 @@ import { useSignals } from '@preact/signals-react/runtime';
 
 const RightPanel = () => {
 
-  //TODO: Added Study Sets doesn't show up but after refresh it does
-
   useSignals();
 
   const [data, setData] = useState([]);
@@ -39,33 +37,33 @@ const RightPanel = () => {
         console.log('No token found');
         return;
       }
-  
+
       try {
         const { data: responseData } = await axios.get('/data', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        
+
         // Create favorites object from server data
         const favorites = responseData.reduce((acc, item) => {
           acc[item.name] = item.isFavorite;
           return acc;
         }, {});
-  
+
         setData(responseData);
         studySetsData.value = [...responseData];
         setIsFavourite(favorites);
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     setData(studySetsData.value);
   }, [studySetsData.value]);
@@ -98,12 +96,12 @@ const RightPanel = () => {
   return (
     <div className={`w-[85%] flex justify-center items-start relative z-10 pb-6 font-poppins duration-1000`}>
       <div className='w-[90%] h-[100%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
-        
-        <RightPanelHeader 
+
+        <RightPanelHeader
           setData={setData}
-          selectedItemNum={selectedItemNum} 
-          itemSelected={itemSelected} 
-          setItemSelected={setItemSelected} 
+          selectedItemNum={selectedItemNum}
+          itemSelected={itemSelected}
+          setItemSelected={setItemSelected}
           setSelectedItemNum={setSelectedItemNum}
         />
 
@@ -123,20 +121,20 @@ const RightPanel = () => {
               onMouseLeave={() => handleMouseLeave(item.name)}
               onClick={() => handleItemSelected(item.name)}
             >
-          
+
               <div className='flex flex-row items-center justify-between'>
                 <div className='flex gap-6'>
 
                   <div className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}>
-                    <StartButton itemName={item.name}/>
+                    <StartButton itemName={item.name} />
                     <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
                   </div>
-                  
+
                 </div>
                 <div className='flex justify-center items-center gap-10 relative'>
-                  {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark '/>)}
+                  {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark ' />)}
 
-                  <QuestionCounter questionLength={item.questions.length}/>
+                  <QuestionCounter questionLength={item.questions.length} />
 
                   <div
                     onMouseEnter={() => handleOptionsMouseEnter(item.name)}
@@ -145,7 +143,7 @@ const RightPanel = () => {
                     <OptionsButton />
                   </div>
 
-                  <OptionsMenu 
+                  <OptionsMenu
                     itemName={item.name}
                     data={data}
                     setData={setData}
@@ -164,72 +162,72 @@ const RightPanel = () => {
                 </div>
               </div>
 
-              <Progress 
+              <Progress
                 hoverStates={hoverStates}
                 itemName={item.name}
               />
 
             </div>
-          )) : 
+          )) :
             data.filter(item => isFavourite[item.name]).length === 0 ? (
               <div className='w-full h-full flex flex-col justify-center items-center'>
                 <h1 className='text-cstm_white text-4xl font-medium select-none'>You don't have any Favoure ones yet.</h1>
               </div>
             ) : data.filter(item => isFavourite[item.name]).map((item) => (
 
-            <div
-              className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
-              key={item.name}
-              onMouseEnter={() => handleMouseEnter(item.name)}
-              onMouseLeave={() => handleMouseLeave(item.name)}
-              onClick={() => handleItemSelected(item.name)}
-            >
+              <div
+                className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${hoverStates[item.name] ? 'bg-slate-800 min-h-40 h-40' : 'min-h-20 h-20'} ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
+                key={item.name}
+                onMouseEnter={() => handleMouseEnter(item.name)}
+                onMouseLeave={() => handleMouseLeave(item.name)}
+                onClick={() => handleItemSelected(item.name)}
+              >
 
-              <div className='flex flex-row items-center justify-between'>
-                <div className='flex gap-6'>
+                <div className='flex flex-row items-center justify-between'>
+                  <div className='flex gap-6'>
 
-                  <div className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}>
-                    <StartButton itemName={item.name}/>
-                    <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
+                    <div className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}>
+                      <StartButton itemName={item.name} />
+                      <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
+                    </div>
+
                   </div>
-                  
-                </div>
-                <div className='flex justify-center items-center gap-10 relative'>
-                  {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark '/>)}
+                  <div className='flex justify-center items-center gap-10 relative'>
+                    {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark ' />)}
 
-                  <QuestionCounter questionLength={item.questions.length}/>
+                    <QuestionCounter questionLength={item.questions.length} />
 
-                  <div
-                    onMouseEnter={() => handleOptionsMouseEnter(item.name)}
-                    onMouseLeave={() => handleOptionsMouseLeave(item.name)}
-                  >
-                    <OptionsButton />
+                    <div
+                      onMouseEnter={() => handleOptionsMouseEnter(item.name)}
+                      onMouseLeave={() => handleOptionsMouseLeave(item.name)}
+                    >
+                      <OptionsButton />
+                    </div>
+
+                    <OptionsMenu
+                      itemName={item.name}
+                      data={data}
+                      setData={setData}
+                      optionsHoverStates={optionsHoverStates}
+                      isFavourite={isFavourite}
+                      setIsFavourite={setIsFavourite}
+                      handleOptionsMouseEnter={handleOptionsMouseEnter}
+                      handleOptionsMouseLeave={handleOptionsMouseLeave}
+                      handleMouseLeave={handleMouseLeave}
+                      setItemSelected={setItemSelected}
+                      setSelectedItemNum={setSelectedItemNum}
+                    />
+
                   </div>
-
-                  <OptionsMenu 
-                    itemName={item.name}
-                    data={data}
-                    setData={setData}
-                    optionsHoverStates={optionsHoverStates}
-                    isFavourite={isFavourite}
-                    setIsFavourite={setIsFavourite}
-                    handleOptionsMouseEnter={handleOptionsMouseEnter}
-                    handleOptionsMouseLeave={handleOptionsMouseLeave}
-                    handleMouseLeave={handleMouseLeave}
-                    setItemSelected={setItemSelected}
-                    setSelectedItemNum={setSelectedItemNum}
-                  />
-
                 </div>
+
+                <Progress
+                  hoverStates={hoverStates}
+                  itemName={item.name}
+                />
+
               </div>
-
-              <Progress 
-                hoverStates={hoverStates}
-                itemName={item.name}
-              />
-
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>
