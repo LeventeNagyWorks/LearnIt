@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { FiEdit } from "react-icons/fi";
+import React, { useEffect, useState } from 'react'
 import ProfileEditButton from '../components/StudySets/ProfileEditButton';
 import DefaultProfilePicture from '../images/default_profile_pic.png';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
@@ -22,18 +21,103 @@ const Counter = ({ value, className }) => {
 };
 
 const MyProfile = () => {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [username, setUsername] = useState('user');
+    const [displayName, setDisplayName] = useState('user');
+    const [description, setDescription] = useState("This is my description. Have a nice day. ✌️");
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:3001/api/getUserProfile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const userData = await response.json();
+                setUsername(userData.username);
+                setDisplayName(userData.displayName);
+                setDescription(userData.description);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUserData();
+    }, []);
+
+    const handleSave = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:3001/api/updateProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    username,
+                    displayName,
+                    description
+                })
+            });
+
+            if (response.ok) {
+                setIsEditing(false);
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
+    };
+
+    const handleEditClick = () => {
+        if (isEditing) {
+            handleSave();
+        }
+        setIsEditing(!isEditing);
+    };
+
+    // TODO: username shouldn't be existing if the user wants to edit it
+
     return (
         <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white'>
 
-            <ProfileEditButton />
+            <ProfileEditButton
+                onEditClick={handleEditClick}
+                isEditing={isEditing}
+            />
 
             <section className='w-full h-screen min-h-screen flex flex-col justify-center items-center'>
-                <div className='w-[90%] h-[50%] rounded-3xl flex items-center justify-start gap-20'>
-                    <img src={DefaultProfilePicture} alt="" className='w-[280px] h-[280px] bg-slate-50 rounded-full' />
-                    <div className='flex flex-col gap-4'>
-                        <h2 className='text-cstm_white md:text-[94px] font-semibold'>admin</h2>
-                        <p className='text-slate-300 md:text-[34px]'>This is my description. Have a nice day. ✌️ </p>
-                    </div>
+                <div className='w-[90%] h-[50%] rounded-3xl flex items-center justify-start gap-20 relative'>
+                    <img src={DefaultProfilePicture} alt="" className='w-[280px] h-[280px] bg-slate-50 rounded-full select-none' />
+                    {isEditing ? (
+                        <div className='caret-accent_green_dark'>
+                            <input
+                                type="text"
+                                value={displayName}
+                                onChange={(e) => setDisplayName(e.target.value)}
+                                className='w-[80%] text-cstm_white md:text-[94px] font-semibold bg-transparent border-b border-accent_green_dark outline-none'
+                            />
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className='w-[30%] text-gray-500 md:text-[32px] font-semibold bg-transparent border-b border-accent_green_dark outline-none'
+                            />
+                            <textarea
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className='w-[80%] h-36 text-slate-300 md:text-[34px] bg-transparent border-b border-accent_green_dark outline-none resize-none'
+                            />
+                        </div>
+                    ) : (
+                        <div className='w-[80%]'>
+                            <h2 className='text-cstm_white md:text-[94px] font-semibold'>{displayName}</h2>
+                            <h3 className='pl-1 text-gray-500 md:text-[32px] font-semibold mb-4'>{username}</h3>
+                            <p className='pl-1 h-fit max-w-[90%] text-slate-300 md:text-[34px] line-clamp-3 break-words'>{description}</p>
+                        </div>
+                    )}
                 </div>
                 <div className='w-[90%] h-[50%] rounded-3xl flex items-center justify-evenly'>
                     <div className='w-fit flex flex-col items-center text-green-600'>

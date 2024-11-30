@@ -2,8 +2,18 @@ const mongoose = require('mongoose');
 
 const MUser = new mongoose.Schema({
   username: String,
+  displayName: {
+    type: String,
+    default: function() {
+      return this.username
+    }
+  },
   email: String,
   password: String,
+  description: {
+    type: String,
+    default: "This is my description. You can edit it anytime. Have a nice day! ✌️"
+  },
   studySets: [{
       name: String,
       questions: [{

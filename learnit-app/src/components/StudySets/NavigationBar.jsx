@@ -8,6 +8,7 @@ import { isLoggedIn, isProfileFocused } from '../../signals';
 const NavigationBar = () => {
 
   const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const navigate = useNavigate();
 
   const onClickProfile = () => {
@@ -15,10 +16,22 @@ const NavigationBar = () => {
   }
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3001/api/getUserProfile', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const userData = await response.json();
+        setUsername(userData.username);
+        setDisplayName(userData.displayName);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
@@ -33,7 +46,7 @@ const NavigationBar = () => {
   return (
     <div className='w-[92%] h-[12%] min-h-[12%] flex flex-col justify-center font-poppins font-semibold text-cstm_white z-20'>
       <div className='w-full h-[65%] min-h-[65%] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] px-8'>
-        <p className='lg:text-[38px] select-none'>Welcome back, <span className='text-accent_green_dark2'>{username ? ` ${username}` : ''}</span>!</p>
+        <p className='lg:text-[38px] select-none'>Welcome back, <span className='text-accent_green_dark2'>{displayName ? ` ${displayName}` : ''}</span>!</p>
         <div className='flex justify-center items-center relative'>
 
           <div className={`absolute -bottom-[415%] w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-slate-600 to-slate-900 rounded-2xl z-40 duration-500 px-5 py-5 ${isProfileFocused.value ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -61,7 +74,7 @@ const NavigationBar = () => {
           </div>
 
           <div className='flex justify-center items-center px-2 overflow-hidden'>
-            <p className={`lg:text-2xl duration-500 select-none ${isProfileFocused.value ? 'translate-x-0' : 'translate-x-[110%]'}`}>{username}</p>
+            <p className={`lg:text-2xl duration-500 select-none ${isProfileFocused.value ? 'translate-x-0' : 'translate-x-[110%]'}`}>{displayName}</p>
           </div>
           <div
             className={`w-12 h-12 rounded-full cursor-pointer border-2 duration-500 overflow-hidden hover:border-cstm_white ${isProfileFocused.value ? 'border-cstm_white' : 'border-transparent'}`}

@@ -161,6 +161,51 @@ app.post('/api/updateQuestionStates', async (req, res) => {
   }
 });
 
+app.post('/api/updateProfile', async (req, res) => {
+  const { username, displayName, description } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          $set: {
+              username,
+              displayName,
+              description
+          }
+      });
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error updating profile:', err);
+      res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+app.get('/api/getUserProfile', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const user = await MUser.findById(decoded.userId);
+      res.json({
+          username: user.username,
+          displayName: user.displayName,
+          description: user.description
+      });
+  } catch (err) {
+      console.error('Error fetching user profile:', err);
+      res.status(500).json({ error: 'Failed to fetch user profile' });
+  }
+});
+
 app.delete('/delete/:itemName', async (req, res) => {
   const { itemName } = req.params;
   const token = req.headers.authorization?.split(' ')[1];
