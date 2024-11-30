@@ -6,6 +6,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
@@ -22,6 +23,7 @@ const RightPanel = () => {
 
   useSignals();
 
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [hoverStates, setHoverStates] = useState({});
   const [optionsHoverStates, setOptionsHoverStates] = useState({});
@@ -36,28 +38,25 @@ const RightPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      console.log('Token:', token);
       if (!token) {
-        window.location.href = '/login';
+        navigate('/login', { replace: true }); // Use replace to prevent flash
         return;
       }
 
       try {
         const formattedToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-
         const { data: responseData } = await axios.get('/data', {
           headers: {
             Authorization: formattedToken
           }
         });
 
+        setData(responseData);
+        studySetsData.value = [...responseData];
         const favorites = responseData.reduce((acc, item) => {
           acc[item.name] = item.isFavorite;
           return acc;
         }, {});
-
-        setData(responseData);
-        studySetsData.value = [...responseData];
         setIsFavourite(favorites);
         localStorage.setItem('favorites', JSON.stringify(favorites));
 
@@ -65,14 +64,14 @@ const RightPanel = () => {
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
           sessionStorage.removeItem('token');
-          window.location.href = '/login';
+          navigate('/login', { replace: true });
         }
-        console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
+
 
 
   useEffect(() => {
@@ -136,7 +135,9 @@ const RightPanel = () => {
               <div className='flex flex-row items-center justify-between'>
                 <div className='flex gap-6'>
 
-                  <div className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}>
+                  <div
+                    className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}
+                  >
                     <StartButton itemName={item.name} />
                     <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
                   </div>

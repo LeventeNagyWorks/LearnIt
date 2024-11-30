@@ -28,9 +28,9 @@ const StudySetDetailPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) {
-      navigate('/login');
+      navigate('/login', { replace: true });
       return;
     }
 
@@ -45,15 +45,18 @@ const StudySetDetailPage = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
-            navigate('/login');
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
+            navigate('/login', { replace: true });
             return;
           }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
         const foundSet = data.find(set => set.name === itemName);
         if (!foundSet) {
-          navigate('/study-sets');
+          navigate('/study-sets', { replace: true });
           return;
         }
         setStudySet(foundSet);
