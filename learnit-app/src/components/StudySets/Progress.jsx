@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 
 const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
@@ -13,15 +15,20 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
 
     useEffect(() => {
         const fetchProgress = async () => {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+
             const response = await fetch('/api/data', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token.replace(/['"]+/g, '')}`
                 }
             });
             const data = await response.json();
             const studySet = data.find(set => set.name === itemName);
-            
+
             if (studySet) {
                 const counts = studySet.questions.reduce((acc, question) => {
                     const state = question.learningState || 'notStarted';
@@ -54,8 +61,8 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
             case 'mastered':
                 return `${hasMastered && !hasLearning && !hasNotStarted ? 'rounded-xl' : 'rounded-l-xl'}`;
             case 'learning':
-                return `${!hasMastered && hasLearning && !hasNotStarted ? 'rounded-xl' : 
-                        !hasMastered ? 'rounded-l-xl' : 
+                return `${!hasMastered && hasLearning && !hasNotStarted ? 'rounded-xl' :
+                    !hasMastered ? 'rounded-l-xl' :
                         !hasNotStarted ? 'rounded-r-xl' : ''}`;
             case 'notStarted':
                 return `${!hasMastered && !hasLearning && hasNotStarted ? 'rounded-xl' : 'rounded-r-xl'}`;
@@ -76,19 +83,19 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
                                 {progressWidth.mastered > 0 && (
                                     <div
                                         className={`bg-green-500 h-full shadow-[0_0_16px_2px_#22c55e] ${getRoundedClasses('mastered')}`}
-                                        style={{width: `${progressWidth.mastered}%`}}
+                                        style={{ width: `${progressWidth.mastered}%` }}
                                     ></div>
                                 )}
                                 {progressWidth.learning > 0 && (
                                     <div
                                         className={`bg-yellow-500 h-full shadow-[0_0_16px_2px_#eab308] ${getRoundedClasses('learning')}`}
-                                        style={{width: `${progressWidth.learning}%`}}
+                                        style={{ width: `${progressWidth.learning}%` }}
                                     ></div>
                                 )}
                                 {progressWidth.notStarted > 0 && (
                                     <div
                                         className={`bg-gray-500 h-full ${getRoundedClasses('notStarted')}`}
-                                        style={{width: `${progressWidth.notStarted}%`}}
+                                        style={{ width: `${progressWidth.notStarted}%` }}
                                     ></div>
                                 )}
                             </div>

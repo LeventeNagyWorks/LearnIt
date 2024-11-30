@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -33,19 +36,21 @@ const RightPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      console.log('Token:', token);
       if (!token) {
-        console.log('No token found');
+        window.location.href = '/login';
         return;
       }
 
       try {
+        const formattedToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+
         const { data: responseData } = await axios.get('/data', {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: formattedToken
           }
         });
 
-        // Create favorites object from server data
         const favorites = responseData.reduce((acc, item) => {
           acc[item.name] = item.isFavorite;
           return acc;
@@ -57,12 +62,18 @@ const RightPanel = () => {
         localStorage.setItem('favorites', JSON.stringify(favorites));
 
       } catch (error) {
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
+          window.location.href = '/login';
+        }
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
   }, []);
+
 
   useEffect(() => {
     setData(studySetsData.value);
@@ -235,3 +246,4 @@ const RightPanel = () => {
 };
 
 export default RightPanel;
+

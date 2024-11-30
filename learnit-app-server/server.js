@@ -129,6 +129,7 @@ app.get('/api/data/:itemName/questions', async (req, res) => {
 app.post('/api/updateQuestionStates', async (req, res) => {
   const { itemName, questionStates } = req.body;
   const token = req.headers.authorization?.split(' ')[1];
+  const decoded = jwt.verify(token, SECRET_KEY);  
 
   if (!token) {
       return res.status(401).send('Unauthorized');
