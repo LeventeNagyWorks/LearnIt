@@ -46,30 +46,30 @@ const LearnStudySet = () => {
     }, [itemName]);
 
     useEffect(() => {
-      const fetchQuestionStates = async () => {
-          if (!studySet) return;
-          
-          const token = localStorage.getItem('token');
-          const response = await fetch(`http://localhost:3001/api/data/${itemName}/questions`, {
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
-          });
-          const data = await response.json();
-          
-          const statesMap = new Map();
-          if (data && data.questions) {
-              data.questions.forEach(question => {
-                  statesMap.set(question.question, {
-                      correctCount: question.correctCount || 0,
-                      state: question.learningState || 'notStarted'
-                  });
-              });
-          }
-          setQuestionStates(statesMap);
-      };
-  
-      fetchQuestionStates();
+        const fetchQuestionStates = async () => {
+            if (!studySet) return;
+
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:3001/api/data/${itemName}/questions`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+
+            const statesMap = new Map();
+            if (data && data.questions) {
+                data.questions.forEach(question => {
+                    statesMap.set(question.question, {
+                        correctCount: question.correctCount || 0,
+                        state: question.learningState || 'notStarted'
+                    });
+                });
+            }
+            setQuestionStates(statesMap);
+        };
+
+        fetchQuestionStates();
     }, [studySet, itemName]);
 
     useEffect(() => {
@@ -91,25 +91,25 @@ const LearnStudySet = () => {
     }, [questionsAnsweredCounter, sessionLength.value]);
 
     useEffect(() => {
-      if (isSessionComplete) {
-          const token = localStorage.getItem('token');
-          const states = Array.from(questionStates.entries()).map(([question, data]) => ({
-              question,
-              state: data.state
-          }));
-  
-          fetch('http://localhost:3001/api/updateQuestionStates', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                  itemName,
-                  questionStates: states
-              })
-          });
-      }
+        if (isSessionComplete) {
+            const token = localStorage.getItem('token');
+            const states = Array.from(questionStates.entries()).map(([question, data]) => ({
+                question,
+                state: data.state
+            }));
+
+            fetch('http://localhost:3001/api/updateQuestionStates', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    itemName,
+                    questionStates: states
+                })
+            });
+        }
     }, [isSessionComplete, itemName, questionStates]);
 
     const pickRandomQuestion = () => {
@@ -123,54 +123,68 @@ const LearnStudySet = () => {
     };
 
     const handleAnswerClick = async (selectedAnswer) => {
-      setSelectedAnswer(selectedAnswer);
-      const isCorrect = currentQuestion.right_answer.includes(selectedAnswer);
-      setIsAnswerCorrect(isCorrect);
-  
-      const token = localStorage.getItem('token');
-      
-      const currentState = questionStates.get(currentQuestion.question) || { correctCount: 0, state: 'notStarted' };
-      const newCorrectCount = isCorrect ? currentState.correctCount + 1 : 0;
-      const newState = newCorrectCount >= 3 ? 'mastered' : 'learning';
-      
-      setQuestionStates(new Map(questionStates.set(currentQuestion.question, {
-          correctCount: newCorrectCount,
-          state: newState
-      })));
-  
-      try {
-          await fetch('http://localhost:3001/api/updateQuestionState', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                  itemName,
-                  questionText: currentQuestion.question,
-                  newState,
-                  correctCount: newCorrectCount
-              })
-          });
-  
-          setTimeout(() => {
-              if (isCorrect) {
-                  setScore(prevScore => prevScore + 1);
-                  setCorrectlyAnsweredQuestions(prev => [...prev, currentQuestion]);
-              } else {
-                  setIncorrectQuestions(prev => [...prev, currentQuestion]);
-              }
-  
-              setQuestionsAnsweredCounter(prevCount => prevCount + 1);
-              setSelectedAnswer(null);
-              setIsAnswerCorrect(null);
-              pickNextQuestion();
-          }, 1500);
-      } catch (error) {
-          console.error('Error updating question state:', error);
-      }
+        setSelectedAnswer(selectedAnswer);
+        const isCorrect = currentQuestion.right_answer.includes(selectedAnswer);
+        setIsAnswerCorrect(isCorrect);
+
+        const token = localStorage.getItem('token');
+        const currentState = questionStates.get(currentQuestion.question) || { correctCount: 0, state: 'notStarted', wrongCount: 0 };
+
+        let newCorrectCount = currentState.correctCount;
+        let newWrongCount = currentState.wrongCount || 0;
+
+        if (isCorrect) {
+            newCorrectCount += 1;
+            newWrongCount = 0;
+        } else {
+            newWrongCount += 1;
+            if (newWrongCount >= 2 && currentState.state === 'mastered') {
+                newCorrectCount = 0;
+            }
+        }
+
+        const newState = newWrongCount >= 2 ? 'learning' : (newCorrectCount >= 3 ? 'mastered' : 'learning');
+
+        setQuestionStates(new Map(questionStates.set(currentQuestion.question, {
+            correctCount: newCorrectCount,
+            wrongCount: newWrongCount,
+            state: newState
+        })));
+
+        try {
+            await fetch('http://localhost:3001/api/updateQuestionState', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    itemName,
+                    questionText: currentQuestion.question,
+                    newState,
+                    correctCount: newCorrectCount,
+                    wrongCount: newWrongCount
+                })
+            });
+
+            setTimeout(() => {
+                if (isCorrect) {
+                    setScore(prevScore => prevScore + 1);
+                    setCorrectlyAnsweredQuestions(prev => [...prev, currentQuestion]);
+                } else {
+                    setIncorrectQuestions(prev => [...prev, currentQuestion]);
+                }
+
+                setQuestionsAnsweredCounter(prevCount => prevCount + 1);
+                setSelectedAnswer(null);
+                setIsAnswerCorrect(null);
+                pickNextQuestion();
+            }, 1500);
+        } catch (error) {
+            console.error('Error updating question state:', error);
+        }
     };
-  
+
     const pickNextQuestion = () => {
         if (questionsAnsweredCounter >= sessionLength.value) {
             setIsSessionComplete(true);
@@ -186,7 +200,7 @@ const LearnStudySet = () => {
             const availableQuestions = studySet.questions.filter(q =>
                 !correctlyAnsweredQuestions.includes(q) && q !== currentQuestion
             );
-            
+
             if (availableQuestions.length === 0) {
                 setIsSessionComplete(true);
                 return;
@@ -207,7 +221,7 @@ const LearnStudySet = () => {
     }
 
     if (isSessionComplete) {
-        return <Result score={score} itemName={itemName}/>;
+        return <Result score={score} itemName={itemName} />;
     }
 
     return (
@@ -228,15 +242,14 @@ const LearnStudySet = () => {
                             <button
                                 key={index}
                                 onClick={() => handleAnswerClick(option)}
-                                className={`py-2 px-4 rounded-xl ${
-                                    selectedAnswer === option
-                                        ? isAnswerCorrect
-                                            ? 'bg-green-700'
-                                            : 'bg-red-700'
-                                        : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
-                                            ? 'bg-slate-700 border-[4px] border-green-500'
-                                            : 'bg-slate-700 hover:bg-slate-600'
-                                }`}
+                                className={`py-2 px-4 rounded-xl duration-500 ${selectedAnswer === option
+                                    ? isAnswerCorrect
+                                        ? 'bg-green-700'
+                                        : 'bg-red-700'
+                                    : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
+                                        ? 'bg-slate-700 border-[4px] border-green-500'
+                                        : 'bg-slate-700 hover:bg-slate-600'
+                                    }`}
                                 disabled={selectedAnswer !== null}
                             >
                                 {option}
@@ -251,15 +264,14 @@ const LearnStudySet = () => {
                             <button
                                 key={index}
                                 onClick={() => handleAnswerClick(option)}
-                                className={`w-full py-2 px-4 rounded-xl ${
-                                    selectedAnswer === option
-                                        ? isAnswerCorrect
-                                            ? 'bg-green-700'
-                                            : 'bg-red-700'
-                                        : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
-                                            ? 'bg-slate-700 border-2 border-green-500'
-                                            : 'bg-slate-700 hover:bg-slate-600'
-                                }`}
+                                className={`w-full py-2 px-4 rounded-xl ${selectedAnswer === option
+                                    ? isAnswerCorrect
+                                        ? 'bg-green-700'
+                                        : 'bg-red-700'
+                                    : currentQuestion.right_answer.includes(option) && selectedAnswer !== null
+                                        ? 'bg-slate-700 border-2 border-green-500'
+                                        : 'bg-slate-700 hover:bg-slate-600'
+                                    }`}
                                 disabled={selectedAnswer !== null}
                             >
                                 {option}

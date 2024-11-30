@@ -5,27 +5,31 @@ const MUser = new mongoose.Schema({
   email: String,
   password: String,
   studySets: [{
-    name: String,
-    questions: [{
-      _id: false,
-      question: String,
-      answer: Array,
-      right_answer: Array,
-      que_type: String,
-      correctCount: {
-        type: Number,
-        default: 0
-      },
-      learningState: {
-        type: String,
-        enum: ['notStarted', 'learning', 'mastered'],
-        default: 'notStarted'
+      name: String,
+      questions: [{
+          _id: false,
+          question: String,
+          answer: Array,
+          right_answer: Array,
+          que_type: String,
+          correctCount: {
+              type: Number,
+              default: 0
+          },
+          wrongCount: {
+              type: Number,
+              default: 0
+          },
+          learningState: {
+              type: String,
+              enum: ['notStarted', 'learning', 'mastered'],
+              default: 'notStarted'
+          }
+      }],
+      isFavorite: {
+          type: Boolean,
+          default: false
       }
-    }],
-    isFavorite: {
-      type: Boolean,
-      default: false
-    }
   }]
 });
 

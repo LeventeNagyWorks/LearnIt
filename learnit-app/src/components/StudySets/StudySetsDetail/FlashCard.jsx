@@ -61,7 +61,7 @@ const Flashcard = ({
 
 
     return (
-        <div className={`w-[55%] h-[100%] relative rounded-[50px] perspective-3000 select-none`}>
+        <div className={`w-[55%] h-[100%] max-h-[600px] relative rounded-[50px] perspective-3000 select-none`}>
             <div
                 ref={cardRef}
                 className={`w-full h-full relative duration-500 cursor-pointer rounded-[50px] transform-style-3d

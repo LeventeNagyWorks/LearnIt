@@ -43,46 +43,41 @@ if (!fs.existsSync('./data.json')) {
   fs.writeFileSync('./data.json', '[]');
 }
 
-app.post('/upload', async (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
+app.post('/api/updateQuestionState', async (req, res) => {
+  const { itemName, questionText, newState, correctCount } = req.body;
   const token = req.headers.authorization?.split(' ')[1];
-  if (!token) {
-    return res.status(401).send('Unauthorized');
-  }
 
-  const uploadedFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    const userId = decoded.userId;
-
-    for (const file of uploadedFiles) {
-      const fileContent = Buffer.from(file.data).toString('utf8');
-      const cleanFileName = Buffer.from(file.name, 'binary').toString('utf8').replace(/\.txt$/i, '');
+      const decoded = jwt.verify(token, SECRET_KEY);
       
-      const parsedData = txtToJSON({ 
-        name: cleanFileName, 
-        content: Buffer.from(fileContent, 'utf8')
-      });
-     
-      await MUser.findByIdAndUpdate(userId, {
-        $push: {
-          studySets: {
-            name: cleanFileName,
-            questions: parsedData.questions,
-            isFavorite: false
+      await MUser.updateOne(
+          {
+              _id: decoded.userId,
+              'studySets.name': itemName,
+              'studySets.questions.question': questionText
+          },
+          {
+              $set: {
+                  'studySets.$[set].questions.$[que].learningState': newState,
+                  'studySets.$[set].questions.$[que].correctCount': correctCount
+              }
+          },
+          {
+              arrayFilters: [
+                  { 'set.name': itemName },
+                  { 'que.question': questionText }
+              ]
           }
-        }
-      });
-    }
+      );
 
-    res.send('Files uploaded successfully!');
+      res.json({ success: true });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error processing upload');
+      console.error('Error updating question state:', err);
+      res.status(500).json({ error: 'Failed to update question state' });
   }
 });
 
