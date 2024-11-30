@@ -79,6 +79,8 @@ const MyProfile = () => {
     };
 
     // TODO: username shouldn't be existing if the user wants to edit it
+    // TODO: editable profile picture
+    // TODO: BUG: if I login without remembering me, the page crashes
 
     return (
         <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white'>
