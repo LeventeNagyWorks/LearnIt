@@ -206,6 +206,49 @@ app.get('/api/getUserProfile', async (req, res) => {
   }
 });
 
+app.post('/upload', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+ 
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+   
+    if (!req.files || !req.files.file) {
+      return res.status(400).send('No file uploaded');
+    }
+
+    const file = req.files.file;
+    const parsedData = txtToJSON({
+      content: file.data,
+      name: Buffer.from(file.name, 'latin1').toString('utf8')
+    });
+   
+    const fileName = Buffer.from(file.name, 'latin1').toString('utf8').replace(/\.txt$/i, '');
+
+    await MUser.findByIdAndUpdate(
+      decoded.userId,
+      {
+        $push: {
+          studySets: {
+            name: fileName,
+            questions: parsedData.questions
+          }
+        }
+      }
+    );
+
+    res.json({ message: 'File uploaded successfully' });
+  } catch (err) {
+    console.error('Error processing upload:', err);
+    res.status(500).json({ error: 'Failed to process file upload' });
+  }
+});
+
+
+
 app.delete('/delete/:itemName', async (req, res) => {
   const { itemName } = req.params;
   const token = req.headers.authorization?.split(' ')[1];
