@@ -31,12 +31,22 @@ const MyProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+                if (!token) {
+                    console.log('No token found');
+                    return;
+                }
+
                 const response = await fetch('http://localhost:3001/api/getUserProfile', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+
                 const userData = await response.json();
                 setUsername(userData.username);
                 setDisplayName(userData.displayName);
@@ -50,7 +60,9 @@ const MyProfile = () => {
 
     const handleSave = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (!token) return;
+
             const response = await fetch('http://localhost:3001/api/updateProfile', {
                 method: 'POST',
                 headers: {
@@ -72,6 +84,7 @@ const MyProfile = () => {
         }
     };
 
+
     const handleEditClick = () => {
         if (isEditing) {
             handleSave();
@@ -81,16 +94,14 @@ const MyProfile = () => {
 
     // TODO: username shouldn't be existing if the user wants to edit it
     // TODO: editable profile picture
-    // TODO: login with username
-    // TODO: BUG: if I login without remembering me, the page crashes
+    // TODO: change hardcoded stats to dynamic stats
 
     return (
         <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white relative'>
 
-            <div className={`absolute top-5 left-1/2 bg-accent_green_dark/80 text-white px-4 py-2 rounded-lg shadow-lg duration-500 z-50 ${isEditing ? 'translate-y-0' : '-translate-y-[150%]'}`}>
-                <p className='font-medium select-none'>You are editing now!</p>
+            <div className={`absolute top-5 left-1/2 -translate-x-1/2 bg-accent_green_dark/80 text-white px-4 py-2 rounded-lg shadow-lg duration-500 z-50 ${isEditing ? 'translate-y-0' : '-translate-y-[150%]'}`}>
+                <p className='font-medium select-none'>You are editing your profile now!</p>
             </div>
-
 
             <ProfileEditButton
                 onEditClick={handleEditClick}
@@ -99,7 +110,17 @@ const MyProfile = () => {
 
             <section className='w-full h-screen min-h-screen flex flex-col justify-center items-center'>
                 <div className='w-[90%] h-[50%] rounded-3xl flex items-center justify-start gap-20 relative'>
-                    <img src={DefaultProfilePicture} alt="" className='w-[280px] h-[280px] bg-slate-50 rounded-full select-none' />
+
+                    <div className='w-[280px] h-[280px] min-w-[280px] min-h-[280px] flex relative'>
+                        {isEditing ? (
+                            <div className='absolute w-full h-full bg-slate-900/80 rounded-full flex items-center justify-center cursor-pointer'>
+                                <p className='text-cstm_white font-semibold text-xl text-center select-none'>Click here to change picture</p>
+                            </div>
+                        ) : null}
+
+                        <img src={DefaultProfilePicture} alt="" className='w-[280px] h-[280px] bg-slate-50 rounded-full select-none' />
+                    </div>
+
                     {isEditing ? (
                         <div className='caret-accent_green_dark'>
                             <input

@@ -115,8 +115,10 @@ const StudySetDetailPage = () => {
 
   const currentQuestion = studySet.questions[currentIndex];
 
+  // TODO: ha refreshelek az oldalra, akkor vissza dob a studysets page-re, feltehetően az url okozza az ékezetes karakterekkel
+
   return (
-    <div className='h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-hidden relative selection:bg-accent_green_dark'>
+    <div className='h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-x-hidden relative selection:bg-accent_green_dark'>
       <section className='w-screen h-screen flex flex-col items-center justify-between z-10 pb-8'>
 
         <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5'>

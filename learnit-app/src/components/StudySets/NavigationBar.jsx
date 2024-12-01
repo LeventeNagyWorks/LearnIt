@@ -18,12 +18,22 @@ const NavigationBar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        if (!token) {
+          console.log('No token found');
+          return;
+        }
+
         const response = await fetch('http://localhost:3001/api/getUserProfile', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
         const userData = await response.json();
         setUsername(userData.username);
         setDisplayName(userData.displayName);

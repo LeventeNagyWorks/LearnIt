@@ -69,6 +69,8 @@ const Login = () => {
         }
     };
 
+    // TODO: login with username
+
     return (
         <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
             {showError && <Error type="InvalidEmailOrPw" onClick={() => setShowError(false)} />}
@@ -82,7 +84,7 @@ const Login = () => {
             </div>
             <div className='w-full md:w-[55%] h-full flex flex-col items-center justify-center'>
                 <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen">
-                Learn <span className="text-accent_green_dark">It</span>
+                    Learn <span className="text-accent_green_dark">It</span>
                 </h1>
                 <form
                     className='w-[80%] md:w-[55%] h-[50%] flex flex-col justify-center items-center gap-10 relative z-20'
@@ -90,23 +92,23 @@ const Login = () => {
                     onKeyDown={handleKeyDown}
                 >
                     <Email
-                        onChange={(e)=>{setEmail(e.target.value)}}
+                        onChange={(e) => { setEmail(e.target.value) }}
                         className={'border-slate-700'}
                     />
 
                     <Password
-                        onChange={(e)=>{setPassword(e.target.value)}}
+                        onChange={(e) => { setPassword(e.target.value) }}
                         className={'border-slate-700'}
                     />
 
                     <div className='w-full flex justify-center items-center text-xl gap-4'>
-                        <CheckBox isChecked={rememberMe} setIsChecked={setRememberMe}/>
+                        <CheckBox isChecked={rememberMe} setIsChecked={setRememberMe} />
                         <p className='select-none'>Remember me</p>
                     </div>
 
                     <div className='w-full flex items-center justify-evenly'>
-                        <BackButton to={'/'}/>
-                        <PrimaryButton text={'Login'} to={'/study-sets'} onClick={submit}/>
+                        <BackButton to={'/'} />
+                        <PrimaryButton text={'Login'} to={'/study-sets'} onClick={submit} />
                     </div>
 
                     <div className='w-full flex flex-col items-center justify-evenly select-none relative pb-4'>
@@ -119,7 +121,7 @@ const Login = () => {
                         >
                             Registration
                         </Link>
-                        <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[110px]' : 'w-0'}`}/>
+                        <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isRegisterHovered ? 'w-[110px]' : 'w-0'}`} />
                     </div>
                 </form>
             </div>
