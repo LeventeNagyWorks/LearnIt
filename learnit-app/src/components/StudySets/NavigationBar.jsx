@@ -9,6 +9,7 @@ const NavigationBar = () => {
 
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
 
   const onClickProfile = () => {
@@ -37,6 +38,9 @@ const NavigationBar = () => {
         const userData = await response.json();
         setUsername(userData.username);
         setDisplayName(userData.displayName);
+        if (userData.avatar) {
+          setAvatar(`data:image/jpeg;base64,${userData.avatar}`);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -93,7 +97,11 @@ const NavigationBar = () => {
               onClickProfile();
             }}
           >
-            <img src={DefaultProfilePicture} alt="Profile" className="w-full h-full select-none object-cover" />
+            <img
+              src={avatar || DefaultProfilePicture}
+              alt="Profile"
+              className="w-full h-full select-none object-cover"
+            />
           </div>
         </div>
       </div>

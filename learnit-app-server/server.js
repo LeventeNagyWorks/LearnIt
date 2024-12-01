@@ -161,30 +161,36 @@ app.post('/api/updateQuestionStates', async (req, res) => {
   }
 });
 
-app.post('/api/updateProfile', async (req, res) => {
-  const { username, displayName, description } = req.body;
+// Add this new endpoint for profile picture upload
+app.post('/api/updateProfilePicture', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
-
   if (!token) {
       return res.status(401).send('Unauthorized');
   }
 
   try {
       const decoded = jwt.verify(token, SECRET_KEY);
+      
+      if (!req.files || !req.files.avatar) {
+          return res.status(400).send('No image uploaded');
+      }
+
+      const avatar = req.files.avatar;
+      
       await MUser.findByIdAndUpdate(decoded.userId, {
           $set: {
-              username,
-              displayName,
-              description
+              avatar: avatar.data.toString('base64')
           }
       });
+
       res.json({ success: true });
   } catch (err) {
-      console.error('Error updating profile:', err);
-      res.status(500).json({ error: 'Failed to update profile' });
+      console.error('Error updating profile picture:', err);
+      res.status(500).json({ error: 'Failed to update profile picture' });
   }
 });
 
+// Modify the getUserProfile endpoint to include avatar
 app.get('/api/getUserProfile', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
 
@@ -198,7 +204,8 @@ app.get('/api/getUserProfile', async (req, res) => {
       res.json({
           username: user.username,
           displayName: user.displayName,
-          description: user.description
+          description: user.description,
+          avatar: user.avatar
       });
   } catch (err) {
       console.error('Error fetching user profile:', err);

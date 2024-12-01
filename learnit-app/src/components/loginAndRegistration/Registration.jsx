@@ -15,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Registration = () => {
 
     //TODO: Already used email, username error message
+    //TODO: Check if the email exits at all
 
     const [isLoginHovered, setIsLoginHovered] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -33,15 +34,15 @@ const Registration = () => {
 
     async function submit(e) {
         e.preventDefault();
-        
+
         setUsernameAttempted(true);
         setEmailAttempted(true);
         setPasswordAttempted(true);
-    
+
         if (!isChecked) return;
-    
+
         if (isUsernameValid && isEmailValid && isPasswordValid) {
-            console.log({username, email, password});
+            console.log({ username, email, password });
             try {
                 const response = await axios.post("http://localhost:3001/registration", {
                     username, email, password
@@ -82,92 +83,92 @@ const Registration = () => {
         setIsDisabled(!(isUsernameValid && isEmailValid && isPasswordValid));
     }, [isUsernameValid, isEmailValid, isPasswordValid]);
 
-  return (
-    <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
-        {showRegisteredMessage && <SuccessfullyRegistered onClick={closeRegisteredMessage} type="registeredSuccesfully"/>}
+    return (
+        <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
+            {showRegisteredMessage && <SuccessfullyRegistered onClick={closeRegisteredMessage} type="registeredSuccesfully" />}
 
-        <div className='w-full md:w-[45%] h-1/3 md:h-full flex items-center justify-center relative'>
-        
-            <img 
-                src={girlReadingImage} 
-                alt="Girl reading" 
-                className='w-fit h-[85%] md:h-[75%] rounded-3xl object-cover object-center relative z-30'
-            />
-        </div>
-        <div className='w-full md:w-[55%] h-full md:h-full flex flex-col items-center justify-start md:justify-center'>
-            <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen mb-10">
-            Learn <span className="text-accent_green_dark">It</span>
-            </h1>
-            <form 
-                className='w-[80%] md:w-[55%] md:h-[60%] h-[80%] flex flex-col justify-center items-center gap-10 pt-20'
-                onKeyDown={handleKeyDown}
-            >
+            <div className='w-full md:w-[45%] h-1/3 md:h-full flex items-center justify-center relative'>
 
-                <Username
-                    type="registration"
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setUsername(value);
-                        setIsUsernameValid(validateUsername(value));
-                    }}
-                    className={usernameAttempted && !isUsernameValid ? 'border-red-500' : 'border-slate-700'}
+                <img
+                    src={girlReadingImage}
+                    alt="Girl reading"
+                    className='w-fit h-[85%] md:h-[75%] rounded-3xl object-cover object-center relative z-30'
                 />
+            </div>
+            <div className='w-full md:w-[55%] h-full md:h-full flex flex-col items-center justify-start md:justify-center'>
+                <h1 className="absolute top-8 right-12 text-cstm_white lg:text-[60px] md:text-[50px] select-none font-poetsen mb-10">
+                    Learn <span className="text-accent_green_dark">It</span>
+                </h1>
+                <form
+                    className='w-[80%] md:w-[55%] md:h-[60%] h-[80%] flex flex-col justify-center items-center gap-10 pt-20'
+                    onKeyDown={handleKeyDown}
+                >
 
-                <Email
-                    type="registration"
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setEmail(value);
-                        setIsEmailValid(validateEmail(value));
-                    }}
-                    className={emailAttempted && !isEmailValid ? 'border-red-500' : 'border-slate-700'}
-                />
-
-                <Password
-                    type="registration"
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setPassword(value);
-                        setIsPasswordValid(validatePassword(value));
-                    }}
-                    className={passwordAttempted && !isPasswordValid ? 'border-red-500' : 'border-slate-700'}
-                />
-
-                <div className='w-full flex justify-center items-center text-xl gap-4'>
-                    <CheckBox 
-                        isChecked={isChecked} 
-                        setIsChecked={setIsChecked} 
-                        isDisabled={isDisabled} 
-                        setIsDisabled={setIsDisabled}
+                    <Username
+                        type="registration"
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setUsername(value);
+                            setIsUsernameValid(validateUsername(value));
+                        }}
+                        className={usernameAttempted && !isUsernameValid ? 'border-red-500' : 'border-slate-700'}
                     />
-                    <p className='select-none'>I accept the Terms of Use</p>
-                </div>
 
-                <div className='w-full flex items-center justify-evenly'>
-                    <BackButton to={'/'}/>
-                    <PrimaryButton 
-                        text={'Registration'} 
-                        onClick={submit} 
-                        isDisabled={!isChecked}
+                    <Email
+                        type="registration"
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setEmail(value);
+                            setIsEmailValid(validateEmail(value));
+                        }}
+                        className={emailAttempted && !isEmailValid ? 'border-red-500' : 'border-slate-700'}
                     />
-                </div>
 
-                <div className='w-full flex flex-col items-center justify-evenly select-none relative pb-4'>
-                    <p className='text-lg'>Already have an account?</p>
-                    <Link 
-                        className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
-                        onMouseEnter={() => setIsLoginHovered(true)}
-                        onMouseLeave={() => setIsLoginHovered(false)}
-                        to={'/login'}
-                    > 
-                        Login
-                    </Link>
-                    <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isLoginHovered ? 'w-[55px]' : 'w-0'}`}/>
-                </div>
-            </form>
+                    <Password
+                        type="registration"
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setPassword(value);
+                            setIsPasswordValid(validatePassword(value));
+                        }}
+                        className={passwordAttempted && !isPasswordValid ? 'border-red-500' : 'border-slate-700'}
+                    />
+
+                    <div className='w-full flex justify-center items-center text-xl gap-4'>
+                        <CheckBox
+                            isChecked={isChecked}
+                            setIsChecked={setIsChecked}
+                            isDisabled={isDisabled}
+                            setIsDisabled={setIsDisabled}
+                        />
+                        <p className='select-none'>I accept the Terms of Use</p>
+                    </div>
+
+                    <div className='w-full flex items-center justify-evenly'>
+                        <BackButton to={'/'} />
+                        <PrimaryButton
+                            text={'Registration'}
+                            onClick={submit}
+                            isDisabled={!isChecked}
+                        />
+                    </div>
+
+                    <div className='w-full flex flex-col items-center justify-evenly select-none relative pb-4'>
+                        <p className='text-lg'>Already have an account?</p>
+                        <Link
+                            className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
+                            onMouseEnter={() => setIsLoginHovered(true)}
+                            onMouseLeave={() => setIsLoginHovered(false)}
+                            to={'/login'}
+                        >
+                            Login
+                        </Link>
+                        <span className={`absolute bottom-3 h-[3px] bg-accent_green_dark duration-500 ${isLoginHovered ? 'w-[55px]' : 'w-0'}`} />
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default Registration
