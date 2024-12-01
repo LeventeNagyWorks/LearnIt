@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
@@ -80,10 +81,16 @@ const MyProfile = () => {
 
     // TODO: username shouldn't be existing if the user wants to edit it
     // TODO: editable profile picture
+    // TODO: login with username
     // TODO: BUG: if I login without remembering me, the page crashes
 
     return (
-        <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white'>
+        <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white relative'>
+
+            <div className={`absolute top-5 left-1/2 bg-accent_green_dark/80 text-white px-4 py-2 rounded-lg shadow-lg duration-500 z-50 ${isEditing ? 'translate-y-0' : '-translate-y-[150%]'}`}>
+                <p className='font-medium select-none'>You are editing now!</p>
+            </div>
+
 
             <ProfileEditButton
                 onEditClick={handleEditClick}
