@@ -3,9 +3,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DefaultProfilePicture from '../../images/default_profile_pic.png';
-import { isLoggedIn, isProfileFocused } from '../../signals';
+import { isFriendsOpened, isLoggedIn, isProfileFocused } from '../../signals';
+import { useSignals } from '@preact/signals-react/runtime';
 
 const NavigationBar = () => {
+
+  useSignals();
 
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -75,7 +78,10 @@ const NavigationBar = () => {
             >
               <p className=''>My Profile</p>
             </div>
-            <div className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'>
+            <div
+              className='w-full flex justify-center items-center hover:bg-green-600 border-2 border-cstm_white px-4 py-1 rounded-lg cursor-pointer duration-500'
+              onClick={() => isFriendsOpened.value = true}
+            >
               <p className=''>Friends</p>
             </div>
             <div

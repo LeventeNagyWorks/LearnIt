@@ -18,6 +18,13 @@ const isProfileFocused = signal(false);
 const sessionLength = signal(10);
 const studySetsData = signal([]);
 const isLoggedIn = signal(false);
+const isFriendsOpened = signal(false);
+const isMyFriendsOpened = signal(true);
+const isAddFriendsOpened = signal(false);
+const isPendingOpened = signal(false);
+const isMyFriendsHovered = signal(false);
+const isAddFriendsHovered = signal(false);
+const isPendingHovered = signal(false);
 
 export {
     isLoading,
@@ -35,5 +42,12 @@ export {
     isLoadingEnabled,
     sessionLength,
     isProfileFocused,
-    isLoggedIn
+    isLoggedIn,
+    isFriendsOpened,
+    isMyFriendsHovered,
+    isAddFriendsHovered,
+    isPendingHovered,
+    isMyFriendsOpened,
+    isAddFriendsOpened,
+    isPendingOpened,
 }
