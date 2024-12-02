@@ -18,6 +18,18 @@ const MUser = new mongoose.Schema({
         type: String,
         default: null
     },
+    allMastered: {
+        type: Number,
+        default: 0
+    },
+    allLearning: {
+        type: Number,
+        default: 0
+    },
+    allNotSStarted: {
+        type: Number,
+        default: 0
+    },
     studySets: [{
         name: String,
         questions: [{

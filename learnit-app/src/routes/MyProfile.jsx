@@ -28,6 +28,9 @@ const MyProfile = () => {
     const [username, setUsername] = useState('user');
     const [displayName, setDisplayName] = useState('user');
     const [description, setDescription] = useState("This is my description. Have a nice day. ✌️");
+    const [allMastered, setAllMastered] = useState(0);
+    const [allLearning, setAllLearning] = useState(0);
+    const [allNotSStarted, setAllNotSStarted] = useState(0);
     const [image, setImage] = useState(null);
     const [crop, setCrop] = useState({
         unit: '%',
@@ -64,6 +67,10 @@ const MyProfile = () => {
             if (userData.avatar) {
                 setCroppedImage(`data:image/jpeg;base64,${userData.avatar}`);
             }
+            // Add these new setters
+            setAllMastered(userData.allMastered);
+            setAllLearning(userData.allLearning);
+            setAllNotSStarted(userData.allNotSStarted);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -277,17 +284,17 @@ const MyProfile = () => {
                 </div>
                 <div className='w-[90%] h-[50%] rounded-3xl flex items-center justify-evenly'>
                     <div className='w-fit flex flex-col items-center text-green-600'>
-                        <Counter value={182} className='text-[64px] font-semibold' />
+                        <Counter value={allMastered} className='text-[64px] font-semibold' />
                         <p className='text-[42px]'>Mastered</p>
                     </div>
                     <span className='w-[2px] h-14 bg-slate-700'></span>
                     <div className='w-fit flex flex-col items-center text-accent_orange_dark'>
-                        <Counter value={234} className='text-[64px] font-semibold' />
+                        <Counter value={allLearning} className='text-[64px] font-semibold' />
                         <p className='text-[42px]'>Learning</p>
                     </div>
                     <span className='w-[2px] h-14 bg-slate-700'></span>
                     <div className='w-fit flex flex-col items-center text-gray-400'>
-                        <Counter value={126} className='text-[64px] font-semibold' />
+                        <Counter value={allNotSStarted} className='text-[64px] font-semibold' />
                         <p className='text-[42px]'>Not Started</p>
                     </div>
                 </div>

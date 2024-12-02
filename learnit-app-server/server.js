@@ -53,7 +53,9 @@ app.post('/api/updateQuestionState', async (req, res) => {
 
   try {
       const decoded = jwt.verify(token, SECRET_KEY);
+      const user = await MUser.findById(decoded.userId);
       
+      // Update the specific question state
       await MUser.updateOne(
           {
               _id: decoded.userId,
@@ -73,6 +75,34 @@ app.post('/api/updateQuestionState', async (req, res) => {
               ]
           }
       );
+
+      // Calculate new totals
+      let mastered = 0;
+      let learning = 0;
+      let notStarted = 0;
+
+      user.studySets.forEach(set => {
+          set.questions.forEach(question => {
+              switch(question.learningState) {
+                  case 'mastered':
+                      mastered++;
+                      break;
+                  case 'learning':
+                      learning++;
+                      break;
+                  case 'notStarted':
+                      notStarted++;
+                      break;
+              }
+          });
+      });
+
+      // Update the totals
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          allMastered: mastered,
+          allLearning: learning,
+          allNotSStarted: notStarted
+      });
 
       res.json({ success: true });
   } catch (err) {
@@ -161,7 +191,6 @@ app.post('/api/updateQuestionStates', async (req, res) => {
   }
 });
 
-// Add this new endpoint for profile picture upload
 app.post('/api/updateProfilePicture', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -190,7 +219,6 @@ app.post('/api/updateProfilePicture', async (req, res) => {
   }
 });
 
-// Modify the getUserProfile endpoint to include avatar
 app.get('/api/getUserProfile', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
 
@@ -205,13 +233,17 @@ app.get('/api/getUserProfile', async (req, res) => {
           username: user.username,
           displayName: user.displayName,
           description: user.description,
-          avatar: user.avatar
+          avatar: user.avatar,
+          allMastered: user.allMastered,
+          allLearning: user.allLearning,
+          allNotSStarted: user.allNotSStarted
       });
   } catch (err) {
       console.error('Error fetching user profile:', err);
       res.status(500).json({ error: 'Failed to fetch user profile' });
   }
 });
+
 
 app.post('/upload', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -222,7 +254,7 @@ app.post('/upload', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-   
+    
     if (!req.files || !req.files.file) {
       return res.status(400).send('No file uploaded');
     }
@@ -235,6 +267,7 @@ app.post('/upload', async (req, res) => {
    
     const fileName = Buffer.from(file.name, 'latin1').toString('utf8').replace(/\.txt$/i, '');
 
+    // First update the study sets
     await MUser.findByIdAndUpdate(
       decoded.userId,
       {
@@ -247,13 +280,41 @@ app.post('/upload', async (req, res) => {
       }
     );
 
+    // Then get the updated user data to count states
+    const user = await MUser.findById(decoded.userId);
+    let mastered = 0;
+    let learning = 0;
+    let notStarted = 0;
+
+    user.studySets.forEach(set => {
+        set.questions.forEach(question => {
+            switch(question.learningState) {
+                case 'mastered':
+                    mastered++;
+                    break;
+                case 'learning':
+                    learning++;
+                    break;
+                case 'notStarted':
+                    notStarted++;
+                    break;
+            }
+        });
+    });
+
+    // Update the totals
+    await MUser.findByIdAndUpdate(decoded.userId, {
+        allMastered: mastered,
+        allLearning: learning,
+        allNotSStarted: notStarted
+    });
+
     res.json({ message: 'File uploaded successfully' });
   } catch (err) {
     console.error('Error processing upload:', err);
     res.status(500).json({ error: 'Failed to process file upload' });
   }
 });
-
 
 
 app.delete('/delete/:itemName', async (req, res) => {
