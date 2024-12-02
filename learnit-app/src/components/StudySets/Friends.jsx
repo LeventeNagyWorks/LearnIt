@@ -9,6 +9,7 @@ import {
     isPendingOpened,
 } from '../../signals';
 import FriendsTabSwitch from './StudySetsDetail/FriendsTabSwitch';
+import AddFriends from './AddFriends';
 
 const Friends = () => {
 
@@ -26,7 +27,7 @@ const Friends = () => {
                 </div>
                 <section className='w-full h-full flex justify-center items-center text-cstm_white'>
                     {isMyFriendsOpened.value && <div>My Friends Content</div>}
-                    {isAddFriendsOpened.value && <div>Add Friends Content</div>}
+                    {isAddFriendsOpened.value && <AddFriends />}
                     {isPendingOpened.value && <div>Pending Content</div>}
                 </section>
             </div>

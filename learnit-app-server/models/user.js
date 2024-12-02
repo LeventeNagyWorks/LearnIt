@@ -30,6 +30,14 @@ const MUser = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    friendRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     studySets: [{
         name: String,
         questions: [{

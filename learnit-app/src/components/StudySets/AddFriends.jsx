@@ -1,0 +1,123 @@
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+const AddFriends = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]); // Initialize as empty array
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const searchUsers = async () => {
+            if (searchQuery.trim() === '') {
+                setSearchResults([]);
+                return;
+            }
+
+            setIsLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:3001/api/searchUsers?query=${searchQuery}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                setSearchResults(Array.isArray(data) ? data : []);
+            } catch (error) {
+                console.error('Error searching users:', error);
+                setSearchResults([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        const debounceTimer = setTimeout(searchUsers, 300);
+        return () => clearTimeout(debounceTimer);
+    }, [searchQuery]);
+
+    const sendFriendRequest = async (userId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/sendFriendRequest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ recipientId: userId })
+            });
+
+            if (response.ok) {
+                // Update UI to show pending state
+                setSearchResults(prev =>
+                    prev.map(user =>
+                        user._id === userId
+                            ? { ...user, requestSent: true }
+                            : user
+                    )
+                );
+            }
+        } catch (error) {
+            console.error('Error sending friend request:', error);
+        }
+    };
+
+    return (
+        <div className="w-full h-full flex flex-col p-6">
+            <div className="relative w-full max-w-2xl mx-auto">
+                <input
+                    type="text"
+                    placeholder="Search users..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full p-4 rounded-lg bg-slate-700 text-cstm_white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent_green_dark"
+                />
+                {isLoading && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                        <div className="w-5 h-5 border-2 border-accent_green_dark border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {searchResults.map((user) => (
+                    <motion.div
+                        key={user._id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-slate-700 p-4 rounded-lg flex items-center justify-between"
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full overflow-hidden">
+                                <img
+                                    src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : '/default-avatar.png'}
+                                    alt={user.displayName}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <div>
+                                <h3 className="text-cstm_white font-medium">{user.displayName}</h3>
+                                <p className="text-gray-400 text-sm">@{user.username}</p>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => sendFriendRequest(user._id)}
+                            disabled={user.requestSent}
+                            className={`px-4 py-2 rounded-lg duration-500 ${user.requestSent
+                                ? 'bg-gray-600 text-gray-400'
+                                : 'bg-accent_green_dark text-cstm_bg_dark hover:bg-accent_green_dark2'
+                                } transition-colors`}
+                        >
+                            {user.requestSent ? 'Pending' : 'Add Friend'}
+                        </button>
+                    </motion.div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default AddFriends;

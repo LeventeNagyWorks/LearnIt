@@ -244,6 +244,57 @@ app.get('/api/getUserProfile', async (req, res) => {
   }
 });
 
+app.get('/api/searchUsers', async (req, res) => {
+  const { query } = req.query;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const users = await MUser.find({
+          $and: [
+              { _id: { $ne: decoded.userId } },
+              {
+                  $or: [
+                      { username: { $regex: query, $options: 'i' } },
+                      { displayName: { $regex: query, $options: 'i' } }
+                  ]
+              }
+          ]
+      }).select('username displayName avatar');
+      
+      res.json(users);
+  } catch (err) {
+      console.error('Error searching users:', err);
+      res.status(500).json({ error: 'Failed to search users' });
+  }
+});
+
+app.post('/api/sendFriendRequest', async (req, res) => {
+  const { recipientId } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      
+      // Add friend request to recipient's requests
+      await MUser.findByIdAndUpdate(recipientId, {
+          $addToSet: { friendRequests: decoded.userId }
+      });
+
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error sending friend request:', err);
+      res.status(500).json({ error: 'Failed to send friend request' });
+  }
+});
 
 app.post('/upload', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -315,7 +366,6 @@ app.post('/upload', async (req, res) => {
     res.status(500).json({ error: 'Failed to process file upload' });
   }
 });
-
 
 app.delete('/delete/:itemName', async (req, res) => {
   const { itemName } = req.params;
