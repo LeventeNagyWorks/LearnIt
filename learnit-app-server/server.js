@@ -101,7 +101,7 @@ app.post('/api/updateQuestionState', async (req, res) => {
       await MUser.findByIdAndUpdate(decoded.userId, {
           allMastered: mastered,
           allLearning: learning,
-          allNotSStarted: notStarted
+          allNotStarted: notStarted
       });
 
       res.json({ success: true });
@@ -236,7 +236,7 @@ app.get('/api/getUserProfile', async (req, res) => {
           avatar: user.avatar,
           allMastered: user.allMastered,
           allLearning: user.allLearning,
-          allNotSStarted: user.allNotSStarted
+          allNotStarted: user.allNotStarted
       });
   } catch (err) {
       console.error('Error fetching user profile:', err);
@@ -306,7 +306,7 @@ app.post('/upload', async (req, res) => {
     await MUser.findByIdAndUpdate(decoded.userId, {
         allMastered: mastered,
         allLearning: learning,
-        allNotSStarted: notStarted
+        allNotStarted: notStarted
     });
 
     res.json({ message: 'File uploaded successfully' });

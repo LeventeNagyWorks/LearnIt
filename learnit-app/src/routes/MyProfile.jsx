@@ -30,7 +30,7 @@ const MyProfile = () => {
     const [description, setDescription] = useState("This is my description. Have a nice day. ✌️");
     const [allMastered, setAllMastered] = useState(0);
     const [allLearning, setAllLearning] = useState(0);
-    const [allNotSStarted, setAllNotSStarted] = useState(0);
+    const [allNotStarted, setAllNotStarted] = useState(0);
     const [image, setImage] = useState(null);
     const [crop, setCrop] = useState({
         unit: '%',
@@ -70,7 +70,7 @@ const MyProfile = () => {
             // Add these new setters
             setAllMastered(userData.allMastered);
             setAllLearning(userData.allLearning);
-            setAllNotSStarted(userData.allNotSStarted);
+            setAllNotStarted(userData.allNotStarted);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -294,7 +294,7 @@ const MyProfile = () => {
                     </div>
                     <span className='w-[2px] h-14 bg-slate-700'></span>
                     <div className='w-fit flex flex-col items-center text-gray-400'>
-                        <Counter value={allNotSStarted} className='text-[64px] font-semibold' />
+                        <Counter value={allNotStarted} className='text-[64px] font-semibold' />
                         <p className='text-[42px]'>Not Started</p>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ const MUser = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    allNotSStarted: {
+    allNotStarted: {
         type: Number,
         default: 0
     },
