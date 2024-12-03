@@ -1,11 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const AddFriends = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]); // Initialize as empty array
+    const [searchResults, setSearchResults] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const searchUsers = async () => {
@@ -15,19 +18,35 @@ const AddFriends = () => {
             }
 
             setIsLoading(true);
+            // Check both localStorage and sessionStorage for the token
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+            if (!token) {
+                navigate('/login', { replace: true });
+                return;
+            }
+
             try {
-                const token = localStorage.getItem('token');
                 const response = await fetch(`http://localhost:3001/api/searchUsers?query=${searchQuery}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
+
+                if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    sessionStorage.removeItem('token');
+                    navigate('/login', { replace: true });
+                    return;
+                }
+
                 const data = await response.json();
-                setSearchResults(Array.isArray(data) ? data : []);
+                if (response.ok) {
+                    setSearchResults(Array.isArray(data) ? data : []);
+                }
             } catch (error) {
-                console.error('Error searching users:', error);
-                setSearchResults([]);
+                console.error('Search error:', error);
             } finally {
                 setIsLoading(false);
             }
@@ -40,7 +59,7 @@ const AddFriends = () => {
     const sendFriendRequest = async (userId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/sendFriendRequest', {
+            const response = await fetch('http://localhost:3001/api/sendFriendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +69,6 @@ const AddFriends = () => {
             });
 
             if (response.ok) {
-                // Update UI to show pending state
                 setSearchResults(prev =>
                     prev.map(user =>
                         user._id === userId
@@ -81,7 +99,7 @@ const AddFriends = () => {
                 )}
             </div>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto">
                 {searchResults.map((user) => (
                     <motion.div
                         key={user._id}

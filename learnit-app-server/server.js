@@ -249,12 +249,12 @@ app.get('/api/searchUsers', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-      return res.status(401).send('Unauthorized');
+      return res.status(401).json({ message: 'Please log in again' });
   }
 
   try {
       const decoded = jwt.verify(token, SECRET_KEY);
-      const users = await MUser.find({
+      const users = await MUser .find({
           $and: [
               { _id: { $ne: decoded.userId } },
               {
@@ -264,12 +264,13 @@ app.get('/api/searchUsers', async (req, res) => {
                   ]
               }
           ]
-      }).select('username displayName avatar');
-      
+      }).select('username displayName avatar requestSent');
+
+      console.log('Found users:', users); // Ellenőrizd, hogy milyen felhasználókat talált
       res.json(users);
   } catch (err) {
-      console.error('Error searching users:', err);
-      res.status(500).json({ error: 'Failed to search users' });
+      console.error('Error fetching users:', err);
+      return res.status(401).json({ message: 'Session expired, please log in again' });
   }
 });
 
@@ -284,9 +285,12 @@ app.post('/api/sendFriendRequest', async (req, res) => {
   try {
       const decoded = jwt.verify(token, SECRET_KEY);
       
-      // Add friend request to recipient's requests
       await MUser.findByIdAndUpdate(recipientId, {
           $addToSet: { friendRequests: decoded.userId }
+      });
+
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          $addToSet: { sentRequests: recipientId }
       });
 
       res.json({ success: true });
@@ -440,32 +444,32 @@ app.post('/login', async (req, res) => {
   const { email, password, rememberMe } = req.body;
 
   try {
-    const user = await MUser.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid email or password' });
-    }
+      const user = await MUser .findOne({ email });
+      if (!user) {
+          return res.status(400).json({ error: 'Invalid email or password' });
+      }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid email or password' });
-    }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ error: 'Invalid email or password' });
+      }
 
-    const token = jwt.sign(
-      { userId: user._id, username: user.username },
-      SECRET_KEY,
-      { expiresIn: rememberMe ? '30d' : '1h' }
-    );
+      const token = jwt.sign(
+          { userId: user._id, username: user.username },
+          SECRET_KEY,
+          { expiresIn: rememberMe ? '30d' : '1h' } // Ellenőrizd, hogy ez helyesen van beállítva
+      );
 
-    res.json({
-      message: 'Login successful',
-      userId: user._id,
-      username: user.username,
-      token
-    });
+      res.json({
+          message: 'Login successful',
+          userId: user._id,
+          username: user.username,
+          token
+      });
 
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Failed to login' });
+      console.error('Login error:', error);
+      res.status(500).json({ error: 'Failed to login' });
   }
 });
 
