@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { FiSearch } from "react-icons/fi";
+import { ImUserPlus } from "react-icons/im";
+import { FaUserClock } from "react-icons/fa6";
+
 
 const AddFriends = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -96,19 +100,20 @@ const AddFriends = () => {
 
     return (
         <div className="w-full h-full flex flex-col p-6">
-            <div className="relative w-full max-w-2xl mx-auto">
-                <input
-                    type="text"
-                    placeholder="Search users..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-4 rounded-lg bg-slate-700 text-cstm_white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent_green_dark"
-                />
-                {isLoading && (
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <div className="w-full flex max-w-2xl mx-auto mb-6 p-4 rounded-lg bg-slate-700 text-cstm_white focus-within:ring-2 focus-within:ring-accent_green_dark transition-all duration-200">
+                <div className="w-full flex items-center gap-2">
+                    <FiSearch className="text-gray-400 w-5 h-5" />
+                    <input
+                        type="text"
+                        placeholder="Search users..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-transparent text-cstm_white placeholder-gray-400 focus:outline-none"
+                    />
+                    {isLoading && (
                         <div className="w-5 h-5 border-2 border-accent_green_dark border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto">
@@ -136,12 +141,12 @@ const AddFriends = () => {
                         <button
                             onClick={() => sendFriendRequest(user._id)}
                             disabled={user.requestSent}
-                            className={`px-4 py-2 rounded-lg duration-500 ${user.requestSent
+                            className={`px-2 py-2 rounded-lg duration-500 ${user.requestSent
                                 ? 'bg-gray-600 text-gray-400'
                                 : 'bg-accent_green_dark text-cstm_bg_dark hover:bg-accent_green_dark2'
                                 } transition-colors`}
                         >
-                            {user.requestSent ? 'Pending' : 'Add Friend'}
+                            {user.requestSent ? (<FaUserClock className='w-5 h-5' />) : (<ImUserPlus className='w-5 h-5' />)}
                         </button>
                     </motion.div>
                 ))}

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiTrash2 } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 
 const MyFriends = () => {
     const [friends, setFriends] = useState([]);
@@ -59,14 +60,18 @@ const MyFriends = () => {
 
     return (
         <div className="w-[80%] min-w-[80%] h-full flex flex-col p-6 overflow-hidden">
-            <div className="w-full max-w-2xl mx-auto mb-6">
-                <input
-                    type="text"
-                    placeholder="Search friends..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-4 rounded-lg bg-slate-700 text-cstm_white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent_green_dark"
-                />
+
+            <div className="w-full flex max-w-2xl mx-auto mb-6 p-4 rounded-lg bg-slate-700 text-cstm_white focus-within:ring-2 focus-within:ring-accent_green_dark transition-all duration-200">
+                <div className="w-full flex items-center gap-2">
+                    <FiSearch className="text-gray-400 w-5 h-5" />
+                    <input
+                        type="text"
+                        placeholder="Search friends..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-transparent text-cstm_white placeholder-gray-400 focus:outline-none"
+                    />
+                </div>
             </div>
 
             <div className="w-full flex overflow-y-auto">
