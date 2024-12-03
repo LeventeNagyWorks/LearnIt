@@ -58,7 +58,14 @@ const AddFriends = () => {
 
     const sendFriendRequest = async (userId) => {
         try {
-            const token = localStorage.getItem('token');
+            // Check both storage locations for token
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+            if (!token) {
+                navigate('/login', { replace: true });
+                return;
+            }
+
             const response = await fetch('http://localhost:3001/api/sendFriendRequest', {
                 method: 'POST',
                 headers: {
@@ -76,11 +83,16 @@ const AddFriends = () => {
                             : user
                     )
                 );
+            } else if (response.status === 401) {
+                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
+                navigate('/login', { replace: true });
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
         }
     };
+
 
     return (
         <div className="w-full h-full flex flex-col p-6">
