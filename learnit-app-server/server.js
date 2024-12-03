@@ -300,6 +300,142 @@ app.post('/api/sendFriendRequest', async (req, res) => {
   }
 });
 
+app.get('/api/getPendingRequests', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const currentUser = await MUser.findById(decoded.userId);
+      
+      // Get users who sent requests to current user
+      const receivedRequests = await MUser.find({
+          _id: { $in: currentUser.friendRequests }
+      }).select('username displayName avatar');
+
+      // Get users to whom current user sent requests
+      const sentRequests = await MUser.find({
+          friendRequests: decoded.userId
+      }).select('username displayName avatar');
+
+      res.json({
+          receivedRequests,
+          sentRequests
+      });
+  } catch (err) {
+      console.error('Error fetching pending requests:', err);
+      res.status(500).json({ error: 'Failed to fetch pending requests' });
+  }
+});
+
+app.post('/api/acceptFriendRequest', async (req, res) => {
+  const { userId } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      
+      // Add to friends list for both users
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          $addToSet: { friends: userId },
+          $pull: { friendRequests: userId }
+      });
+
+      await MUser.findByIdAndUpdate(userId, {
+          $addToSet: { friends: decoded.userId },
+          $pull: { sentRequests: decoded.userId }
+      });
+
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error accepting friend request:', err);
+      res.status(500).json({ error: 'Failed to accept friend request' });
+  }
+});
+
+app.post('/api/rejectFriendRequest', async (req, res) => {
+  const { userId } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      
+      // Remove friend request
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          $pull: { friendRequests: userId }
+      });
+
+      await MUser.findByIdAndUpdate(userId, {
+          $pull: { sentRequests: decoded.userId }
+      });
+
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error rejecting friend request:', err);
+      res.status(500).json({ error: 'Failed to reject friend request' });
+  }
+});
+
+app.get('/api/getFriends', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      const user = await MUser.findById(decoded.userId);
+      const friends = await MUser.find({
+          _id: { $in: user.friends }
+      }).select('username displayName avatar');
+
+      res.json({ friends });
+  } catch (err) {
+      console.error('Error fetching friends:', err);
+      res.status(500).json({ error: 'Failed to fetch friends' });
+  }
+});
+
+app.post('/api/removeFriend', async (req, res) => {
+  const { friendId } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+      return res.status(401).send('Unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      
+      // Remove friend from both users' friend lists
+      await MUser.findByIdAndUpdate(decoded.userId, {
+          $pull: { friends: friendId }
+      });
+
+      await MUser.findByIdAndUpdate(friendId, {
+          $pull: { friends: decoded.userId }
+      });
+
+      res.json({ success: true });
+  } catch (err) {
+      console.error('Error removing friend:', err);
+      res.status(500).json({ error: 'Failed to remove friend' });
+  }
+});
+
+
 app.post('/upload', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
  
