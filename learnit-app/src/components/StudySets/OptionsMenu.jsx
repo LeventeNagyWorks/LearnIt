@@ -6,16 +6,17 @@ import axios from 'axios';
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
 import { showOnlyFav } from '../../signals';
+import ShareButton from './ShareButton';
 
-const OptionsMenu = ({ 
-  optionsHoverStates, 
-  itemName, 
-  isFavourite, 
-  setIsFavourite, 
-  handleOptionsMouseEnter, 
-  handleOptionsMouseLeave, 
-  handleMouseLeave, 
-  data, 
+const OptionsMenu = ({
+  optionsHoverStates,
+  itemName,
+  isFavourite,
+  setIsFavourite,
+  handleOptionsMouseEnter,
+  handleOptionsMouseLeave,
+  handleMouseLeave,
+  data,
   setData,
   setItemSelected,
   setSelectedItemNum,
@@ -23,72 +24,72 @@ const OptionsMenu = ({
   setOptionsHoverStates
 }) => {
 
-    const isHovered = optionsHoverStates[itemName] || false;
+  const isHovered = optionsHoverStates[itemName] || false;
 
-    const handleIsFavourite = async (itemName) => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      
-      try {
-        const newFavoriteStatus = !isFavourite[itemName];
-        
-        const response = await axios.post('/updateFavorite', {
-          itemName,
-          isFavorite: newFavoriteStatus
-        }, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-    
-        if (response.status === 200) {
-          const newFavorites = {
-            ...isFavourite,
-            [itemName]: newFavoriteStatus
-          };
-    
-          setIsFavourite(newFavorites);
-          localStorage.setItem('favorites', JSON.stringify(newFavorites));
-          
-          // Update the main data state
-          setData(prevData => prevData.map(item =>
-            item.name === itemName 
-              ? {...item, isFavorite: newFavoriteStatus} 
-              : item
-          ));
+  const handleIsFavourite = async (itemName) => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    try {
+      const newFavoriteStatus = !isFavourite[itemName];
+
+      const response = await axios.post('/updateFavorite', {
+        itemName,
+        isFavorite: newFavoriteStatus
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
-      } catch (error) {
-        console.error('Error updating favorite status:', error);
-      }
-    };    
+      });
 
-    const handleDelete = async (itemName) => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      
-      try {
-        await setItemSelected((prevState) => {
-          const newState = { ...prevState, [itemName]: false };
-          const selectedCount = Object.values(newState).filter(Boolean).length;
-          setSelectedItemNum(selectedCount);
-          return newState;
-        });
-        await handleMouseLeave(itemName);
-        await handleOptionsMouseLeave(itemName);
-        
-        await axios.delete(`/delete/${itemName}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        setData(data.filter((item) => item.name !== itemName));
-      } catch (error) {
-        console.error(error);
+      if (response.status === 200) {
+        const newFavorites = {
+          ...isFavourite,
+          [itemName]: newFavoriteStatus
+        };
+
+        setIsFavourite(newFavorites);
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+
+        // Update the main data state
+        setData(prevData => prevData.map(item =>
+          item.name === itemName
+            ? { ...item, isFavorite: newFavoriteStatus }
+            : item
+        ));
       }
-    };
-      
-    const handleClick = (e) => {
-      e.stopPropagation(); // Prevent event from bubbling up
-    };
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+    }
+  };
+
+  const handleDelete = async (itemName) => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    try {
+      await setItemSelected((prevState) => {
+        const newState = { ...prevState, [itemName]: false };
+        const selectedCount = Object.values(newState).filter(Boolean).length;
+        setSelectedItemNum(selectedCount);
+        return newState;
+      });
+      await handleMouseLeave(itemName);
+      await handleOptionsMouseLeave(itemName);
+
+      await axios.delete(`/delete/${itemName}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      setData(data.filter((item) => item.name !== itemName));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleClick = (e) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+  };
 
   return (
     <div
@@ -97,16 +98,21 @@ const OptionsMenu = ({
       onMouseLeave={() => handleOptionsMouseLeave(itemName)}
       onClick={handleClick}
     >
-      <FavouriteButton 
-        isWide={true} 
+      <FavouriteButton
+        isWide={true}
         isFavourite={isFavourite[itemName] || false}
-        onClick={handleIsFavourite} 
+        onClick={handleIsFavourite}
         itemName={itemName}
       />
-      <DeleteButton 
-          isWide={true}
-          itemName={itemName}
-          onClick={handleDelete}
+      <ShareButton
+        isWide={true}
+        onClick={null}
+        itemName={itemName}
+      />
+      <DeleteButton
+        isWide={true}
+        itemName={itemName}
+        onClick={handleDelete}
       />
     </div>
   )
