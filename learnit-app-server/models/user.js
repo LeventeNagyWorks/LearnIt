@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
+
+const defaultProfileImage = fs.readFileSync(
+    path.join(__dirname, '../images/default_profile_pic.png')
+  ).toString('base64');
 
 const MUser = new mongoose.Schema({
     username: String,
@@ -16,7 +22,7 @@ const MUser = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: null
+        default: defaultProfileImage
     },
     allMastered: {
         type: Number,

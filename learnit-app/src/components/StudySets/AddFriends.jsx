@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiSearch } from "react-icons/fi";
 import { ImUserPlus } from "react-icons/im";
 import { FaUserClock } from "react-icons/fa6";
+import { getProfileImage } from '../../utils/profileImage';
 
 
 const AddFriends = () => {
@@ -127,7 +128,7 @@ const AddFriends = () => {
                         <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-full overflow-hidden">
                                 <img
-                                    src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : '/default-avatar.png'}
+                                    src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : getProfileImage(null)}
                                     alt={user.displayName}
                                     className="w-full h-full object-cover"
                                 />

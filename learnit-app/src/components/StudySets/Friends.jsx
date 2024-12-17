@@ -21,7 +21,7 @@ const Friends = () => {
         <div className='absolute w-full h-screen flex items-center justify-center bg-black/80 z-40 selection:text-cstm_bg_dark selection:bg-accent_green_dark'>
             <div className='w-[95%] h-[90%] flex flex-col items-center justify-center bg-slate-800 rounded-3xl'>
                 <div className='flex justify-between items-center w-full p-4'>
-                    <h1 className='text-2xl font-semibold text-center text-accent_green_dark select-none'>Friends</h1>
+                    <h1 className='text-2xl font-semibold text-center text-accent_green_dark select-none ml-2'>Friends</h1>
 
                     <FriendsTabSwitch />
 

@@ -205,10 +205,11 @@ app.post('/api/updateProfilePicture', async (req, res) => {
       }
 
       const avatar = req.files.avatar;
+      const base64Image = avatar.data.toString('base64');
       
       await MUser.findByIdAndUpdate(decoded.userId, {
           $set: {
-              avatar: avatar.data.toString('base64')
+              avatar: base64Image
           }
       });
 
@@ -217,6 +218,11 @@ app.post('/api/updateProfilePicture', async (req, res) => {
       console.error('Error updating profile picture:', err);
       res.status(500).json({ error: 'Failed to update profile picture' });
   }
+});
+
+app.get('/api/defaultProfilePicture', (req, res) => {
+  const defaultImagePath = path.join(__dirname, 'images', 'default_profile_pic.png');
+  res.sendFile(defaultImagePath);
 });
 
 app.get('/api/getUserProfile', async (req, res) => {
@@ -434,7 +440,6 @@ app.post('/api/removeFriend', async (req, res) => {
       res.status(500).json({ error: 'Failed to remove friend' });
   }
 });
-
 
 app.post('/upload', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];

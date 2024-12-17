@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import DefaultProfilePicture from '../../images/default_profile_pic.png';
 import { isFriendsOpened, isLoggedIn, isProfileFocused } from '../../signals';
 import { useSignals } from '@preact/signals-react/runtime';
+import { getProfileImage } from '../../utils/profileImage';
 
 const NavigationBar = () => {
 
@@ -104,7 +104,7 @@ const NavigationBar = () => {
             }}
           >
             <img
-              src={avatar || DefaultProfilePicture}
+              src={avatar || getProfileImage(null)}
               alt="Profile"
               className="w-full h-full select-none object-cover"
             />

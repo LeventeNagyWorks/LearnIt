@@ -3,10 +3,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from 'react'
 import ProfileEditButton from '../components/StudySets/ProfileEditButton';
-import DefaultProfilePicture from '../images/default_profile_pic.png';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { getProfileImage } from '../utils/profileImage';
 
 const Counter = ({ value, className }) => {
     const count = useMotionValue(0);
@@ -248,7 +248,7 @@ const MyProfile = () => {
                             </>
                         )}
                         <img
-                            src={croppedImage || DefaultProfilePicture}
+                            src={croppedImage || getProfileImage(null)}
                             alt=""
                             className='w-[280px] h-[280px] bg-slate-50 rounded-full select-none object-cover'
                         />

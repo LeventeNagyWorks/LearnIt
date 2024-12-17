@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiTrash2 } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
+import { getProfileImage } from '../../utils/profileImage';
 
 const MyFriends = () => {
     const [friends, setFriends] = useState([]);
@@ -88,7 +89,7 @@ const MyFriends = () => {
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 rounded-full overflow-hidden">
                                             <img
-                                                src={friend.avatar ? `data:image/jpeg;base64,${friend.avatar}` : '/default-avatar.png'}
+                                                src={friend.avatar ? `data:image/jpeg;base64,${friend.avatar}` : getProfileImage(null)}
                                                 alt={friend.displayName}
                                                 className="w-full h-full object-cover"
                                             />
