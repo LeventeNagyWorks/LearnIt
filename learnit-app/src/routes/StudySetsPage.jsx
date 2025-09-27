@@ -4,7 +4,7 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { showDeleteWarningPopup, isFriendsOpened, isProfileFocused, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
+import { showDeleteWarningPopup, isFriendsOpened, isProfileFocused, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets, itemToDeleteSignal, refreshStudySetsData, studySetsData } from '../signals'
 import { useEffect } from 'react'
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
@@ -12,6 +12,7 @@ import { useSignals } from '@preact/signals-react/runtime'
 import NavigationBar from '../components/StudySets/NavigationBar'
 import Friends from '../components/StudySets/Friends'
 import Popup from '../components/Popup'
+import axios from 'axios'
 
 const StudySetsPage = () => {
 
@@ -28,6 +29,7 @@ const StudySetsPage = () => {
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] = useState(false);
   const [isAddStudySetOpened, setIsAddStudySetOpened] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
@@ -43,6 +45,58 @@ const StudySetsPage = () => {
     setIsAddStudySetOpened(false);
   }
 
+  const handleDeleteStudySet = async () => {
+    const itemsToDelete = itemToDeleteSignal.value;
+    console.log('handleDeleteStudySet called with items:', itemsToDelete);
+    
+    if (!itemsToDelete || itemsToDelete.length === 0) {
+      console.error('Cannot delete study sets: no items specified');
+      return;
+    }
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    try {
+      // Delete all items in parallel
+      const deletePromises = itemsToDelete.map(itemName => 
+        axios.delete(`/delete/${itemName}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+      );
+
+      await Promise.all(deletePromises);
+
+      // Fetch updated study sets data from server
+      const dataResponse = await axios.get('/data', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      // Update the studySetsData signal with fresh data
+      studySetsData.value = dataResponse.data;
+
+      // Close the warning popup and clear the signal
+      showDeleteWarningPopup.value = false;
+      itemToDeleteSignal.value = [];
+
+      // Trigger other refresh mechanisms
+      setRefreshTrigger(prev => prev + 1);
+      refreshStudySetsData.value = refreshStudySetsData.value + 1;
+      
+      console.log(`Study sets deleted successfully: ${itemsToDelete.join(', ')}`);
+    } catch (error) {
+      console.error('Error deleting study sets:', error);
+    }
+  };
+
+  const cancelDelete = () => {
+    showDeleteWarningPopup.value = false;
+    itemToDeleteSignal.value = [];
+  };
+
   return (
     <div
       className='w-screen h-screen flex flex-col items-center font-poppins bg-cstm_bg_dark overflow-hidden'
@@ -50,14 +104,20 @@ const StudySetsPage = () => {
     >
       {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
         <Popup type="successful" title="Success" message={"You have successfully added a new study set!"} primButtonText='OK' onClickPrim={closeAddStudySetSuccessMessage} />
-        //TODO:: not closing it
       )}
       {showDeleteWarningPopup.value && (
-        <Popup type="warning" title="Are you sure?" message={"Are you sure you want to delete these study sets?"} primButtonText='Yes' onClickPrim={() => console.log('lel')} secButtonText='No' onClickSec={() => showDeleteWarningPopup.value = false}  />
+        <Popup 
+          type="warning" 
+          title="Are you sure?" 
+          message={`Are you sure you want to delete ${itemToDeleteSignal.value.length === 1 ? 'this study set' : 'these study sets'}?`} 
+          primButtonText='Yes' 
+          onClickPrim={handleDeleteStudySet} 
+          secButtonText='No' 
+          onClickSec={cancelDelete}  
+        />
       )}
       {showNotAcceptableFileErrorMessage.value && (
         <Popup type="error" title="Ooops!" message={"The file format you uploaded is not acceptable."} primButtonText='OK' onClickPrim={null} />
-        //TODO:: not closing it
       )}
       {isStudySetAlreadyExistsActive && (
         <Popup type="error" title="Ooops!" message={"A study set with this name already exists."} primButtonText='OK' onClickPrim={closeStudySetAlreadyExistsMessage} />
@@ -81,6 +141,7 @@ const StudySetsPage = () => {
           isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}
           setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
           openAddStudySetPanel={openAddStudySetPanel}
+          refreshTrigger={refreshTrigger}
         />
 
         <RightPanel />

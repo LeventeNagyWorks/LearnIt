@@ -26,6 +26,8 @@ const isMyFriendsHovered = signal(false);
 const isAddFriendsHovered = signal(false);
 const isPendingHovered = signal(false);
 const showDeleteWarningPopup = signal(false);
+const itemToDeleteSignal = signal([]);
+const refreshStudySetsData = signal(0);
 
 export {
     isLoading,
@@ -52,4 +54,6 @@ export {
     isAddFriendsOpened,
     isPendingOpened,
     showDeleteWarningPopup,
+    itemToDeleteSignal,
+    refreshStudySetsData,
 }

@@ -9,52 +9,21 @@ import axios from 'axios';
 import { useSignals } from '@preact/signals-react/runtime';
 import ToggleButtons from '../ToggleButtons';
 import { FaFolder, FaStar } from 'react-icons/fa';
-import { showDeleteWarningPopup, showOnlyFav } from '../../signals';
+import { showDeleteWarningPopup, showOnlyFav, itemToDeleteSignal } from '../../signals';
+
 const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setSelectedItemNum, setData }) => {
 
   useSignals();
 
-  const handleDelete = async () => {
+  const handleDeleteSelected = () => {
     const selectedItems = Object.keys(itemSelected).filter(item => itemSelected[item]);
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
-    if (!token) {
-      console.log('No token found');
-      return;
+    
+    if (selectedItems.length > 0) {
+      // Set all selected items to delete
+      itemToDeleteSignal.value = selectedItems;
+      showDeleteWarningPopup.value = true;
     }
-
-    for (const item of selectedItems) {
-      try {
-        await axios.delete(`/delete/${item}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        setData(prevData => prevData.filter(dataItem => dataItem.name !== item));
-      } catch (error) {
-        console.error(`Error deleting ${item}:`, error);
-      }
-    }
-
-    setItemSelected({});
-    setSelectedItemNum(0);
   };
-
-  // Effect to handle deletion when popup is confirmed
-  React.useEffect(() => {
-    const handlePopupConfirm = () => {
-      if (showDeleteWarningPopup.value) {
-        const timer = setTimeout(() => {
-          if (!showDeleteWarningPopup.value) {
-            handleDelete();
-          }
-        }, 100);
-        return () => clearTimeout(timer);
-      }
-    };
-
-    return handlePopupConfirm();
-  }, [showDeleteWarningPopup.value]);
 
   return (
     <div className={`w-full h-full max-h-24 flex justify-center items-center rounded-t-[40px] px-7`}>
@@ -81,7 +50,7 @@ const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setS
               <DeleteButton
                 isWide={false}
                 size='small'
-                onClick={() => showDeleteWarningPopup.value = true}
+                onClick={handleDeleteSelected}
               />
             </div>
         )}

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
-import { showDeleteWarningPopup, showOnlyFav } from '../../signals';
+import { showDeleteWarningPopup, showOnlyFav, itemToDeleteSignal } from '../../signals';
 import ShareButton from './ShareButton';
 
 const OptionsMenu = ({
@@ -21,7 +21,8 @@ const OptionsMenu = ({
   setItemSelected,
   setSelectedItemNum,
   setHoverStates,
-  setOptionsHoverStates
+  setOptionsHoverStates,
+  showDeleteWarning
 }) => {
 
   const isHovered = optionsHoverStates[itemName] || false;
@@ -91,6 +92,12 @@ const OptionsMenu = ({
     e.stopPropagation(); // Prevent event from bubbling up
   };
 
+  const handleDeleteClick = () => {
+    // Set only the current item to delete
+    itemToDeleteSignal.value = [itemName];
+    showDeleteWarningPopup.value = true;
+  };
+
   return (
     <div
       className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 duration-500 ${isHovered ? 'translate-x-0' : 'translate-x-72'}`}
@@ -112,7 +119,7 @@ const OptionsMenu = ({
       <DeleteButton
         isWide={true}
         itemName={itemName}
-        onClick={() => showDeleteWarningPopup.value = true}
+        onClick={handleDeleteClick}
       />
     </div>
   )

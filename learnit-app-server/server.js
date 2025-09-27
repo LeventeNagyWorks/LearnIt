@@ -521,11 +521,43 @@ app.delete('/delete/:itemName', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
+    
+    // Delete the study set
     await MUser.findByIdAndUpdate(decoded.userId, {
       $pull: {
         studySets: { name: itemName }
       }
     });
+
+    // Get the updated user data to recalculate totals
+    const user = await MUser.findById(decoded.userId);
+    let mastered = 0;
+    let learning = 0;
+    let notStarted = 0;
+
+    user.studySets.forEach(set => {
+        set.questions.forEach(question => {
+            switch(question.learningState) {
+                case 'mastered':
+                    mastered++;
+                    break;
+                case 'learning':
+                    learning++;
+                    break;
+                case 'notStarted':
+                    notStarted++;
+                    break;
+            }
+        });
+    });
+
+    // Update the totals
+    await MUser.findByIdAndUpdate(decoded.userId, {
+        allMastered: mastered,
+        allLearning: learning,
+        allNotStarted: notStarted
+    });
+
     res.send(`Study set "${itemName}" deleted successfully!`);
   } catch (err) {
     console.error(err);
