@@ -11,6 +11,7 @@ import Username from './Username';
 import SuccessfullyRegistered from './SuccessfullyRegistered';
 import CheckBox from '../CheckBox';
 import { Link, useNavigate } from 'react-router-dom';
+import Popup from '../Popup';
 
 const Registration = () => {
 
@@ -85,7 +86,7 @@ const Registration = () => {
 
     return (
         <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark overflow-hidden'>
-            {showRegisteredMessage && <SuccessfullyRegistered onClick={closeRegisteredMessage} type="registeredSuccesfully" />}
+            {showRegisteredMessage && <Popup type="successful" title="Successfully Registered" message={"You have been registered successfully!"} primButtonText='OK' onClickPrim={closeRegisteredMessage} />}
 
             <div className='w-full md:w-[45%] h-1/3 md:h-full flex items-center justify-center relative'>
 

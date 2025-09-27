@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
-import { showOnlyFav } from '../../signals';
+import { showDeleteWarningPopup, showOnlyFav } from '../../signals';
 import ShareButton from './ShareButton';
 
 const OptionsMenu = ({
@@ -112,7 +112,7 @@ const OptionsMenu = ({
       <DeleteButton
         isWide={true}
         itemName={itemName}
-        onClick={handleDelete}
+        onClick={() => showDeleteWarningPopup.value = true}
       />
     </div>
   )

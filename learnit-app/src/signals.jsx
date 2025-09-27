@@ -25,6 +25,7 @@ const isPendingOpened = signal(false);
 const isMyFriendsHovered = signal(false);
 const isAddFriendsHovered = signal(false);
 const isPendingHovered = signal(false);
+const showDeleteWarningPopup = signal(false);
 
 export {
     isLoading,
@@ -50,4 +51,5 @@ export {
     isMyFriendsOpened,
     isAddFriendsOpened,
     isPendingOpened,
+    showDeleteWarningPopup,
 }

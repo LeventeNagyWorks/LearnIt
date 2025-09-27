@@ -18,7 +18,7 @@ const MUser = new mongoose.Schema({
     password: String,
     description: {
         type: String,
-        default: "This is my description. You can edit it anytime. Have a nice day! ✌️"
+        default: "This is your description. You can edit it anytime. Have a nice day! ✌️"
     },
     avatar: {
         type: String,

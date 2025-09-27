@@ -1,7 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import PrimaryButton from '../PrimaryButton';
@@ -10,12 +6,12 @@ import Email from './Email';
 import Password from './Password';
 import girlReadingImageVector from '../../images/girl_reading_vector.png';
 import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
-import Username from './Username';
+import Username from './Username';1
 import CheckBox from '../CheckBox';
 import { Link, useNavigate } from 'react-router-dom';
-import Error from '../errors/Error';
 import { isLoggedIn } from '../../signals';
 import debounce from 'lodash/debounce';
+import Popup from '../Popup';
 
 const Login = () => {
     const [isRegisterHovered, setIsRegisterHovered] = useState(false);
@@ -73,7 +69,7 @@ const Login = () => {
 
     return (
         <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
-            {showError && <Error type="InvalidEmailOrPw" onClick={() => setShowError(false)} />}
+            {showError && <Popup type="error" title="Ooops!" message={"Login error"} primButtonText="OK" onClickPrim={() => setShowError(false)} />}
 
             <div className='w-full md:w-[45%] h-full flex items-center justify-center relative overflow-hidden'>
                 <img

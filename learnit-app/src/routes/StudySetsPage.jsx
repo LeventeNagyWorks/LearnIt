@@ -4,13 +4,14 @@ import RightPanel from '../components/StudySets/RightPanel'
 import LeftPanel from '../components/StudySets/LeftPanel'
 import Error from '../components/errors/Error'
 import { useState } from 'react'
-import { isFriendsOpened, isProfileFocused, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
+import { showDeleteWarningPopup, isFriendsOpened, isProfileFocused, isStudySetAccepted, showNotAcceptableFileErrorMessage, showSuccessfullyAdded, startTransitionFromStudySets, startTransitionToStudySets } from '../signals'
 import { useEffect } from 'react'
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel'
 import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded'
 import { useSignals } from '@preact/signals-react/runtime'
 import NavigationBar from '../components/StudySets/NavigationBar'
 import Friends from '../components/StudySets/Friends'
+import Popup from '../components/Popup'
 
 const StudySetsPage = () => {
 
@@ -37,6 +38,10 @@ const StudySetsPage = () => {
   const closeAddStudySetPanel = () => {
     setIsAddStudySetOpened(false);
   }
+  const closeAddStudySetSuccessMessage = () => {
+    showSuccessfullyAdded.value = false;
+    setIsAddStudySetOpened(false);
+  }
 
   return (
     <div
@@ -44,25 +49,18 @@ const StudySetsPage = () => {
       onClick={() => isProfileFocused.value = false}
     >
       {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
-        <SuccessfullyAdded
-          type={'StudySetAccepted'}
-          setShowSuccessfullyAdded={() => {
-            showSuccessfullyAdded.value = false;
-            isStudySetAccepted.value = { _a: false };
-          }}
-        />
+        <Popup type="successful" title="Success" message={"You have successfully added a new study set!"} primButtonText='OK' onClickPrim={closeAddStudySetSuccessMessage} />
+        //TODO:: not closing it
+      )}
+      {showDeleteWarningPopup.value && (
+        <Popup type="warning" title="Are you sure?" message={"Are you sure you want to delete these study sets?"} primButtonText='Yes' onClickPrim={() => console.log('lel')} secButtonText='No' onClickSec={() => showDeleteWarningPopup.value = false}  />
       )}
       {showNotAcceptableFileErrorMessage.value && (
-        <Error
-          type={'FileFormatIsNotAcceptable'}
-          onClick={() => showNotAcceptableFileErrorMessage.value = false}
-        />
+        <Popup type="error" title="Ooops!" message={"The file format you uploaded is not acceptable."} primButtonText='OK' onClickPrim={null} />
+        //TODO:: not closing it
       )}
       {isStudySetAlreadyExistsActive && (
-        <Error
-          type={'StudySetAlreadyExists'}
-          onClick={closeStudySetAlreadyExistsMessage}
-        />
+        <Popup type="error" title="Ooops!" message={"A study set with this name already exists."} primButtonText='OK' onClickPrim={closeStudySetAlreadyExistsMessage} />
       )}
       {isAddStudySetOpened && (
         <AddNewStudySetPanel
