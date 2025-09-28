@@ -61,8 +61,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className='w-[92%] h-[12%] min-h-[12%] flex flex-col justify-center font-poppins font-semibold text-cstm_white z-20'>
-      <div className='w-full h-[65%] min-h-[65%] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] px-8'>
+    <div className='w-full h-full max-h-[68px] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] px-8 font-poppins font-semibold text-cstm_white z-20 '>
         <p className='lg:text-[38px] select-none'>Welcome back, <span className='text-accent_green_dark2'>{displayName ? ` ${displayName}` : ''}</span>!</p>
         <div className='flex justify-center items-center relative'>
 
@@ -110,7 +109,6 @@ const NavigationBar = () => {
             />
           </div>
         </div>
-      </div>
     </div>
   )
 }

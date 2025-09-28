@@ -7,10 +7,8 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import OptionsButton from './OptionsButton';
 import StartButton from './StartButton';
-
 import { FaStar } from "react-icons/fa";
 import QuestionCounter from './QuestionCounter';
 import Progress from './Progress';
@@ -104,8 +102,7 @@ const RightPanel = () => {
   };
 
   return (
-    <div className={`w-[85%] flex justify-center items-start relative z-10 pb-6 font-poppins duration-1000`}>
-      <div className='w-[90%] h-[100%] flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl'>
+    <div className='w-full flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl relative z-10 pb-6 font-poppins duration-1000'>
 
         <RightPanelHeader
           setData={setData}
@@ -131,23 +128,18 @@ const RightPanel = () => {
               onMouseLeave={() => handleMouseLeave(item.name)}
               onClick={() => handleItemSelected(item.name)}
             >
-
               <div className='flex flex-row items-center justify-between'>
                 <div className='flex gap-6'>
-
                   <div
                     className={`flex gap-5 duration-500 ${hoverStates[item.name] ? 'translate-x-0' : '-translate-x-[65px]'}`}
                   >
                     <StartButton itemName={item.name} />
                     <h2 className={`text-[28px] font-medium selection:bg-accent_green_dark ${hoverStates[item.name] ? 'text-accent_green_dark selection:text-cstm_white' : 'text-cstm_white'}`}>{item.name}</h2>
                   </div>
-
                 </div>
                 <div className='flex justify-center items-center gap-10 relative'>
                   {isFavourite[item.name] && (<FaStar className='w-6 h-6 text-accent_orange_dark ' />)}
-
                   <QuestionCounter questionLength={item.questions.length} />
-
                   <div
                     onMouseEnter={() => handleOptionsMouseEnter(item.name)}
                     onMouseLeave={() => handleOptionsMouseLeave(item.name)}
@@ -170,7 +162,6 @@ const RightPanel = () => {
                     setItemSelected={setItemSelected}
                     setSelectedItemNum={setSelectedItemNum}
                   />
-
                 </div>
               </div>
 
@@ -178,7 +169,6 @@ const RightPanel = () => {
                 hoverStates={hoverStates}
                 itemName={item.name}
               />
-
             </div>
           )) :
             data.filter(item => isFavourite[item.name]).length === 0 ? (
@@ -237,11 +227,9 @@ const RightPanel = () => {
                   hoverStates={hoverStates}
                   itemName={item.name}
                 />
-
               </div>
             ))}
         </div>
-      </div>
     </div>
   );
 };
