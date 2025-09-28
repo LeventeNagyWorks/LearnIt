@@ -42,6 +42,7 @@ const StudySetsPage = () => {
   }
   const closeAddStudySetSuccessMessage = () => {
     showSuccessfullyAdded.value = false;
+    console.log('showSuccessfullyAdded:', showSuccessfullyAdded.value);
     setIsAddStudySetOpened(false);
   }
 
@@ -102,7 +103,7 @@ const StudySetsPage = () => {
       className='w-full h-screen flex flex-col items-center font-poppins bg-cstm_bg_dark overflow-hidden'
       onClick={() => isProfileFocused.value = false}
     >
-      {(showSuccessfullyAdded.value || isStudySetAccepted.value._a) && (
+      {showSuccessfullyAdded.value && (
         <Popup type="successful" title="Success" message={"You have successfully added a new study set!"} primButtonText='OK' onClickPrim={closeAddStudySetSuccessMessage} />
       )}
       {showDeleteWarningPopup.value && (

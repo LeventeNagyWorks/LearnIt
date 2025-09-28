@@ -26,7 +26,7 @@ const RightPanelHeader = ({ selectedItemNum, itemSelected, setItemSelected, setS
   };
 
   return (
-    <div className={`w-full h-full max-h-24 flex justify-center items-center rounded-t-[40px] px-7`}>
+    <div className={`w-full h-full max-h-[64px] flex justify-center items-center rounded-t-[40px] px-7`}>
       <div className='w-full flex items-center justify-center'>
         <h1
           className='w-fit text-3xl font-medium text-accent_green_dark select-none z-10'
