@@ -40,11 +40,15 @@ const StudySetsPage = () => {
   const closeAddStudySetPanel = () => {
     setIsAddStudySetOpened(false);
   }
+  const closeNotAcceptableFileErrorMessage = () => {
+    showNotAcceptableFileErrorMessage.value = false;
+  }
   const closeAddStudySetSuccessMessage = () => {
     showSuccessfullyAdded.value = false;
-    console.log('showSuccessfullyAdded:', showSuccessfullyAdded.value);
     setIsAddStudySetOpened(false);
   }
+
+  //TODO: mikor több studyset törlődik, akkor a counter nem frissül helyesen
 
   const handleDeleteStudySet = async () => {
     const itemsToDelete = itemToDeleteSignal.value;
@@ -118,7 +122,7 @@ const StudySetsPage = () => {
         />
       )}
       {showNotAcceptableFileErrorMessage.value && (
-        <Popup type="error" title="Ooops!" message={"The file format you uploaded is not acceptable."} primButtonText='OK' onClickPrim={null} />
+        <Popup type="error" title="Ooops!" message={"The file format you uploaded is not acceptable."} primButtonText='OK' onClickPrim={closeNotAcceptableFileErrorMessage} />
       )}
       {isStudySetAlreadyExistsActive && (
         <Popup type="error" title="Ooops!" message={"A study set with this name already exists."} primButtonText='OK' onClickPrim={closeStudySetAlreadyExistsMessage} />
@@ -134,10 +138,10 @@ const StudySetsPage = () => {
         <Friends />
       )}
       
-      <div className='flex flex-col w-full flex-1 py-4 px-4 gap-6 relative z-10 overflow-hidden'>
+      <div className='flex flex-col w-full flex-1 py-5 px-5 gap-6 relative z-10 overflow-hidden'>
         <NavigationBar />
 
-        <div className='w-full h-0 flex-1 flex gap-10 relative overflow-hidden'>
+        <div className='w-full h-0 flex-1 flex gap-6 relative overflow-hidden'>
 
           <LeftPanel
             isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}

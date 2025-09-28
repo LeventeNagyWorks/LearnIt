@@ -8,7 +8,7 @@ import { startTransitionFromStudySets, startTransitionToStudySets } from '../../
 const LeftPanel = ({ setIsStudySetAlreadyExistsActive, openAddStudySetPanel }) => {
 
   return (
-    <div className={`w-full max-w-[200px] flex flex-col justify-end items-end  relative z-20 duration-1000`}>
+    <div className={`w-full max-w-[240px] flex flex-col justify-end items-end  relative z-20 duration-1000`}>
       <div className='w-full h-full flex flex-col justify-center items-center relative'>
         <div className='w-full h-full flex flex-col justify-center items-center'>
           <AddStudySetButton
