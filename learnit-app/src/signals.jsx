@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { signal } from "@preact/signals-react";
+import React from 'react';
+import { signal } from '@preact/signals-react';
 
 const isLoading = signal({ _l: false });
 const isStudyLoading = signal({ _l: false });
@@ -30,30 +30,30 @@ const itemToDeleteSignal = signal([]);
 const refreshStudySetsData = signal(0);
 
 export {
-    isLoading,
-    isStudyLoading,
-    isStudySetAccepted,
-    showSuccessfullyAdded,
-    studySetsData,
-    showOnlyFav,
-    showNotAcceptableFileErrorMessage,
-    startTransitionFromStudySets,
-    startTransitionToStudySets,
-    startTransitionFromStudySetDetail,
-    startTransitionToStudySetDetail,
-    toggleDropBox,
-    isLoadingEnabled,
-    sessionLength,
-    isProfileFocused,
-    isLoggedIn,
-    isFriendsOpened,
-    isMyFriendsHovered,
-    isAddFriendsHovered,
-    isPendingHovered,
-    isMyFriendsOpened,
-    isAddFriendsOpened,
-    isPendingOpened,
-    showDeleteWarningPopup,
-    itemToDeleteSignal,
-    refreshStudySetsData,
-}
+  isLoading,
+  isStudyLoading,
+  isStudySetAccepted,
+  showSuccessfullyAdded,
+  studySetsData,
+  showOnlyFav,
+  showNotAcceptableFileErrorMessage,
+  startTransitionFromStudySets,
+  startTransitionToStudySets,
+  startTransitionFromStudySetDetail,
+  startTransitionToStudySetDetail,
+  toggleDropBox,
+  isLoadingEnabled,
+  sessionLength,
+  isProfileFocused,
+  isLoggedIn,
+  isFriendsOpened,
+  isMyFriendsHovered,
+  isAddFriendsHovered,
+  isPendingHovered,
+  isMyFriendsOpened,
+  isAddFriendsOpened,
+  isPendingOpened,
+  showDeleteWarningPopup,
+  itemToDeleteSignal,
+  refreshStudySetsData,
+};
