@@ -63,8 +63,10 @@ const NavigationBar = () => {
     navigate('/');
   };
 
+  //TODO: jwt token lejár és nem jelentkeztet ki automatikusan
+
   return (
-    <div className='w-full h-full max-h-[68px] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] px-8 font-poppins font-semibold text-cstm_white z-20 '>
+    <div className='w-full h-full max-h-[68px] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] pl-8 pr-4 font-poppins font-semibold text-cstm_white z-20 '>
       <p className='lg:text-[38px] select-none'>
         Welcome back,{' '}
         <span className='text-accent_green_dark2'>
