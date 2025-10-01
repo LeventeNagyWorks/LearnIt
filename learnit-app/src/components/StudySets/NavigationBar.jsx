@@ -74,21 +74,20 @@ const NavigationBar = () => {
       </p>
       <div className='flex justify-center items-center relative'>
         <div
-          className={`absolute -bottom-[415%] w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-slate-600 to-slate-900 rounded-2xl z-40 duration-500 px-5 py-5 ${
+          className={`absolute -bottom-[415%] -right-4 w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-slate-600 to-slate-900 rounded-2xl z-40 duration-500 px-5 py-5 ${
             isProfileFocused.value
               ? 'opacity-100'
               : 'opacity-0 pointer-events-none'
           }`}
         >
           <svg
-            className='absolute -top-[16px] right-[62px]'
+            className='absolute -top-[16px] right-6'
             width='30'
             height='20'
             viewBox='0 0 150 100'
-            fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
-            <path d='M75 0L150 100H0L75 0Z' fill='#323e52' />
+            <path d='M75 0L150 100H0L75 0Z' fill='#2f3b4e' />
           </svg>
 
           <div
@@ -110,11 +109,12 @@ const NavigationBar = () => {
             <p className=''>Logout</p>
           </div>
         </div>
+        {/* TODO: user and display name 15 chars max */}
 
         <div className='flex justify-center items-center px-2 overflow-hidden'>
           <p
-            className={`lg:text-2xl duration-500 select-none ${
-              isProfileFocused.value ? 'translate-x-0' : 'translate-x-[110%]'
+            className={`lg:text-2xl duration-500 select-none whitespace-nowrap ${
+              isProfileFocused.value ? 'translate-x-0' : 'translate-x-[120%]'
             }`}
           >
             {displayName}
