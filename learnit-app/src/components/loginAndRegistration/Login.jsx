@@ -15,7 +15,6 @@ const Login = () => {
   const [isRegisterHovered, setIsRegisterHovered] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const [showError, setShowError] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -31,11 +30,10 @@ const Login = () => {
       isLoggedIn.value = true;
       debouncedNavigate('/study-sets');
     }
-  }, []);
+  });
 
   async function submit(e) {
     e.preventDefault();
-    setError('');
 
     try {
       const response = await axios.post('http://localhost:3001/login', {
@@ -57,7 +55,6 @@ const Login = () => {
         'Login error:',
         error.response?.data?.error || error.message
       );
-      setError(error.response?.data?.error || 'Failed to login');
       setShowError(true);
     }
   }
@@ -68,8 +65,6 @@ const Login = () => {
       submit(e);
     }
   };
-
-  // TODO: login with username
 
   return (
     <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
