@@ -16,11 +16,13 @@ import Login from './components/loginAndRegistration/Login';
 import Registration from './components/loginAndRegistration/Registration';
 import PrivateRoute from './routes/PrivateRoute';
 import ProfileDetailed from './routes/ProfileDetailed';
+import Playground from './routes/Playground';
 
 const routeDefinitions = createRoutesFromElements(
   <Route>
     <Route path='/' element={<HeroSection />} />
     <Route path='/login' element={<Login />} />
+    <Route path='/playground' element={<Playground />} />
     <Route path='/registration' element={<Registration />} />
     <Route
       path='/study-sets'

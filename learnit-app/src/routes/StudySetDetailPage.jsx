@@ -20,6 +20,10 @@ import Pagination from '../components/StudySets/StudySetsDetail/Pagination';
 import Flashcard from '../components/StudySets/StudySetsDetail/FlashCard';
 import CloseButton from '../components/StudySets/CloseButton';
 import DeleteButton from '../components/StudySets/DeleteButton';
+import Button from '../components/Button';
+import { IoAdd, IoClose, IoTrashOutline } from 'react-icons/io5';
+import { FiEdit, FiPlus, FiSave } from 'react-icons/fi';
+import CheckBox from '../components/CheckBox';
 
 const StudySetDetailPage = () => {
   useSignals();
@@ -45,7 +49,7 @@ const StudySetDetailPage = () => {
 
     const fetchStudySet = async () => {
       try {
-        const response = await fetch('/api/data', {
+        const response = await fetch('http://localhost:3001/data', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -121,21 +125,16 @@ const StudySetDetailPage = () => {
   // TODO: ha refreshelek az oldalra, akkor vissza dob a studysets page-re, feltehetően az url okozza az ékezetes karakterekkel
 
   const handleEditQuestion = questionIndex => {
-    if (editingQuestion === questionIndex) {
-      // If already editing this question, save it
-      handleSaveQuestion(questionIndex);
-    } else {
-      // Start editing this question
-      setEditingQuestion(questionIndex);
-      const question = studySet.questions[questionIndex];
-      setEditedQuestions(prev => ({
-        ...prev,
-        [questionIndex]: {
-          question: question.question,
-          answers: question.answer.map(ans => ({ ...ans })),
-        },
-      }));
-    }
+    // Start editing this question
+    setEditingQuestion(questionIndex);
+    const question = studySet.questions[questionIndex];
+    setEditedQuestions(prev => ({
+      ...prev,
+      [questionIndex]: {
+        question: question.question,
+        answers: question.answer.map(ans => ({ ...ans })),
+      },
+    }));
   };
 
   const handleSaveQuestion = async questionIndex => {
@@ -145,7 +144,7 @@ const StudySetDetailPage = () => {
     try {
       const token =
         localStorage.getItem('token') || sessionStorage.getItem('token');
-      const response = await fetch('/api/updateQuestion', {
+      const response = await fetch('http://localhost:3001/api/updateQuestion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,6 +177,13 @@ const StudySetDetailPage = () => {
           const { [questionIndex]: removed, ...rest } = prev;
           return rest;
         });
+      } else {
+        const errorText = await response.text();
+        console.error(
+          'Failed to update question:',
+          response.statusText,
+          errorText
+        );
       }
     } catch (error) {
       console.error('Error updating question:', error);
@@ -238,28 +244,22 @@ const StudySetDetailPage = () => {
 
   return (
     <div className='h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-x-hidden relative selection:bg-accent_green_dark'>
-      {/* Edit notification */}
-      <div
-        className={`absolute top-5 left-1/2 -translate-x-1/2 bg-accent_green_dark/80 text-white px-4 py-2 rounded-lg shadow-lg duration-500 z-50 ${
-          editingQuestion !== null ? 'translate-y-0' : '-translate-y-[150%]'
-        }`}
-      >
-        <p className='font-medium select-none'>
-          You are editing question{' '}
-          {editingQuestion !== null ? editingQuestion + 1 : ''}! Click the edit
-          button again to save.
-        </p>
-      </div>
-
       <section className='w-screen h-screen flex flex-col items-center justify-between z-10 pb-8'>
         <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5'>
           <div className='flex justify-center items-center'>
-            <BackButton to={`/study-sets`} className={'fixed left-6'} />
+            <Button
+              text='Back'
+              severity='outline'
+              onClick={() => navigate(-1)}
+              className={'fixed left-6'}
+            />
             <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
-            <PrimaryButton
-              to={`/study-sets/${itemName}/learning`}
+            <Button
               text='LEARN IT'
-              className={'fixed right-9'}
+              severity='primary'
+              glow={true}
+              onClick={() => navigate(`/study-sets/${itemName}/learning`)}
+              className={'fixed right-9 max-w-fit'}
             />
           </div>
           <div className=''>
@@ -305,7 +305,13 @@ const StudySetDetailPage = () => {
         </div>
       </section>
 
-      <section className='w-[50%] screen-fit min-h-screen h-fit flex flex-col items-center gap-8 z-10 py-16'>
+      <section className='w-full screen-fit min-h-screen h-fit flex flex-col items-center px-80 gap-8 z-10 py-16'>
+        <Button
+          text='Add question'
+          icon={<FiPlus className='w-7 h-7' />}
+          severity='noBg'
+          glow={true}
+        />
         {questionsWithAnswers.map((item, index) => (
           <div
             className='w-full h-fit flex flex-col justify-center items-start bg-slate-800 rounded-2xl py-3 px-5'
@@ -330,24 +336,34 @@ const StudySetDetailPage = () => {
                 </h2>
               )}
 
-              <div className='flex gap-2'>
-                <div onClick={() => handleEditQuestion(index)}>
-                  <CustomizeButton
-                    index={index}
-                    isHovered={hoveredItem === index}
-                    setHoveredItem={setHoveredItem}
-                    isEditing={editingQuestion === index}
+              {editingQuestion === index ? (
+                <div className='flex gap-2'>
+                  <Button
+                    icon={<FiSave />}
+                    severity='primary'
+                    size='small'
+                    glow={true}
+                    onClick={() => handleSaveQuestion(index)}
+                  />
+
+                  <Button
+                    icon={<IoClose className='w-6 h-6' />}
+                    severity='outline'
+                    glow={true}
+                    color='red'
+                    onClick={() => handleCancelEdit(index)}
+                    size='small'
                   />
                 </div>
-                {editingQuestion === index && (
-                  <CloseButton
-                    onClick={() => handleCancelEdit(index)}
-                    className='px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600'
-                  >
-                    Cancel
-                  </CloseButton>
-                )}
-              </div>
+              ) : (
+                <Button
+                  icon={<FiEdit />}
+                  severity='outline'
+                  size='small'
+                  glow={true}
+                  onClick={() => handleEditQuestion(index)}
+                />
+              )}
             </div>
 
             <span className='w-[90%] h-[4px] rounded-full bg-gradient-to-r from-green-500 my-3' />
@@ -361,18 +377,16 @@ const StudySetDetailPage = () => {
                         key={answerIndex}
                         className='flex items-center gap-2'
                       >
-                        <input
-                          type='checkbox'
-                          checked={answer.right}
-                          onChange={e =>
+                        <CheckBox
+                          isChecked={answer.right}
+                          setIsChecked={newValue =>
                             updateEditedAnswer(
                               index,
                               answerIndex,
                               'right',
-                              e.target.checked
+                              newValue
                             )
                           }
-                          className='accent-accent_green_dark'
                         />
                         <input
                           type='text'
@@ -389,20 +403,24 @@ const StudySetDetailPage = () => {
                           placeholder='Enter answer...'
                         />
                         {editedQuestions[index]?.answers.length > 1 && (
-                          <DeleteButton
-                            isWide={false}
+                          <Button
+                            icon={<IoTrashOutline className='w-6 h-6' />}
+                            severity='noBg'
+                            color='red'
+                            size='small'
                             onClick={() => removeAnswer(index, answerIndex)}
                           />
                         )}
                       </div>
                     )
                   )}
-                  <button
+                  <Button
+                    icon={<IoAdd className='w-7 h-7' />}
+                    text='Add Answer'
+                    severity='noBg'
+                    size='small'
                     onClick={() => addNewAnswer(index)}
-                    className='mt-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600'
-                  >
-                    Add Answer
-                  </button>
+                  />
                 </div>
               ) : (
                 <>
