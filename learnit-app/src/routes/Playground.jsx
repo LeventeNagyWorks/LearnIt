@@ -1,6 +1,7 @@
 import { FaCheck } from 'react-icons/fa6';
 import Button from '../components/Button';
 import { IoClose } from 'react-icons/io5';
+import Dropdown from '../components/Dropdown';
 const Playground = () => {
   return (
     <div className='w-full h-screen flex flex-col gap-6 p-20 bg-slate-700'>
@@ -94,6 +95,17 @@ const Playground = () => {
           color='red'
           glow={false}
           onClick={() => alert('Button clicked!')}
+        />
+      </div>
+      <div className='w-full flex gap-6'>
+        <Dropdown
+          placeholder={'Select Question Type'}
+          array={[
+            { id: 1, name: 'Single Choice' },
+            { id: 2, name: 'True / False' },
+            { id: 3, name: 'Multiple Choice' },
+            { id: 4, name: 'Fill in the Blanks' },
+          ]}
         />
       </div>
     </div>

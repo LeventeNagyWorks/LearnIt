@@ -657,7 +657,8 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/api/updateQuestion', async (req, res) => {
-  const { itemName, questionIndex, questionText, answers } = req.body;
+  const { itemName, questionIndex, questionText, answers, questionType } =
+    req.body;
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
@@ -677,6 +678,8 @@ app.post('/api/updateQuestion', async (req, res) => {
         $set: {
           [`studySets.$.questions.${questionIndex}.question`]: questionText,
           [`studySets.$.questions.${questionIndex}.answer`]: answers,
+          [`studySets.$.questions.${questionIndex}.que_type`]:
+            questionType || 'Choice',
         },
       }
     );

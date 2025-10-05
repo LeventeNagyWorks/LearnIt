@@ -24,6 +24,7 @@ import Button from '../components/Button';
 import { IoAdd, IoClose, IoTrashOutline } from 'react-icons/io5';
 import { FiEdit, FiPlus, FiSave } from 'react-icons/fi';
 import CheckBox from '../components/CheckBox';
+import Dropdown from '../components/Dropdown';
 
 const StudySetDetailPage = () => {
   useSignals();
@@ -36,8 +37,21 @@ const StudySetDetailPage = () => {
   const [textRotation, setTextRotation] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [editedQuestions, setEditedQuestions] = useState({});
+  const [questionTypes, setQuestionTypes] = useState({});
   const { itemName } = useParams();
   const navigate = useNavigate();
+
+  const dropdownOptions = [
+    { id: 'Choice', name: 'Choice' },
+    { id: 'True/False', name: 'True / False' },
+  ];
+
+  // Helper function to get display name for question type
+  const getQuestionTypeDisplayName = queType => {
+    if (queType === 'True/False') return 'True / False';
+    if (queType === 'Choice') return 'Choice';
+    return 'Choice';
+  };
 
   useEffect(() => {
     const token =
@@ -118,6 +132,7 @@ const StudySetDetailPage = () => {
       .filter(answer => !answer.right)
       .map(answer => answer.text),
     questionType: question.que_type,
+    questionTypeDisplay: getQuestionTypeDisplayName(question.que_type),
   }));
 
   const currentQuestion = studySet.questions[currentIndex];
@@ -133,8 +148,70 @@ const StudySetDetailPage = () => {
       [questionIndex]: {
         question: question.question,
         answers: question.answer.map(ans => ({ ...ans })),
+        questionType: question.que_type || 'Choice',
       },
     }));
+    // Set initial question type
+    setQuestionTypes(prev => ({
+      ...prev,
+      [questionIndex]: question.que_type || 'Choice',
+    }));
+  };
+
+  const handleQuestionTypeChange = (questionIndex, newTypeId) => {
+    setQuestionTypes(prev => ({
+      ...prev,
+      [questionIndex]: newTypeId,
+    }));
+
+    // Update the editedQuestions to keep data in sync
+    setEditedQuestions(prev => ({
+      ...prev,
+      [questionIndex]: {
+        ...prev[questionIndex],
+        questionType: newTypeId,
+      },
+    }));
+
+    // If changing to True/False, adjust answers to standard format
+    if (newTypeId === 'True/False') {
+      setEditedQuestions(prev => ({
+        ...prev,
+        [questionIndex]: {
+          ...prev[questionIndex],
+          answers: [
+            { text: 'Igaz', right: true },
+            { text: 'Hamis', right: false },
+          ],
+        },
+      }));
+    }
+    // If changing from True/False to Choice, keep existing answers or add default ones
+    else if (newTypeId === 'Choice') {
+      setEditedQuestions(prev => {
+        const currentAnswers = prev[questionIndex]?.answers || [];
+        // Only change if it was previously a true/false question with 2 answers
+        if (
+          currentAnswers.length === 2 &&
+          currentAnswers.some(
+            ans => ans.text === 'Igaz' || ans.text === 'Hamis'
+          )
+        ) {
+          return {
+            ...prev,
+            [questionIndex]: {
+              ...prev[questionIndex],
+              answers: [
+                { text: '', right: true },
+                { text: '', right: false },
+                { text: '', right: false },
+              ],
+            },
+          };
+        }
+        return prev;
+      });
+    }
   };
 
   const handleSaveQuestion = async questionIndex => {
@@ -155,6 +232,7 @@ const StudySetDetailPage = () => {
           questionIndex,
           questionText: editedData.question,
           answers: editedData.answers,
+          questionType: questionTypes[questionIndex] || editedData.questionType,
         }),
       });
 
@@ -168,12 +246,18 @@ const StudySetDetailPage = () => {
                   ...q,
                   question: editedData.question,
                   answer: editedData.answers,
+                  que_type:
+                    questionTypes[questionIndex] || editedData.questionType,
                 }
               : q
           ),
         }));
         setEditingQuestion(null);
         setEditedQuestions(prev => {
+          const { [questionIndex]: removed, ...rest } = prev;
+          return rest;
+        });
+        setQuestionTypes(prev => {
           const { [questionIndex]: removed, ...rest } = prev;
           return rest;
         });
@@ -193,6 +277,10 @@ const StudySetDetailPage = () => {
   const handleCancelEdit = questionIndex => {
     setEditingQuestion(null);
     setEditedQuestions(prev => {
+      const { [questionIndex]: removed, ...rest } = prev;
+      return rest;
+    });
+    setQuestionTypes(prev => {
       const { [questionIndex]: removed, ...rest } = prev;
       return rest;
     });
@@ -371,6 +459,24 @@ const StudySetDetailPage = () => {
             <div className='w-full h-fit flex-col gap-3'>
               {editingQuestion === index ? (
                 <div className='space-y-2'>
+                  <div className='flex gap-2 justify-between items-center'>
+                    <Dropdown
+                      array={dropdownOptions}
+                      placeholder='Select Question Type'
+                      selectedValue={questionTypes[index]}
+                      onChange={newTypeId =>
+                        handleQuestionTypeChange(index, newTypeId)
+                      }
+                    />
+                    <Button
+                      icon={<IoAdd className='w-7 h-7' />}
+                      text='Add Answer'
+                      severity='noBg'
+                      size='small'
+                      onClick={() => addNewAnswer(index)}
+                      disabled={questionTypes[index] === 'True/False'}
+                    />
+                  </div>
                   {editedQuestions[index]?.answers.map(
                     (answer, answerIndex) => (
                       <div
@@ -387,6 +493,7 @@ const StudySetDetailPage = () => {
                               newValue
                             )
                           }
+                          disabled={questionTypes[index] === 'True/False'}
                         />
                         <input
                           type='text'
@@ -401,29 +508,29 @@ const StudySetDetailPage = () => {
                           }
                           className='flex-1 bg-transparent border-b border-gray-600 outline-none caret-accent_green_dark'
                           placeholder='Enter answer...'
+                          disabled={questionTypes[index] === 'True/False'}
                         />
-                        {editedQuestions[index]?.answers.length > 1 && (
-                          <Button
-                            icon={<IoTrashOutline className='w-6 h-6' />}
-                            severity='noBg'
-                            color='red'
-                            size='small'
-                            onClick={() => removeAnswer(index, answerIndex)}
-                          />
-                        )}
+                        {editedQuestions[index]?.answers.length > 2 &&
+                          questionTypes[index] !== 'True/False' && (
+                            <Button
+                              icon={<IoTrashOutline className='w-6 h-6' />}
+                              severity='noBg'
+                              color='red'
+                              size='small'
+                              onClick={() => removeAnswer(index, answerIndex)}
+                            />
+                          )}
                       </div>
                     )
                   )}
-                  <Button
-                    icon={<IoAdd className='w-7 h-7' />}
-                    text='Add Answer'
-                    severity='noBg'
-                    size='small'
-                    onClick={() => addNewAnswer(index)}
-                  />
                 </div>
               ) : (
                 <>
+                  <div className='flex justify-between items-center mb-2'>
+                    <span className='text-sm text-gray-400'>
+                      {item.questionTypeDisplay}
+                    </span>
+                  </div>
                   {item.rightAnswer.map((answer, answerIndex) => (
                     <div
                       className='w-full h-fit py-1'
