@@ -25,7 +25,7 @@ const Button = ({
       !text && icon ? 'max-w-10 !max-h-10' : 'max-w-fit max-h-12'
     }`,
     large: `text-xl px-8 py-4 rounded-2xl font-bold ${
-      !text && icon ? 'max-w-12 max-h-12' : 'max-w-fit max-h-12'
+      !text && icon ? 'max-w-12 max-h-20' : 'max-w-fit max-h-20'
     }`,
   };
 

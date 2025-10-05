@@ -21,7 +21,7 @@ import Flashcard from '../components/StudySets/StudySetsDetail/FlashCard';
 import CloseButton from '../components/StudySets/CloseButton';
 import DeleteButton from '../components/StudySets/DeleteButton';
 import Button from '../components/Button';
-import { IoAdd, IoClose, IoTrashOutline } from 'react-icons/io5';
+import { IoArrowUp } from 'react-icons/io5';
 import { FiEdit, FiPlus, FiSave } from 'react-icons/fi';
 import CheckBox from '../components/CheckBox';
 import Dropdown from '../components/Dropdown';
@@ -39,6 +39,9 @@ const StudySetDetailPage = () => {
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [editedQuestions, setEditedQuestions] = useState({});
   const [questionTypes, setQuestionTypes] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [questionsPerPage] = useState(20);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const { itemName } = useParams();
   const navigate = useNavigate();
 
@@ -100,6 +103,20 @@ const StudySetDetailPage = () => {
     isLoadingEnabled.value = true;
   }, []);
 
+  // Add scroll listener for scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      const secondSection = document.querySelector('section:last-child');
+      if (secondSection) {
+        const secondSectionTop = secondSection.offsetTop;
+        setShowScrollToTop(window.scrollY >= secondSectionTop);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleNext = () => {
     if (currentIndex < studySet.questions.length - 1) {
       setIsFlipped(false);
@@ -138,7 +155,34 @@ const StudySetDetailPage = () => {
 
   const currentQuestion = studySet.questions[currentIndex];
 
-  // TODO: ha refreshelek az oldalra, akkor vissza dob a studysets page-re, feltehetően az url okozza az ékezetes karakterekkel
+  // Calculate pagination
+  const totalQuestions = questionsWithAnswers.length;
+  const totalPages = Math.ceil(totalQuestions / questionsPerPage);
+  const startIndex = (currentPage - 1) * questionsPerPage;
+  const endIndex = startIndex + questionsPerPage;
+  const currentQuestions = questionsWithAnswers.slice(startIndex, endIndex);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+      // Scroll to top of questions section
+      window.scrollTo({
+        top: document.querySelector('section:last-child').offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+      // Scroll to top of questions section
+      window.scrollTo({
+        top: document.querySelector('section:last-child').offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const handleEditQuestion = questionIndex => {
     // Start editing this question
@@ -331,8 +375,25 @@ const StudySetDetailPage = () => {
     }));
   };
 
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className='h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-x-hidden relative selection:bg-accent_green_dark'>
+      {showScrollToTop && (
+        <Button
+          severity='noBg'
+          size='large'
+          glow={false}
+          icon={<IoArrowUp className='w-20 h-20' />}
+          onClick={handleScrollToTop}
+          className={`fixed right-6 bottom-6 z-40 hover:text-accent_green_dark hover:scale-110 !bg-transparent transition-all duration-300 opacity-80 hover:opacity-100`}
+        />
+      )}
       <section className='w-screen h-screen flex flex-col items-center justify-between z-10 pb-8'>
         <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5'>
           <div className='flex justify-center items-center'>
@@ -340,7 +401,7 @@ const StudySetDetailPage = () => {
               text='Back'
               severity='outline'
               onClick={() => navigate(-1)}
-              className={'fixed left-6'}
+              className={'fixed left-6 z-40'}
             />
             <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
             <Button
@@ -348,7 +409,7 @@ const StudySetDetailPage = () => {
               severity='primary'
               glow={true}
               onClick={() => navigate(`/study-sets/${itemName}/learning`)}
-              className={'fixed right-9 max-w-fit'}
+              className={'fixed right-9 max-w-fit z-40'}
             />
           </div>
           <div className=''>
@@ -395,37 +456,87 @@ const StudySetDetailPage = () => {
       </section>
 
       <section className='w-full screen-fit min-h-screen h-fit flex flex-col items-center px-80 gap-8 z-10 py-16'>
-        <Button
-          text='Add question'
-          icon={<FiPlus className='w-7 h-7' />}
-          severity='noBg'
-          glow={true}
-        />
-        {questionsWithAnswers.map((item, index) => (
+        <div className='w-full flex justify-between items-center'>
+          {/* TODO: Add question functionality */}
+          <Button
+            text='Add question'
+            icon={<FiPlus className='w-7 h-7' />}
+            severity='noBg'
+            glow={true}
+          />
+          {totalPages > 1 && (
+            <div className='flex items-center gap-4'>
+              <span className='text-sm text-gray-400'>
+                Page {currentPage} of {totalPages}
+              </span>
+              <div className='flex gap-2'>
+                <Button
+                  text='Previous'
+                  severity='outline'
+                  size='small'
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 1}
+                />
+                <Button
+                  text='Next'
+                  severity='outline'
+                  size='small'
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {currentQuestions.map((item, index) => (
           <QuestionCard
-            key={index}
+            key={startIndex + index}
             item={item}
-            index={index}
-            isEditing={editingQuestion === index}
-            editedQuestion={editedQuestions[index]}
-            questionType={questionTypes[index]}
+            index={startIndex + index}
+            isEditing={editingQuestion === startIndex + index}
+            editedQuestion={editedQuestions[startIndex + index]}
+            questionType={questionTypes[startIndex + index]}
             dropdownOptions={dropdownOptions}
-            onEdit={() => handleEditQuestion(index)}
-            onSave={() => handleSaveQuestion(index)}
-            onCancel={() => handleCancelEdit(index)}
+            onEdit={() => handleEditQuestion(startIndex + index)}
+            onSave={() => handleSaveQuestion(startIndex + index)}
+            onCancel={() => handleCancelEdit(startIndex + index)}
             onQuestionChange={value =>
-              updateEditedQuestion(index, 'question', value)
+              updateEditedQuestion(startIndex + index, 'question', value)
             }
             onAnswerChange={(answerIndex, field, value) =>
-              updateEditedAnswer(index, answerIndex, field, value)
+              updateEditedAnswer(startIndex + index, answerIndex, field, value)
             }
             onQuestionTypeChange={newTypeId =>
-              handleQuestionTypeChange(index, newTypeId)
+              handleQuestionTypeChange(startIndex + index, newTypeId)
             }
-            onAddAnswer={() => addNewAnswer(index)}
-            onRemoveAnswer={answerIndex => removeAnswer(index, answerIndex)}
+            onAddAnswer={() => addNewAnswer(startIndex + index)}
+            onRemoveAnswer={answerIndex =>
+              removeAnswer(startIndex + index, answerIndex)
+            }
           />
         ))}
+
+        {totalPages > 1 && (
+          <div className='w-full flex justify-center gap-4 pt-8'>
+            <Button
+              text='Previous Page'
+              severity='outline'
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+            />
+            <span className='flex items-center px-4 py-2 text-gray-400'>
+              {currentPage} / {totalPages}
+            </span>
+            <Button
+              text='Next Page'
+              severity='primary'
+              glow={currentPage < totalPages}
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            />
+          </div>
+        )}
       </section>
     </div>
   );
