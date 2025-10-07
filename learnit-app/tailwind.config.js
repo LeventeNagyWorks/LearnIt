@@ -5,6 +5,12 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'bg-accent_green_dark',
+    'bg-accent_orange_dark',
+    'border-accent_green_dark',
+    'border-accent_orange_dark',
+  ],
   variants: {
     scrollbar: ['hover', 'focus'],
     scrollbarThumb: ['hover', 'focus'],
