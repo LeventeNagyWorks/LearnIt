@@ -582,36 +582,44 @@ app.post('/registration', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { email, password, rememberMe } = req.body;
+    const { emailOrUsername, password, rememberMe } = req.body;
 
-  try {
-      const user = await MUser .findOne({ email });
-      if (!user) {
-          return res.status(400).json({ error: 'Invalid email or password' });
-      }
+    try {
+        // Find user by either email or username
+        const user = await MUser.findOne({
+            $or: [
+                { email: emailOrUsername },
+                { username: emailOrUsername }
+            ]
+        });
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-          return res.status(400).json({ error: 'Invalid email or password' });
-      }
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
 
-      const token = jwt.sign(
-          { userId: user._id, username: user.username },
-          SECRET_KEY,
-          { expiresIn: rememberMe ? '30d' : '1h' } // Ellenőrizd, hogy ez helyesen van beállítva
-      );
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
 
-      res.json({
-          message: 'Login successful',
-          userId: user._id,
-          username: user.username,
-          token
-      });
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: user._id, username: user.username },
+            SECRET_KEY,
+            { expiresIn: rememberMe ? '30d' : '24h' }
+        );
 
-  } catch (error) {
-      console.error('Login error:', error);
-      res.status(500).json({ error: 'Failed to login' });
-  }
+        res.json({
+            token,
+            username: user.username,
+            message: 'Login successful'
+        });
+
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 app.get('*', (req, res) => {

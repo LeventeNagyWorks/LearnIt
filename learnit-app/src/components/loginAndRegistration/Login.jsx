@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import PrimaryButton from '../PrimaryButton';
@@ -16,10 +14,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import Error from '../errors/Error';
 import { isLoggedIn } from '../../signals';
 import debounce from 'lodash/debounce';
+import EmailOrUsername from './EmailOrUsername';
 
 const Login = () => {
     const [isRegisterHovered, setIsRegisterHovered] = useState(false);
-    const [email, setEmail] = useState('');
+    const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -44,7 +43,7 @@ const Login = () => {
 
         try {
             const response = await axios.post("http://localhost:3001/login", {
-                email, password, rememberMe
+                emailOrUsername, password, rememberMe
             });
             console.log(response.data);
             localStorage.setItem('username', response.data.username);
@@ -69,8 +68,6 @@ const Login = () => {
         }
     };
 
-    // TODO: login with username
-
     return (
         <div className='w-full h-screen flex flex-col md:flex-row bg-gradient-to-br from-cstm_bg_dark from-50% to-slate-900 font-poppins text-cstm_white selection:bg-accent_green_dark'>
             {showError && <Error type="InvalidEmailOrPw" onClick={() => setShowError(false)} />}
@@ -91,8 +88,8 @@ const Login = () => {
                     action='POST'
                     onKeyDown={handleKeyDown}
                 >
-                    <Email
-                        onChange={(e) => { setEmail(e.target.value) }}
+                    <EmailOrUsername
+                        onChange={(e) => { setEmailOrUsername(e.target.value) }}
                         className={'border-slate-700'}
                     />
 
