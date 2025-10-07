@@ -21,12 +21,18 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const buttonClass =
     'w-[44px] h-8 text-lg rounded-lg font-poppins text-center border border-transparent hover:border-accent_green_dark select-none bg-slate-500/40 text-cstm_white transition-colors duration-500';
 
+  const handleDisable = page => {
+    const disabled = page < 0 || page >= totalPages;
+    return disabled;
+  };
+
   return (
     <div className='flex items-center justify-center gap-2 mt-8'>
       <Button
         icon={<TbArrowBarToLeft className='w-5 h-5' />}
         onClick={() => onPageChange(0)}
         size='small'
+        disabled={handleDisable(currentPage - 1)}
         className={buttonClass}
       />
       <Button
@@ -34,6 +40,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
         onClick={() => onPageChange(Math.max(0, currentPage - 10))}
         size='small'
         glow={false}
+        disabled={handleDisable(currentPage - 1)}
         className={buttonClass}
       />
       {Array.from({ length: endPage - startPage }, (_, index) => {
@@ -58,12 +65,14 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
         icon={<TbRewindForward10 className='w-5 h-5' />}
         onClick={() => onPageChange(Math.min(totalPages - 1, currentPage + 10))}
         size='small'
+        disabled={currentPage >= totalPages - 1}
         className={buttonClass}
       />
       <Button
         icon={<TbArrowBarToRight className='w-5 h-5' />}
         onClick={() => onPageChange(totalPages - 1)}
         size='small'
+        disabled={currentPage >= totalPages - 1}
         className={buttonClass}
       />
     </div>
