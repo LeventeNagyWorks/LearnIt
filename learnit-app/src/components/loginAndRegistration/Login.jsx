@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PrimaryButton from '../PrimaryButton';
 import BackButton from '../BackButton';
-import Email from './Email';
 import Password from './Password';
 import girlReadingImage from '../../images/girl_reading_vector_green_bg.png';
 import CheckBox from '../CheckBox';
@@ -123,9 +122,9 @@ const Login = () => {
           </div>
 
           <div className='w-full flex flex-col items-center justify-evenly select-none relative pb-4'>
-            <p className='text-lg text-center'>
+            <span className='text-lg text-center'>
               Or you can create a new account here:{' '}
-            </p>
+            </span>
             <Link
               className='font-semibold text-accent_green_dark hover:cursor-pointer text-lg'
               onMouseEnter={() => setIsRegisterHovered(true)}
