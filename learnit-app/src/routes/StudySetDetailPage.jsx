@@ -642,7 +642,7 @@ const StudySetDetailPage = () => {
               <Button
                 text='Back'
                 severity='outline'
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(`/study-sets`)}
                 className={'fixed left-6 z-40'}
               />
               <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
@@ -662,7 +662,7 @@ const StudySetDetailPage = () => {
               </div>
             </div>
           </div>
-
+          {/* TODO: must have one right answer */}
           <div className='flex-1 w-full h-full flex flex-col items-center justify-center flex-grow relative'>
             <div className='absolute w-[85%] top-[42%] flex items-center justify-between'>
               <ArrowButton onClick={handlePrev} className='' />

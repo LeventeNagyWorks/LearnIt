@@ -58,6 +58,10 @@ const MUser = new mongoose.Schema({
           question: String,
           answer: [
             {
+              _id: {
+                type: mongoose.Schema.Types.ObjectId,
+                default: () => new mongoose.Types.ObjectId(),
+              },
               text: String,
               right: Boolean,
             },

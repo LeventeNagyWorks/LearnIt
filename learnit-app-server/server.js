@@ -468,6 +468,14 @@ app.post('/upload', async (req, res) => {
       name: Buffer.from(file.name, 'latin1').toString('utf8'),
     });
 
+    const questionsWithIds = parsedData.questions.map(question => ({
+      ...question,
+      answer: question.answer.map(ans => ({
+        ...ans,
+        _id: ans._id || new mongoose.Types.ObjectId(),
+      })),
+    }));
+
     const fileName = Buffer.from(file.name, 'latin1')
       .toString('utf8')
       .replace(/\.txt$/i, '');
@@ -477,7 +485,7 @@ app.post('/upload', async (req, res) => {
       $push: {
         studySets: {
           name: fileName,
-          questions: parsedData.questions,
+          questions: questionsWithIds,
         },
       },
     });
@@ -673,6 +681,12 @@ app.post('/api/updateQuestion', async (req, res) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
+    // Ensure answers have IDs
+    const answersWithIds = answers.map(ans => ({
+      ...ans,
+      _id: ans._id || new mongoose.Types.ObjectId(),
+    }));
+
     // Update the specific question
     await MUser.updateOne(
       {
@@ -682,7 +696,7 @@ app.post('/api/updateQuestion', async (req, res) => {
       {
         $set: {
           [`studySets.$.questions.${questionIndex}.question`]: questionText,
-          [`studySets.$.questions.${questionIndex}.answer`]: answers,
+          [`studySets.$.questions.${questionIndex}.answer`]: answersWithIds,
           [`studySets.$.questions.${questionIndex}.que_type`]:
             questionType || 'Choice',
         },
@@ -707,10 +721,16 @@ app.post('/api/addQuestion', async (req, res) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
+    // Add IDs to answers
+    const answersWithIds = answers.map(ans => ({
+      ...ans,
+      _id: new mongoose.Types.ObjectId(),
+    }));
+
     // Create the new question object
     const newQuestion = {
       question: questionText,
-      answer: answers,
+      answer: answersWithIds,
       que_type: questionType || 'Choice',
       learningState: 'notStarted',
       correctCount: 0,
