@@ -36,7 +36,7 @@ const Popup = ({
   }
 
   return (
-    <div className='absolute w-screen h-screen z-50 bg-black/70 backdrop-blur-md flex justify-center items-center px-32'>
+    <div className='fixed w-screen h-screen z-50 bg-black/70 backdrop-blur-md flex justify-center items-center px-32'>
       <div
         className={`w-full h-full max-w-[900px] max-h-[600px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br rounded-[40px] font-poppins overflow-hidden select-none 
                 ${

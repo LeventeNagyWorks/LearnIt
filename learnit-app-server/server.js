@@ -696,6 +696,75 @@ app.post('/api/updateQuestion', async (req, res) => {
   }
 });
 
+app.post('/api/addQuestion', async (req, res) => {
+  const { itemName, questionText, answers, questionType } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+
+    // Create the new question object
+    const newQuestion = {
+      question: questionText,
+      answer: answers,
+      que_type: questionType || 'Choice',
+      learningState: 'notStarted',
+      correctCount: 0,
+    };
+
+    // Add the new question to the specified study set
+    await MUser.updateOne(
+      {
+        _id: decoded.userId,
+        'studySets.name': itemName,
+      },
+      {
+        $push: {
+          'studySets.$.questions': newQuestion,
+        },
+      }
+    );
+
+    // Get the updated user data to recalculate totals
+    const user = await MUser.findById(decoded.userId);
+    let mastered = 0;
+    let learning = 0;
+    let notStarted = 0;
+
+    user.studySets.forEach(set => {
+      set.questions.forEach(question => {
+        switch (question.learningState) {
+          case 'mastered':
+            mastered++;
+            break;
+          case 'learning':
+            learning++;
+            break;
+          case 'notStarted':
+            notStarted++;
+            break;
+        }
+      });
+    });
+
+    // Update the totals
+    await MUser.findByIdAndUpdate(decoded.userId, {
+      allMastered: mastered,
+      allLearning: learning,
+      allNotStarted: notStarted,
+    });
+
+    res.json({ success: true, message: 'Question added successfully' });
+  } catch (err) {
+    console.error('Error adding question:', err);
+    res.status(500).json({ error: 'Failed to add question' });
+  }
+});
+
 app.post('/api/updateProfile', async (req, res) => {
   const { username, displayName, description } = req.body;
   const token = req.headers.authorization?.split(' ')[1];
@@ -719,6 +788,75 @@ app.post('/api/updateProfile', async (req, res) => {
   } catch (err) {
     console.error('Error updating profile:', err);
     res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+app.delete('/api/deleteQuestion', async (req, res) => {
+  const { itemName, questionIndex } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const user = await MUser.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const studySet = user.studySets.find(set => set.name === itemName);
+    if (!studySet) {
+      return res.status(404).json({ error: 'Study set not found' });
+    }
+
+    if (questionIndex < 0 || questionIndex >= studySet.questions.length) {
+      return res.status(400).json({ error: 'Invalid question index' });
+    }
+
+    // Remove the question at the specified index
+    studySet.questions.splice(questionIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+
+    // Recalculate totals
+    let mastered = 0;
+    let learning = 0;
+    let notStarted = 0;
+
+    user.studySets.forEach(set => {
+      set.questions.forEach(question => {
+        switch (question.learningState) {
+          case 'mastered':
+            mastered++;
+            break;
+          case 'learning':
+            learning++;
+            break;
+          default:
+            notStarted++;
+        }
+      });
+    });
+
+    // Update the totals
+    await MUser.findByIdAndUpdate(decoded.userId, {
+      allMastered: mastered,
+      allLearning: learning,
+      allNotStarted: notStarted,
+    });
+
+    res.json({
+      success: true,
+      message: 'Question deleted successfully',
+      remainingQuestions: studySet.questions.length,
+    });
+  } catch (err) {
+    console.error('Error deleting question:', err);
+    res.status(500).json({ error: 'Failed to delete question' });
   }
 });
 
