@@ -8,21 +8,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getProfileImage } from '../utils/profileImage';
 import BackButton from '../components/BackButton';
-
-const Counter = ({ value, className }) => {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
-
-  React.useEffect(() => {
-    const animation = animate(count, value, {
-      duration: 2,
-      ease: [0.4, 0, 0.2, 1],
-    });
-    return animation.stop;
-  }, [value]);
-
-  return <motion.p className={className}>{rounded}</motion.p>;
-};
+import Counter from '../components/Counter';
 
 const ProfileDetailed = () => {
   const [isEditing, setIsEditing] = useState(false);

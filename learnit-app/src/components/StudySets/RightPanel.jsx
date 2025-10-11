@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +16,8 @@ import {
   startTransitionFromStudySets,
   startTransitionToStudySets,
   studySetsData,
+  studysetSelected,
+  selectedStudysetNum,
 } from '../../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 
@@ -29,10 +28,6 @@ const RightPanel = () => {
   const [data, setData] = useState([]);
   const [hoverStates, setHoverStates] = useState({});
   const [optionsHoverStates, setOptionsHoverStates] = useState({});
-  const [itemSelected, setItemSelected] = useState(
-    data.reduce((acc, item) => ({ ...acc, [item.name]: false }), {})
-  );
-  const [selectedItemNum, setSelectedItemNum] = useState(0);
   const [isFavourite, setIsFavourite] = useState(
     data.reduce((acc, item) => ({ ...acc, [item.name]: false }), {})
   );
@@ -64,6 +59,13 @@ const RightPanel = () => {
         }, {});
         setIsFavourite(favorites);
         localStorage.setItem('favorites', JSON.stringify(favorites));
+
+        // Initialize studysetSelected signal
+        const initialSelection = responseData.reduce(
+          (acc, item) => ({ ...acc, [item.name]: false }),
+          {}
+        );
+        studysetSelected.value = initialSelection;
       } catch (error) {
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
@@ -109,23 +111,19 @@ const RightPanel = () => {
   };
 
   const handleItemSelected = itemName => {
-    setItemSelected(prevState => {
-      const newState = { ...prevState, [itemName]: !prevState[itemName] };
-      const selectedCount = Object.values(newState).filter(Boolean).length;
-      setSelectedItemNum(selectedCount);
-      return newState;
-    });
+    const newSelection = {
+      ...studysetSelected.value,
+      [itemName]: !studysetSelected.value[itemName],
+    };
+    studysetSelected.value = newSelection;
+
+    const selectedCount = Object.values(newSelection).filter(Boolean).length;
+    selectedStudysetNum.value = selectedCount;
   };
 
   return (
     <div className='w-full flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl relative z-10 pb-6 font-poppins duration-1000'>
-      <RightPanelHeader
-        setData={setData}
-        selectedItemNum={selectedItemNum}
-        itemSelected={itemSelected}
-        setItemSelected={setItemSelected}
-        setSelectedItemNum={setSelectedItemNum}
-      />
+      <RightPanelHeader setData={setData} />
 
       <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
         {data.length === 0 && !showOnlyFav.value ? (
@@ -143,7 +141,7 @@ const RightPanel = () => {
                 hoverStates[item.name]
                   ? 'bg-slate-800 min-h-40 h-40'
                   : 'min-h-20 h-20'
-              } ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
+              } ${studysetSelected.value[item.name] ? 'bg-slate-700' : ''}`}
               key={item.name}
               onMouseEnter={() => handleMouseEnter(item.name)}
               onMouseLeave={() => handleMouseLeave(item.name)}
@@ -194,8 +192,6 @@ const RightPanel = () => {
                     handleOptionsMouseEnter={handleOptionsMouseEnter}
                     handleOptionsMouseLeave={handleOptionsMouseLeave}
                     handleMouseLeave={handleMouseLeave}
-                    setItemSelected={setItemSelected}
-                    setSelectedItemNum={setSelectedItemNum}
                   />
                 </div>
               </div>
@@ -218,7 +214,7 @@ const RightPanel = () => {
                   hoverStates[item.name]
                     ? 'bg-slate-800 min-h-40 h-40'
                     : 'min-h-20 h-20'
-                } ${itemSelected[item.name] ? 'bg-slate-700' : ''}`}
+                } ${studysetSelected.value[item.name] ? 'bg-slate-700' : ''}`}
                 key={item.name}
                 onMouseEnter={() => handleMouseEnter(item.name)}
                 onMouseLeave={() => handleMouseLeave(item.name)}
@@ -269,8 +265,6 @@ const RightPanel = () => {
                       handleOptionsMouseEnter={handleOptionsMouseEnter}
                       handleOptionsMouseLeave={handleOptionsMouseLeave}
                       handleMouseLeave={handleMouseLeave}
-                      setItemSelected={setItemSelected}
-                      setSelectedItemNum={setSelectedItemNum}
                     />
                   </div>
                 </div>

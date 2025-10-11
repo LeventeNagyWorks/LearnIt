@@ -52,6 +52,15 @@ const MUser = new mongoose.Schema({
   studySets: [
     {
       name: String,
+      owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+      sharedWith: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
       questions: [
         {
           _id: false,

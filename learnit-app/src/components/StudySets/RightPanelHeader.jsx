@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import DeleteButton from './DeleteButton';
 import { LuTextSelect } from 'react-icons/lu';
@@ -12,26 +12,19 @@ import { FaFolder, FaStar } from 'react-icons/fa';
 import {
   showDeleteWarningPopup,
   showOnlyFav,
-  itemToDeleteSignal,
+  selectedStudysetNum,
+  studysetSelected,
 } from '../../signals';
 
-const RightPanelHeader = ({
-  selectedItemNum,
-  itemSelected,
-  setItemSelected,
-  setSelectedItemNum,
-  setData,
-}) => {
+const RightPanelHeader = () => {
   useSignals();
 
   const handleDeleteSelected = () => {
-    const selectedItems = Object.keys(itemSelected).filter(
-      item => itemSelected[item]
+    const selectedItems = Object.keys(studysetSelected.value).filter(
+      item => studysetSelected.value[item]
     );
 
     if (selectedItems.length > 0) {
-      // Set all selected items to delete
-      itemToDeleteSignal.value = selectedItems;
       showDeleteWarningPopup.value = true;
     }
   };
@@ -56,9 +49,11 @@ const RightPanelHeader = ({
           leftShadowColor='rgba(40,255,0,0.7)'
           rightShadowColor='rgba(255,165,0,0.7)'
         />
-        {selectedItemNum !== 0 && (
+        {selectedStudysetNum.value !== 0 && (
           <div className='w-fit h-full max-h-10 flex justify-center items-center gap-1 px-3 select-none bg-gray-500 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
-            <p className='text-accent_green_dark px-2'>{selectedItemNum}</p>
+            <p className='text-accent_green_dark px-2'>
+              {selectedStudysetNum.value}
+            </p>
             <span className='rounded bg-cstm_white w-[2px] h-[20px]' />
             <DeleteButton
               isWide={false}

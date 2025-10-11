@@ -5,11 +5,7 @@ import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
-import {
-  showDeleteWarningPopup,
-  showOnlyFav,
-  itemToDeleteSignal,
-} from '../../signals';
+import { showDeleteWarningPopup, studysetSelected } from '../../signals';
 import ShareButton from './ShareButton';
 
 const OptionsMenu = ({
@@ -22,8 +18,6 @@ const OptionsMenu = ({
   handleMouseLeave,
   data,
   setData,
-  setItemSelected,
-  setSelectedItemNum,
   setHoverStates,
   setOptionsHoverStates,
   showDeleteWarning,
@@ -73,39 +67,13 @@ const OptionsMenu = ({
     }
   };
 
-  const handleDelete = async itemName => {
-    const token =
-      localStorage.getItem('token') || sessionStorage.getItem('token');
-
-    try {
-      await setItemSelected(prevState => {
-        const newState = { ...prevState, [itemName]: false };
-        const selectedCount = Object.values(newState).filter(Boolean).length;
-        setSelectedItemNum(selectedCount);
-        return newState;
-      });
-      await handleMouseLeave(itemName);
-      await handleOptionsMouseLeave(itemName);
-
-      await axios.delete(`/delete/${itemName}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setData(data.filter(item => item.name !== itemName));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleClick = e => {
     e.stopPropagation(); // Prevent event from bubbling up
   };
 
   const handleDeleteClick = () => {
     // Set only the current item to delete
-    itemToDeleteSignal.value = [itemName];
+    studysetSelected.value = [itemName];
     showDeleteWarningPopup.value = true;
   };
 

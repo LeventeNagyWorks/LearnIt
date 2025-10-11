@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
 import RightPanel from '../components/StudySets/RightPanel';
 import LeftPanel from '../components/StudySets/LeftPanel';
-import Error from '../components/errors/Error';
 import { useState } from 'react';
 import {
   showDeleteWarningPopup,
@@ -13,9 +11,10 @@ import {
   showSuccessfullyAdded,
   startTransitionFromStudySets,
   startTransitionToStudySets,
-  itemToDeleteSignal,
   refreshStudySetsData,
   studySetsData,
+  studysetSelected,
+  selectedStudysetNum,
 } from '../signals';
 import { useEffect } from 'react';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel';
@@ -62,7 +61,9 @@ const StudySetsPage = () => {
   //TODO: mikor több studyset törlődik, akkor a counter nem frissül helyesen
 
   const handleDeleteStudySet = async () => {
-    const itemsToDelete = itemToDeleteSignal.value;
+    const itemsToDelete = Object.keys(studysetSelected.value).filter(
+      item => studysetSelected.value[item]
+    );
     console.log('handleDeleteStudySet called with items:', itemsToDelete);
 
     if (!itemsToDelete || itemsToDelete.length === 0) {
@@ -95,9 +96,12 @@ const StudySetsPage = () => {
       // Update the studySetsData signal with fresh data
       studySetsData.value = dataResponse.data;
 
-      // Close the warning popup and clear the signal
+      // Reset selection state
+      studysetSelected.value = {};
+      selectedStudysetNum.value = 0;
+
+      // Close the warning popup
       showDeleteWarningPopup.value = false;
-      itemToDeleteSignal.value = [];
 
       // Trigger other refresh mechanisms
       setRefreshTrigger(prev => prev + 1);
@@ -113,7 +117,6 @@ const StudySetsPage = () => {
 
   const cancelDelete = () => {
     showDeleteWarningPopup.value = false;
-    itemToDeleteSignal.value = [];
   };
 
   return (
@@ -135,7 +138,7 @@ const StudySetsPage = () => {
           type='warning'
           title='Are you sure?'
           message={`Are you sure you want to delete ${
-            itemToDeleteSignal.value.length === 1
+            Object.values(studysetSelected.value).filter(Boolean).length === 1
               ? 'this study set'
               : 'these study sets'
           }?`}
