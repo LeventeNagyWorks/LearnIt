@@ -5,7 +5,11 @@ import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
 import DeleteButton from './DeleteButton';
-import { showDeleteWarningPopup, studysetSelected } from '../../signals';
+import {
+  showDeleteWarningPopup,
+  studysetSelected,
+  selectedStudysetNum,
+} from '../../signals';
 import ShareButton from './ShareButton';
 
 const OptionsMenu = ({
@@ -72,10 +76,13 @@ const OptionsMenu = ({
   };
 
   const handleDeleteClick = () => {
-    // Set only the current item to delete
-    studysetSelected.value = [itemName];
+    // Set the current item as selected for deletion
+    studysetSelected.value = { [itemName]: true };
+    selectedStudysetNum.value = 1;
     showDeleteWarningPopup.value = true;
   };
+
+  // TODO: fix the favourite status on delete
 
   return (
     <div
