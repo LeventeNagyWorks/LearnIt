@@ -41,36 +41,38 @@ const RightPanelHeader = () => {
           Your Study Sets
         </h1>
       </div>
-      <div className='flex gap-4 items-center justify-between'>
+      <div className='flex w-full gap-4 items-center justify-between md:justify-end'>
         <Button
           className='block md:hidden'
           icon={<FiPlus className='w-4 h-4' />}
           size='small'
           onClick={() => (showAddNewStudyset.value = true)}
         />
-        <ToggleButtons
-          onLeftClick={() => (showOnlyFav.value = false)}
-          onRightClick={() => (showOnlyFav.value = true)}
-          leftIcon={<FaFolder />}
-          rightIcon={<FaStar />}
-          leftButtonColor='accent_green_dark'
-          rightButtonColor='orange-400'
-          leftShadowColor='rgba(40,255,0,0.7)'
-          rightShadowColor='rgba(255,165,0,0.7)'
-        />
-        {selectedStudysetNum.value !== 0 && (
-          <div className='w-fit h-full max-h-10 flex justify-center items-center gap-1 px-3 select-none bg-gray-600 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
-            <p className='text-accent_green_dark px-2'>
-              {selectedStudysetNum.value}
-            </p>
-            <span className='rounded bg-cstm_white w-[2px] h-[20px]' />
-            <DeleteButton
-              isWide={false}
-              size='small'
-              onClick={handleDeleteSelected}
-            />
-          </div>
-        )}
+        <div className='flex gap-4'>
+          <ToggleButtons
+            onLeftClick={() => (showOnlyFav.value = false)}
+            onRightClick={() => (showOnlyFav.value = true)}
+            leftIcon={<FaFolder />}
+            rightIcon={<FaStar />}
+            leftButtonColor='accent_green_dark'
+            rightButtonColor='orange-400'
+            leftShadowColor='rgba(40,255,0,0.7)'
+            rightShadowColor='rgba(255,165,0,0.7)'
+          />
+          {selectedStudysetNum.value !== 0 && (
+            <div className='w-fit h-full max-h-10 flex justify-center items-center gap-1 px-3 select-none bg-gray-600 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
+              <p className='text-accent_green_dark px-2'>
+                {selectedStudysetNum.value}
+              </p>
+              <span className='rounded bg-cstm_white w-[2px] h-[20px]' />
+              <DeleteButton
+                isWide={false}
+                size='small'
+                onClick={handleDeleteSelected}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

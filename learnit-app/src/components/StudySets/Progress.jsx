@@ -96,9 +96,9 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
       }`}
     >
       <div
-        className={`flex gap-4 md:gap-1 mx-5 ${
+        className={`w-full flex gap-4 lg:gap-1 mx-5 ${
           isDetailedPage
-            ? 'flex-col md:flex-row items-center'
+            ? 'flex-col md:flex-row items-center lg:min-w-[800px]'
             : 'flex-col items-start'
         }`}
       >
@@ -110,10 +110,10 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
           Progress
         </p>
 
-        <div className='flex flex-col md:flex-row items-center gap-6 md:gap-2'>
-          <div className='relative w-[300px]'>
+        <div className='w-full flex flex-col lg:flex-row lg:items-center gap-6 md:gap-4'>
+          <div className='relative min-[200px] max-w-[300px] w-full'>
             <div className='relative w-full h-2 rounded-xl'>
-              <div className='h-full flex rounded-xl'>
+              <div className='w-full h-full flex rounded-xl'>
                 {progressWidth.mastered > 0 && (
                   <div
                     className={`bg-green-500 h-full shadow-[0_0_16px_2px_#22c55e] ${getRoundedClasses(
@@ -142,14 +142,14 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
             </div>
           </div>
 
-          <div className='flex'>
-            <p className='text-green-500 text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>
+          <div className='max-w-[380px] w-full flex flex-col sm:flex-row justify-start sm:justify-between gap-4'>
+            <p className='text-green-500 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
               {stats.mastered} Mastered
             </p>
-            <p className='text-yellow-500 text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>
+            <p className='text-yellow-500 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
               {stats.learning} Learning
             </p>
-            <p className='text-gray-400 text-lg text-center font-semibold flex items-center justify-center select-none rounded-lg px-3 relative z-10'>
+            <p className='text-gray-400 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
               {stats.notStarted} Not Started
             </p>
           </div>
