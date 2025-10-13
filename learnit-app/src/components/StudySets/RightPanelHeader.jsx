@@ -9,12 +9,15 @@ import axios from 'axios';
 import { useSignals } from '@preact/signals-react/runtime';
 import ToggleButtons from '../ToggleButtons';
 import { FaFolder, FaStar } from 'react-icons/fa';
+import { FiPlus } from 'react-icons/fi';
 import {
   showDeleteWarningPopup,
   showOnlyFav,
   selectedStudysetNum,
   studysetSelected,
+  showAddNewStudyset,
 } from '../../signals';
+import Button from '../Button';
 
 const RightPanelHeader = () => {
   useSignals();
@@ -31,14 +34,20 @@ const RightPanelHeader = () => {
 
   return (
     <div
-      className={`w-full h-full max-h-[64px] flex justify-center items-center rounded-t-[40px] px-7`}
+      className={`w-full h-full max-h-[80px] md:max-h-[64px] flex flex-col md:flex-row justify-center items-center gap-2 rounded-t-[40px] px-7 py-1`}
     >
       <div className='w-full flex items-center justify-center'>
-        <h1 className='w-fit text-3xl font-medium text-accent_green_dark select-none z-10'>
+        <h1 className='w-fit text-xl md:text-3xl font-medium text-accent_green_dark select-none z-10'>
           Your Study Sets
         </h1>
       </div>
-      <div className='flex gap-4 items-center'>
+      <div className='flex gap-4 items-center justify-between'>
+        <Button
+          className='block md:hidden'
+          icon={<FiPlus className='w-4 h-4' />}
+          size='small'
+          onClick={() => (showAddNewStudyset.value = true)}
+        />
         <ToggleButtons
           onLeftClick={() => (showOnlyFav.value = false)}
           onRightClick={() => (showOnlyFav.value = true)}
@@ -50,7 +59,7 @@ const RightPanelHeader = () => {
           rightShadowColor='rgba(255,165,0,0.7)'
         />
         {selectedStudysetNum.value !== 0 && (
-          <div className='w-fit h-full max-h-10 flex justify-center items-center gap-1 px-3 select-none bg-gray-500 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
+          <div className='w-fit h-full max-h-10 flex justify-center items-center gap-1 px-3 select-none bg-gray-600 rounded-full font-poppins font-medium text-2xl text-cstm_bg_dark'>
             <p className='text-accent_green_dark px-2'>
               {selectedStudysetNum.value}
             </p>

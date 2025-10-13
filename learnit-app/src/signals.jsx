@@ -28,6 +28,7 @@ const isPendingHovered = signal(false);
 const showDeleteWarningPopup = signal(false);
 const showDeleteQuestionWarningPopup = signal(false);
 const showAddNewQuestion = signal(false);
+const showAddNewStudyset = signal(false);
 const refreshStudySetsData = signal(0);
 const studysetSelected = signal({});
 const selectedStudysetNum = signal(0);
@@ -59,6 +60,7 @@ export {
   showDeleteWarningPopup,
   refreshStudySetsData,
   showAddNewQuestion,
+  showAddNewStudyset,
   showDeleteQuestionWarningPopup,
   studysetSelected,
   selectedStudysetNum,

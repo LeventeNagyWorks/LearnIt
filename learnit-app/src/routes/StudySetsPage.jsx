@@ -15,6 +15,7 @@ import {
   studySetsData,
   studysetSelected,
   selectedStudysetNum,
+  showAddNewStudyset,
 } from '../signals';
 import { useEffect } from 'react';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel';
@@ -38,27 +39,21 @@ const StudySetsPage = () => {
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] =
     useState(false);
-  const [isAddStudySetOpened, setIsAddStudySetOpened] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const closeStudySetAlreadyExistsMessage = () => {
     setIsStudySetAlreadyExistsActive(false);
   };
-  const openAddStudySetPanel = () => {
-    setIsAddStudySetOpened(true);
-  };
   const closeAddStudySetPanel = () => {
-    setIsAddStudySetOpened(false);
+    showAddNewStudyset.value = false;
   };
   const closeNotAcceptableFileErrorMessage = () => {
     showNotAcceptableFileErrorMessage.value = false;
   };
   const closeAddStudySetSuccessMessage = () => {
     showSuccessfullyAdded.value = false;
-    setIsAddStudySetOpened(false);
+    showAddNewStudyset.value = false;
   };
-
-  //TODO: mikor több studyset törlődik, akkor a counter nem frissül helyesen
 
   const handleDeleteStudySet = async () => {
     const itemsToDelete = Object.keys(studysetSelected.value).filter(
@@ -166,7 +161,7 @@ const StudySetsPage = () => {
           onClickPrim={closeStudySetAlreadyExistsMessage}
         />
       )}
-      {isAddStudySetOpened && (
+      {showAddNewStudyset.value && (
         <AddNewStudySetPanel
           closeAddStudySetPanel={closeAddStudySetPanel}
           isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}
@@ -178,11 +173,10 @@ const StudySetsPage = () => {
       <div className='flex flex-col w-full flex-1 py-5 px-5 gap-6 relative z-10 overflow-hidden'>
         <NavigationBar />
 
-        <div className='w-full h-0 flex-1 flex gap-6 relative overflow-hidden'>
+        <div className='w-full h-0 flex-1 flex flex-col md:flex-row gap-6 relative overflow-hidden'>
           <LeftPanel
             isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}
             setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
-            openAddStudySetPanel={openAddStudySetPanel}
             refreshTrigger={refreshTrigger}
           />
 
