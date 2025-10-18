@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password123
       MONGO_INITDB_DATABASE: learnit
     ports:
-      - "32600:27017"
+      - "32700:27017"
     volumes:
       - mongodb_data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
@@ -44,7 +44,7 @@ services:
     container_name: learnit-frontend
     restart: unless-stopped
     ports:
-      - "90:80"
+      - "2000:80"
     depends_on:
       - backend
     networks:
