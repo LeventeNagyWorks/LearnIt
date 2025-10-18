@@ -22,32 +22,60 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
         return;
       }
 
-      const response = await fetch('/api/data', {
-        headers: {
-          Authorization: `Bearer ${token.replace(/['"]+/g, '')}`,
-        },
-      });
-      const data = await response.json();
-      const studySet = data.find(set => set.name === itemName);
-
-      if (studySet) {
-        const counts = studySet.questions.reduce(
-          (acc, question) => {
-            const state = question.learningState || 'notStarted';
-            acc[state] = (acc[state] || 0) + 1;
-            return acc;
+      try {
+        console.log('Fetching progress data from /api/data');
+        const response = await fetch('/api/data', {
+          headers: {
+            Authorization: `Bearer ${token.replace(/['"]+/g, '')}`,
           },
-          { mastered: 0, learning: 0, notStarted: 0 }
-        );
+        });
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Progress data fetched successfully:', data);
+        const studySet = data.find(set => set.name === itemName);
+
+        if (studySet) {
+          const counts = studySet.questions.reduce(
+            (acc, question) => {
+              const state = question.learningState || 'notStarted';
+              acc[state] = (acc[state] || 0) + 1;
+              return acc;
+            },
+            { mastered: 0, learning: 0, notStarted: 0 }
+          );
+
+          setStats({
+            ...counts,
+            total: studySet.questions.length,
+          });
+        } else {
+          console.warn('Study set not found:', itemName);
+          setStats({
+            mastered: 0,
+            learning: 0,
+            notStarted: 0,
+            total: 0,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching progress:', error);
+        // Reset stats on error
         setStats({
-          ...counts,
-          total: studySet.questions.length,
+          mastered: 0,
+          learning: 0,
+          notStarted: 0,
+          total: 0,
         });
       }
     };
 
-    fetchProgress();
+    if (itemName) {
+      fetchProgress();
+    }
   }, [itemName]);
 
   const progressWidth = {

@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: learnit-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: learnit
+    ports:
+      - "32600:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - learnit-network
+
+  backend:
+    build:
+      context: ./learnit-app-server
+      dockerfile: Dockerfile
+    container_name: learnit-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/learnit?authSource=admin
+      - JWT_SECRET=your_super_secret_jwt_key_change_in_production
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./learnit-app-server/images:/app/images
+    networks:
+      - learnit-network
+
+  frontend:
+    build:
+      context: ./learnit-app
+      dockerfile: Dockerfile
+    container_name: learnit-frontend
+    restart: unless-stopped
+    ports:
+      - "90:80"
+    depends_on:
+      - backend
+    networks:
+      - learnit-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  learnit-network:
+    driver: bridge

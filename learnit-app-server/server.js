@@ -24,8 +24,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(expressFileupload());
 
-app.use(express.static(path.join(__dirname, 'build')));
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
@@ -113,6 +111,23 @@ app.post('/api/updateQuestionState', async (req, res) => {
 });
 
 app.get('/data', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const user = await MUser.findById(decoded.userId);
+    res.json(user.studySets || []);
+  } catch (err) {
+    console.error('Error fetching data:', err);
+    res.status(500).json({ error: 'Failed to fetch study sets' });
+  }
+});
+
+// Add this new endpoint for API consistency
+app.get('/api/data', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
     return res.status(401).send('Unauthorized');
@@ -480,11 +495,12 @@ app.post('/upload', async (req, res) => {
       .toString('utf8')
       .replace(/\.txt$/i, '');
 
-    // First update the study sets
+    // First update the study sets with owner field
     await MUser.findByIdAndUpdate(decoded.userId, {
       $push: {
         studySets: {
           name: fileName,
+          owner: decoded.userId,
           questions: questionsWithIds,
         },
       },
@@ -878,14 +894,4 @@ app.delete('/api/deleteQuestion', async (req, res) => {
     console.error('Error deleting question:', err);
     res.status(500).json({ error: 'Failed to delete question' });
   }
-});
-
-app.get('*', (req, res) => {
-  console.log('Serving index.html for path:', req.path);
-  res.sendFile(path.join(__dirname, 'build', 'index.html'), err => {
-    if (err) {
-      console.error('Error sending file:', err);
-      res.status(500).send(err);
-    }
-  });
 });

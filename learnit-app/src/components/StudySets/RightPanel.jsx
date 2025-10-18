@@ -33,7 +33,7 @@ const RightPanel = () => {
       const token =
         localStorage.getItem('token') || sessionStorage.getItem('token');
       if (!token) {
-        navigate('/login', { replace: true }); // Use replace to prevent flash
+        navigate('/login', { replace: true });
         return;
       }
 
@@ -41,12 +41,16 @@ const RightPanel = () => {
         const formattedToken = token.startsWith('Bearer ')
           ? token
           : `Bearer ${token}`;
+
+        console.log('Fetching data from /data');
         const { data: responseData } = await axios.get('/data', {
           headers: {
             Authorization: formattedToken,
           },
+          timeout: 10000, // 10 second timeout
         });
 
+        console.log('Data fetched successfully:', responseData);
         setData(responseData);
         studySetsData.value = [...responseData];
         const favorites = responseData.reduce((acc, item) => {
@@ -63,10 +67,15 @@ const RightPanel = () => {
         );
         studysetSelected.value = initialSelection;
       } catch (error) {
+        console.error('Error fetching data:', error);
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
           sessionStorage.removeItem('token');
           navigate('/login', { replace: true });
+        } else if (error.code === 'ECONNABORTED') {
+          console.error('Request timeout - backend may not be running');
+        } else {
+          console.error('Network error:', error.message);
         }
       }
     };
@@ -125,7 +134,8 @@ const RightPanel = () => {
         {data.length === 0 && !showOnlyFav.value ? (
           <div className='w-full h-full flex flex-col justify-center items-center'>
             <h1 className='text-cstm_white text-4xl font-medium select-none'>
-              You don't have any Study Sets yet.
+              You don't have any{' '}
+              <span className='text-accent_green_dark2'>Study Sets</span> yet.
             </h1>
           </div>
         ) : null}
