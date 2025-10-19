@@ -20,8 +20,8 @@ RUN npm rebuild bcrypt --build-from-source
 # Copy source code
 COPY . .
 
-# Create images directory if it doesn't exist
-RUN mkdir -p images
+# Ensure images directory exists and has proper permissions
+RUN mkdir -p images && chmod 755 images
 
 # Expose port 3001
 EXPOSE 3001

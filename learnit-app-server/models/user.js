@@ -2,9 +2,19 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-const defaultProfileImage = fs
-  .readFileSync(path.join(__dirname, '../images/default_profile_pic.png'))
-  .toString('base64');
+let defaultProfileImage = '';
+try {
+  const imagePath = path.join(__dirname, '../images/default_profile_pic.png');
+  if (fs.existsSync(imagePath)) {
+    defaultProfileImage = fs.readFileSync(imagePath).toString('base64');
+  } else {
+    console.warn('Default profile image not found, using empty string');
+    defaultProfileImage = '';
+  }
+} catch (error) {
+  console.error('Error loading default profile image:', error);
+  defaultProfileImage = '';
+}
 
 const MUser = new mongoose.Schema({
   username: String,
@@ -38,6 +48,12 @@ const MUser = new mongoose.Schema({
     default: 0,
   },
   friendRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  sentRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
