@@ -127,7 +127,7 @@ const RightPanel = () => {
   };
 
   return (
-    <div className='w-full flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl relative z-10 pb-6 font-poppins duration-1000'>
+    <div className='w-full max-h-full flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-white/30 to-slate-600/30 backdrop-blur-md rounded-[40px] shadow-2xl relative z-10 pb-6 font-poppins duration-1000'>
       <RightPanelHeader setData={setData} />
 
       <div className='w-full h-full flex flex-col rounded-b-[40px] pl-4 pr-2 mb-8 mr-3 overflow-y-auto scrollbar'>
