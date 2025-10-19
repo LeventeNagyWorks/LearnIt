@@ -10,6 +10,10 @@ import { getProfileImage } from '../utils/profileImage';
 import BackButton from '../components/BackButton';
 import Counter from '../components/Counter';
 
+const Separator = () => {
+  return <span className='w-[2px] h-14 bg-slate-700'></span>;
+};
+
 const ProfileDetailed = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState('user');
@@ -177,7 +181,7 @@ const ProfileDetailed = () => {
   }, []);
 
   return (
-    <div className='w-full h-screen flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white relative'>
+    <div className='w-full flex flex-col flex-grow bg-gradient-to-tl to-green-950 from-cstm_bg_dark overflow-y-auto font-poppins selection:bg-accent_green_dark selection:text-cstm_white relative'>
       <div
         className={`absolute top-5 left-1/2 -translate-x-1/2 bg-accent_green_dark/80 text-white px-4 py-2 rounded-lg shadow-lg duration-500 z-50 ${
           isEditing ? 'translate-y-0' : '-translate-y-[150%]'
@@ -196,8 +200,8 @@ const ProfileDetailed = () => {
             isEditing={isEditing}
           />
         </div>
-        <div className='w-full flex-1 flex flex-col px-32 py-8'>
-          <div className='w-full h-full rounded-3xl flex items-center justify-start gap-20 relative'>
+        <div className='w-full flex-1 flex flex-col justify-evenly items-center px-10 md:px-20 lg:px-32 py-8'>
+          <div className='w-full md:h-full rounded-3xl flex flex-col md:flex-row items-center justify-start gap-10 md:gap-20 relative'>
             <div className='w-[280px] h-full min-w-[280px] flex items-center relative'>
               {isEditing && (
                 <>
@@ -267,7 +271,7 @@ const ProfileDetailed = () => {
                   type='text'
                   value={displayName}
                   onChange={e => setDisplayName(e.target.value)}
-                  className='w-[80%] text-cstm_white md:text-[94px] font-semibold bg-transparent border-b border-accent_green_dark outline-none'
+                  className='w-full text-cstm_white text-3xl md:text-[94px] font-semibold bg-transparent border-b border-accent_green_dark outline-none'
                 />
                 <input
                   type='text'
@@ -278,47 +282,72 @@ const ProfileDetailed = () => {
                 <textarea
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-                  className='w-[80%] h-36 text-slate-300 md:text-[34px] bg-transparent border-b border-accent_green_dark outline-none resize-none'
+                  className='w-full h-36 text-slate-300 md:text-[34px] bg-transparent border-b border-accent_green_dark outline-none resize-none'
                 />
               </div>
             ) : (
-              <div className='w-[80%]'>
-                <h2 className='text-cstm_white md:text-[94px] font-semibold'>
+              <div className='w-full flex flex-col gap-2 md:gap-4'>
+                <h2 className='text-cstm_white text-3xl text-left md:text-[94px] font-semibold'>
                   {displayName}
                 </h2>
-                <h3 className='pl-1 text-gray-500 md:text-[32px] font-semibold mb-4'>
+                <h3 className='md:pl-1 text-gray-500 md:text-[32px] font-semibold mb-2'>
                   {username}
                 </h3>
-                <p className='pl-1 h-fit max-w-[90%] text-slate-300 md:text-[34px] line-clamp-3 break-words'>
+                <p className='md:pl-1 h-fit max-w-[90%] text-slate-300 md:text-[34px] line-clamp-3 break-words'>
                   {description}
                 </p>
               </div>
             )}
           </div>
-          <div className='w-full h-full rounded-3xl flex items-center justify-evenly'>
+          <div className='hidden w-full max-w-[1200px] h-full rounded-3xl md:flex flex-row items-center justify-evenly'>
             <div className='w-fit flex flex-col items-center text-green-600'>
               <Counter
                 value={allMastered}
                 className='text-[64px] font-semibold'
               />
-              <p className='text-[42px]'>Mastered</p>
+              <p className='text-2xl md:text-[42px]'>Mastered</p>
             </div>
-            <span className='w-[2px] h-14 bg-slate-700'></span>
+            <Separator />
             <div className='w-fit flex flex-col items-center text-accent_orange_dark'>
               <Counter
                 value={allLearning}
                 className='text-[64px] font-semibold'
               />
-              <p className='text-[42px]'>Learning</p>
+              <p className='text-2xl md:text-[42px]'>Learning</p>
             </div>
-            <span className='w-[2px] h-14 bg-slate-700'></span>
+            <Separator />
             <div className='w-fit flex flex-col items-center text-gray-400'>
               <Counter
                 value={allNotStarted}
                 className='text-[64px] font-semibold'
               />
-              <p className='text-[42px]'>Not Started</p>
+              <p className='text-2xl md:text-[42px]'>Not Started</p>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className='flex md:hidden w-full h-screen justify-center items-center px-20'>
+        <div className='w-full h-full rounded-3xl flex-col flex items-center justify-evenly'>
+          <div className='w-fit flex flex-col items-center text-green-600'>
+            <Counter
+              value={allMastered}
+              className='text-[64px] font-semibold'
+            />
+            <p className='text-[42px]'>Mastered</p>
+          </div>
+          <div className='w-fit flex flex-col items-center text-accent_orange_dark'>
+            <Counter
+              value={allLearning}
+              className='text-[64px] font-semibold'
+            />
+            <p className='text-[42px]'>Learning</p>
+          </div>
+          <div className='w-fit flex flex-col items-center text-gray-400'>
+            <Counter
+              value={allNotStarted}
+              className='text-[64px] font-semibold'
+            />
+            <p className='text-[42px]'>Not Started</p>
           </div>
         </div>
       </section>
