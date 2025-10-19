@@ -697,7 +697,7 @@ const StudySetDetailPage = () => {
           </div>
         </section>
 
-        <section className='w-full screen-fit min-h-screen h-fit flex flex-col items-center px-80 gap-8 z-10 py-16'>
+        <section className='w-full screen-fit min-h-screen h-fit flex flex-col items-center px-6 lg:px-80 gap-8 z-10 py-16'>
           <div className='w-full flex justify-between items-center'>
             <Button
               text='Add question'
