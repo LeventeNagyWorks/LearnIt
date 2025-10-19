@@ -36,9 +36,9 @@ const Popup = ({
   }
 
   return (
-    <div className='fixed w-screen h-screen z-50 bg-black/70 backdrop-blur-md flex justify-center items-center px-32'>
+    <div className='fixed w-screen h-screen z-50 bg-black/70 backdrop-blur-md flex justify-center items-center px-4 md:px-16 lg:px-32'>
       <div
-        className={`w-full h-full max-w-[900px] max-h-[600px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br rounded-[40px] font-poppins overflow-hidden select-none 
+        className={`w-full h-full max-w-[900px] max-h-[600px] flex flex-col justify-center items-center gap-8 bg-gradient-to-br rounded-[40px] font-poppins overflow-hidden select-none 
                 ${
                   type === 'error'
                     ? 'from-50% from-gray-900 to-red-950'
@@ -47,24 +47,28 @@ const Popup = ({
                     : 'from-gray-900 to-green-800'
                 }`}
       >
-        <div className='w-full flex px-8 items-center gap-10'>
-          {popupIcons[type]()}
-          <div className='flex flex-col justify-start self-start'>
-            <h1 className='font-poetsen font-bold text-cstm_white text-[80px] mb-10'>
+        <div className='w-full flex flex-col md:flex-row px-8 items-center gap-6'>
+          {popupIcons[type]({ className: 'w-48 h-48 md:w-80 md:h-80' })}
+          <div className='flex flex-col justify-start self-start gap-6 md:gap-10'>
+            <h1 className='font-poetsen font-bold text-cstm_white text-4xl md:text-[80px] leading-tight'>
               {title}
             </h1>
-            <p className='font-bold text-cstm_white text-[28px]'>{message}</p>
+            <p className='font-bold text-cstm_white text-xl md:text-[28px]'>
+              {message}
+            </p>
           </div>
         </div>
 
         <div
           className={`w-full flex ${
-            secButtonText ? 'justify-between px-52' : 'justify-end px-40'
+            secButtonText
+              ? 'justify-between px-8 md:px-52'
+              : 'justify-center md:justify-end md:px-40'
           } gap-5 `}
         >
           {secButtonText && (
             <button
-              className={`w-fit h-fit px-7 py-1 flex justify-center items-center rounded-xl border-2 self-end cursor-pointer duration-500 font-poppins font-medium text-cstm_white text-[40px] ${
+              className={`w-fit h-fit px-5 md:px-7 py-1 md:py-4 flex justify-center items-center rounded-xl border-2 self-end cursor-pointer duration-500 font-poppins font-medium text-cstm_white text-3xl md:text-[40px] ${
                 type === 'error'
                   ? `border-red-700 hover:bg-red-700`
                   : type === 'warning'
@@ -79,7 +83,7 @@ const Popup = ({
             </button>
           )}
           <button
-            className={`w-fit h-fit px-7 py-1 flex justify-center items-center rounded-xl border-2 self-end cursor-pointer duration-500 font-poppins font-medium text-cstm_white text-[40px] ${
+            className={`w-fit h-fit px-5 md:px-7 py-1 md:py-4 flex justify-center items-center rounded-xl border-2 self-end cursor-pointer duration-500 font-poppins font-medium text-cstm_white text-2xl md:text-[40px] ${
               type === 'error'
                 ? `border-red-700 hover:bg-red-700 ${
                     secButtonText ? 'bg-red-700' : ''

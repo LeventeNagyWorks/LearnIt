@@ -1,7 +1,6 @@
-export const errorIcon = () => (
+export const errorIcon = ({ className = 'w-80 h-80' }) => (
   <svg
-    width='320'
-    height='320'
+    className={className}
     viewBox='0 0 400 400'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
@@ -67,10 +66,9 @@ export const errorIcon = () => (
   </svg>
 );
 
-export const warningIcon = () => (
+export const warningIcon = ({ className = 'w-90 h-96' }) => (
   <svg
-    width='360'
-    height='386'
+    className={className}
     viewBox='0 0 360 386'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
@@ -136,11 +134,9 @@ export const warningIcon = () => (
   </svg>
 );
 
-export const successfulIcon = () => (
+export const successfulIcon = ({ className = 'w-80 h-72' }) => (
   <svg
-    className='w-80'
-    width='450'
-    height='363'
+    className={className}
     viewBox='0 0 450 363'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
