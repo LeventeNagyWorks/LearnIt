@@ -623,28 +623,59 @@ app.post('/updateFavorite', async (req, res) => {
 app.post('/registration', async (req, res) => {
   const { username, email, password } = req.body;
 
+  console.log('Registration attempt:', {
+    username,
+    email,
+    passwordLength: password?.length,
+  });
+
   try {
-    const existingUser = await MUser.findOne({
-      $or: [{ username }, { email }],
-    });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: 'Username or email already exists' });
+    // Validate input
+    if (!username || !email || !password) {
+      console.log('Missing required fields');
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
+    // Check if username already exists
+    console.log('Checking for existing username:', username);
+    const existingUsername = await MUser.findOne({ username });
+    if (existingUsername) {
+      console.log('Username already exists:', username);
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Check if email already exists
+    console.log('Checking for existing email:', email);
+    const existingEmail = await MUser.findOne({ email });
+    if (existingEmail) {
+      console.log('Email already exists:', email);
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    console.log('Creating new user...');
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new MUser({ username, email, password: hashedPassword });
-    const savedUser = await newUser.save();
+    const newUser = new MUser({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
-    res
-      .status(201)
-      .json({ message: 'User registered successfully', userId: savedUser._id });
+    console.log('Attempting to save user to database...');
+    const savedUser = await newUser.save();
+    console.log('User saved successfully:', savedUser._id);
+
+    res.status(201).json({
+      message: 'User registered successfully',
+      userId: savedUser._id,
+    });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Failed to register user' });
+    console.error('Registration error details:', error);
+    console.error('Error stack:', error.stack);
+    res
+      .status(500)
+      .json({ error: 'Failed to register user: ' + error.message });
   }
 });
 
