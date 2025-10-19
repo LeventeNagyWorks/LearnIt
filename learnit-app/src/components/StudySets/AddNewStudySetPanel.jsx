@@ -7,7 +7,6 @@ import InformationButton from './InformationButton';
 import { useSignals } from '@preact/signals-react/runtime';
 import { toggleDropBox } from '../../signals';
 import ToggleButtons from '../ToggleButtons';
-DragZone;
 import { TbDragDrop, TbEdit } from 'react-icons/tb';
 
 const AddNewStudySetPanel = ({
@@ -40,22 +39,35 @@ const AddNewStudySetPanel = ({
           <CloseButton onClick={closeAddStudySetPanel} />
         </div>
 
-        <div
-          className={`w-[200%] h-[90%] flex flex-row items-center justify-center duration-700 ${
-            toggleDropBox.value ? 'translate-x-0' : '-translate-x-1/2'
-          }`}
-        >
-          <div className={`h-full w-full flex justify-center items-center`}>
-            <DragZone
-              setIsStudySetAlreadyExistsActive={
-                setIsStudySetAlreadyExistsActive
-              }
-            />
+        <div className='w-full h-[90%] relative overflow-hidden'>
+          <div
+            className={`absolute inset-0 flex transition-transform duration-700 ${
+              toggleDropBox.value ? 'translate-x-0' : '-translate-x-full'
+            }`}
+          >
+            <div className='h-full w-full flex justify-center items-center px-6 flex-shrink-0'>
+              <DragZone
+                setIsStudySetAlreadyExistsActive={
+                  setIsStudySetAlreadyExistsActive
+                }
+              />
+            </div>
           </div>
 
-          <div className={`h-full w-full flex justify-center items-center`}>
-            <div className='bg-transparent w-full h-full'>
-              {/* //TODO: text editor should be here */}
+          <div
+            className={`absolute inset-0 flex transition-transform duration-700 ${
+              toggleDropBox.value ? 'translate-x-full' : 'translate-x-0'
+            }`}
+          >
+            <div className='h-full w-full flex justify-center items-center flex-shrink-0'>
+              <div className='bg-transparent w-full h-full'>
+                {/* //TODO: text editor should be here */}
+                <div className='w-full h-full flex items-center justify-center'>
+                  <p className='text-white text-2xl'>
+                    Text Editor Coming Soon...
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -86,7 +86,7 @@ const DragZone = ({ setIsStudySetAlreadyExistsActive }) => {
   return (
     <div
       {...getRootProps()}
-      className={`dropzone w-[60%] h-[500px] flex justify-center items-center rounded-[40px]  bg-zinc-800 cursor-pointer border-2 border-dashed duration-300 ${
+      className={`dropzone w-full max-w-[900px] h-[500px] flex justify-center items-center rounded-[40px]  bg-zinc-800 cursor-pointer border-2 border-dashed duration-300 ${
         isDragActive
           ? 'border-accent_green_dark'
           : 'border-cstm_white shadow-none'
