@@ -44,8 +44,16 @@ const Registration = () => {
     if (isUsernameValid && isEmailValid && isPasswordValid) {
       console.log({ username, email, password });
       console.log('Making request to: /registration');
+      console.log('Current origin:', window.location.origin);
+
       try {
-        const response = await axios.post('/registration', {
+        // Create a new axios instance with base URL set to current origin
+        const axiosInstance = axios.create({
+          baseURL: window.location.origin,
+          timeout: 10000,
+        });
+
+        const response = await axiosInstance.post('/registration', {
           username,
           email,
           password,
@@ -57,6 +65,7 @@ const Registration = () => {
           'Registration error:',
           error.response?.data?.error || error.message
         );
+        console.error('Error config:', error.config);
         // Handle registration error (e.g., display error message to user)
       }
     }
