@@ -36,11 +36,11 @@ services:
       context: ./learnit-app
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=/api
+        - VITE_API_URL=
     container_name: learnit-frontend
     restart: unless-stopped
     environment:
-      - VITE_API_URL=/api
+      - VITE_API_URL=
     ports:
       - "2000:80"
     depends_on:
