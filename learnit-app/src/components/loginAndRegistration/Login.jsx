@@ -10,7 +10,6 @@ import { isLoggedIn } from '../../signals';
 import debounce from 'lodash/debounce';
 import Popup from '../Popup';
 import EmailOrUsername from './EmailOrUsername';
-import { API_BASE_URL } from '../../config';
 
 const Login = () => {
   const [isRegisterHovered, setIsRegisterHovered] = useState(false);
@@ -38,8 +37,17 @@ const Login = () => {
     e.preventDefault();
     setError('');
 
+    console.log('Making login request to: /login');
+    console.log('Current origin:', window.location.origin);
+
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, {
+      // Create a new axios instance with base URL set to current origin
+      const axiosInstance = axios.create({
+        baseURL: window.location.origin,
+        timeout: 10000,
+      });
+
+      const response = await axiosInstance.post('/login', {
         emailOrUsername,
         password,
         rememberMe,
@@ -58,6 +66,7 @@ const Login = () => {
         'Login error:',
         error.response?.data?.error || error.message
       );
+      console.error('Error config:', error.config);
       setError(error.response?.data?.error || 'Failed to login');
       setShowError(true);
     }
