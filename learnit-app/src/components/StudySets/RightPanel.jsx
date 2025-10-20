@@ -43,11 +43,17 @@ const RightPanel = () => {
           : `Bearer ${token}`;
 
         console.log('Fetching data from /data');
-        const { data: responseData } = await axios.get('/data', {
+
+        // Create axios instance with current origin
+        const axiosInstance = axios.create({
+          baseURL: window.location.origin,
+          timeout: 10000,
+        });
+
+        const { data: responseData } = await axiosInstance.get('/data', {
           headers: {
             Authorization: formattedToken,
           },
-          timeout: 10000, // 10 second timeout
         });
 
         console.log('Data fetched successfully:', responseData);
