@@ -39,6 +39,7 @@ const Login = () => {
 
     console.log('Making login request to: /login');
     console.log('Current origin:', window.location.origin);
+    console.log('Full URL will be:', `${window.location.origin}/login`);
 
     try {
       // Create a new axios instance with base URL set to current origin
@@ -46,6 +47,8 @@ const Login = () => {
         baseURL: window.location.origin,
         timeout: 10000,
       });
+
+      console.log('Axios instance baseURL:', axiosInstance.defaults.baseURL);
 
       const response = await axiosInstance.post('/login', {
         emailOrUsername,
@@ -67,6 +70,7 @@ const Login = () => {
         error.response?.data?.error || error.message
       );
       console.error('Error config:', error.config);
+      console.error('Request URL was:', error.config?.url);
       setError(error.response?.data?.error || 'Failed to login');
       setShowError(true);
     }
