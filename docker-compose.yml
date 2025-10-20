@@ -28,12 +28,6 @@ services:
       - PORT=3001
       - DB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/learnit?authSource=admin
       - JWT_SECRET=your_super_secret_jwt_key_change_in_production
-    ports:
-      - "3001:3001"
-    depends_on:
-      - mongodb
-    volumes:
-      - ./learnit-app-server/images:/app/images
     networks:
       - learnit-network
 
@@ -42,11 +36,11 @@ services:
       context: ./learnit-app
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://localhost:3001
+        - VITE_API_URL=/api
     container_name: learnit-frontend
     restart: unless-stopped
     environment:
-      - VITE_API_URL=http://localhost:3001
+      - VITE_API_URL=/api
     ports:
       - "2000:80"
     depends_on:
