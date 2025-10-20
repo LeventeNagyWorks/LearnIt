@@ -13,7 +13,7 @@ RUN npm ci
 COPY . .
 
 # Set API URL for production build
-ENV VITE_API_URL=http://backend:3001
+ENV VITE_API_URL=/api
 
 # Build the app
 RUN npm run build
