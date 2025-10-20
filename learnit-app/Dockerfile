@@ -12,8 +12,9 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Set API URL for production build
-ENV VITE_API_URL=/api
+# Set API URL for production build - this needs to be set before build
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
 
 # Build the app
 RUN npm run build
