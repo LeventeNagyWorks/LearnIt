@@ -12,6 +12,7 @@ import SuccessfullyRegistered from './SuccessfullyRegistered';
 import CheckBox from '../CheckBox';
 import { Link, useNavigate } from 'react-router-dom';
 import Popup from '../Popup';
+import { API_BASE_URL } from '../../config.js';
 
 const Registration = () => {
   //TODO: Already used email, username error message
@@ -44,14 +45,11 @@ const Registration = () => {
     if (isUsernameValid && isEmailValid && isPasswordValid) {
       console.log({ username, email, password });
       try {
-        const response = await axios.post(
-          'http://localhost:3001/registration',
-          {
-            username,
-            email,
-            password,
-          }
-        );
+        const response = await axios.post(`${API_BASE_URL}/registration`, {
+          username,
+          email,
+          password,
+        });
         console.log(response.data);
         setShowRegisteredMessage(true);
       } catch (error) {

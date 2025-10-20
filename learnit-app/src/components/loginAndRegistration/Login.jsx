@@ -10,6 +10,7 @@ import { isLoggedIn } from '../../signals';
 import debounce from 'lodash/debounce';
 import Popup from '../Popup';
 import EmailOrUsername from './EmailOrUsername';
+import { API_BASE_URL } from '../../config';
 
 const Login = () => {
   const [isRegisterHovered, setIsRegisterHovered] = useState(false);
@@ -38,7 +39,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post(`${API_BASE_URL}/login`, {
         emailOrUsername,
         password,
         rememberMe,
