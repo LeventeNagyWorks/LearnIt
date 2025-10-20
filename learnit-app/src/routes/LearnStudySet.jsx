@@ -54,14 +54,11 @@ const LearnStudySet = () => {
       if (!studySet) return;
 
       const token = localStorage.getItem('token');
-      const response = await fetch(
-        `http://localhost:3001/api/data/${itemName}/questions`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`/api/data/${itemName}/questions`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
 
       const statesMap = new Map();
@@ -107,7 +104,7 @@ const LearnStudySet = () => {
         })
       );
 
-      fetch('http://localhost:3001/api/updateQuestionStates', {
+      fetch('/api/updateQuestionStates', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,7 +175,7 @@ const LearnStudySet = () => {
     );
 
     try {
-      await fetch('http://localhost:3001/api/updateQuestionState', {
+      await fetch('/api/updateQuestionState', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

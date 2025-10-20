@@ -80,7 +80,7 @@ const StudySetDetailPage = () => {
 
     const fetchStudySet = async () => {
       try {
-        const response = await fetch('http://localhost:3001/data', {
+        const response = await fetch('/data', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ const StudySetDetailPage = () => {
     try {
       const token =
         localStorage.getItem('token') || sessionStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/updateQuestion', {
+      const response = await fetch('/api/updateQuestion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -473,7 +473,7 @@ const StudySetDetailPage = () => {
     try {
       const token =
         localStorage.getItem('token') || sessionStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/addQuestion', {
+      const response = await fetch('/api/addQuestion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -501,7 +501,7 @@ const StudySetDetailPage = () => {
         showAddNewQuestion.value = false;
 
         // Refresh the study set data
-        const fetchResponse = await fetch('http://localhost:3001/data', {
+        const fetchResponse = await fetch('/data', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -548,7 +548,7 @@ const StudySetDetailPage = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/deleteQuestion', {
+      const response = await fetch('/api/deleteQuestion', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -564,7 +564,7 @@ const StudySetDetailPage = () => {
         const result = await response.json();
 
         // Refresh the study set data
-        const studySetResponse = await fetch('http://localhost:3001/data', {
+        const studySetResponse = await fetch('/data', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

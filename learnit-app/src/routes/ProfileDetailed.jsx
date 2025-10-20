@@ -44,7 +44,7 @@ const ProfileDetailed = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/api/getUserProfile', {
+      const response = await fetch('/api/getUserProfile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -122,16 +122,13 @@ const ProfileDetailed = () => {
     formData.append('avatar', blob, 'profile.jpg');
 
     try {
-      const response = await fetch(
-        'http://localhost:3001/api/updateProfilePicture',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch('/api/updateProfilePicture', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       if (response.ok) {
         setImage(null);
@@ -148,7 +145,7 @@ const ProfileDetailed = () => {
         localStorage.getItem('token') || sessionStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch('http://localhost:3001/api/updateProfile', {
+      const response = await fetch('/api/updateProfile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

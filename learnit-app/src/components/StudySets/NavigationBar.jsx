@@ -28,14 +28,11 @@ const NavigationBar = () => {
           return;
         }
 
-        const response = await fetch(
-          'http://localhost:3001/api/getUserProfile',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch('/api/getUserProfile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error('Failed to fetch user data');
@@ -63,7 +60,7 @@ const NavigationBar = () => {
     navigate('/');
   };
 
-  //TODO: jwt token lejár és nem jelentkeztet ki automatikusan
+  //TODO: jwt token lejár és nem jelentkezet ki automatikusan
 
   return (
     <div className='w-full h-full max-h-[68px] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] pl-8 pr-4 font-poppins font-semibold text-cstm_white z-20 '>
