@@ -46,7 +46,7 @@ const ToggleButtons = ({
   };
 
   return (
-    <div className='w-fit max-h-10 h-full flex rounded-full bg-gray-700 text-cstm_white'>
+    <div className='w-fit max-h-10 h-full flex rounded-full bg-gray-700 text-cstm_white select-none'>
       <button
         onClick={handleLeftClick}
         className={getButtonClass('left', leftButtonColor)}
