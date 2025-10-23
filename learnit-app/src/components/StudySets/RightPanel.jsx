@@ -44,7 +44,6 @@ const RightPanel = () => {
 
         console.log('Fetching data from /data');
 
-        // Create axios instance with current origin
         const axiosInstance = axios.create({
           baseURL: window.location.origin,
           timeout: 10000,
@@ -57,6 +56,14 @@ const RightPanel = () => {
         });
 
         console.log('Data fetched successfully:', responseData);
+
+        if (!Array.isArray(responseData)) {
+          console.error('Response is not an array:', responseData);
+          setData([]);
+          studySetsData.value = [];
+          return;
+        }
+
         setData(responseData);
         studySetsData.value = [...responseData];
         const favorites = responseData.reduce((acc, item) => {
@@ -66,7 +73,6 @@ const RightPanel = () => {
         setIsFavourite(favorites);
         localStorage.setItem('favorites', JSON.stringify(favorites));
 
-        // Initialize studysetSelected signal
         const initialSelection = responseData.reduce(
           (acc, item) => ({ ...acc, [item.name]: false }),
           {}
@@ -74,6 +80,12 @@ const RightPanel = () => {
         studysetSelected.value = initialSelection;
       } catch (error) {
         console.error('Error fetching data:', error);
+
+        setData([]);
+        studySetsData.value = [];
+        setIsFavourite({});
+        studysetSelected.value = {};
+
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
           sessionStorage.removeItem('token');

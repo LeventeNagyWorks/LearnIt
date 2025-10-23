@@ -15,7 +15,6 @@ const Login = () => {
   const [isRegisterHovered, setIsRegisterHovered] = useState(false);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const [showError, setShowError] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -35,7 +34,6 @@ const Login = () => {
 
   async function submit(e) {
     e.preventDefault();
-    setError('');
 
     console.log('Making login request to: /login');
     console.log('Current origin:', window.location.origin);
@@ -71,7 +69,6 @@ const Login = () => {
       );
       console.error('Error config:', error.config);
       console.error('Request URL was:', error.config?.url);
-      setError(error.response?.data?.error || 'Failed to login');
       setShowError(true);
     }
   }
