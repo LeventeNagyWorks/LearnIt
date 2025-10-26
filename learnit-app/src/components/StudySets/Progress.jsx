@@ -126,7 +126,7 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
       <div
         className={`w-full flex gap-4 lg:gap-1 mx-5 ${
           isDetailedPage
-            ? 'flex-col md:flex-row items-center lg:min-w-[800px]'
+            ? 'flex-row items-center lg:min-w-[800px]'
             : 'flex-col items-start'
         }`}
       >
@@ -138,7 +138,27 @@ const Progress = ({ hoverStates = {}, isDetailedPage = false, itemName }) => {
           Progress
         </p>
 
-        <div className='w-full flex flex-col lg:flex-row lg:items-center gap-6 md:gap-4'>
+        <div
+          className={`${
+            isDetailedPage ? 'lg:hidden flex' : 'hidden'
+          } max-w-[380px] w-full flex flex-row justify-between gap-4`}
+        >
+          <p className='text-green-500 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
+            {stats.mastered}
+          </p>
+          <p className='text-yellow-500 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
+            {stats.learning}
+          </p>
+          <p className='text-gray-400 text-lg text-center font-semibold flex items-center select-none rounded-lg relative z-10'>
+            {stats.notStarted}
+          </p>
+        </div>
+
+        <div
+          className={`${
+            isDetailedPage ? 'hidden lg:flex' : 'flex'
+          } w-full flex-col lg:flex-row lg:items-center gap-6 md:gap-4`}
+        >
           <div className='relative min-[200px] max-w-[300px] w-full'>
             <div className='relative w-full h-2 rounded-xl'>
               <div className='w-full h-full flex rounded-xl'>

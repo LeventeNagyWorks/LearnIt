@@ -645,7 +645,9 @@ const StudySetDetailPage = () => {
                 onClick={() => navigate(`/study-sets`)}
                 className={'fixed left-6 z-40'}
               />
-              <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
+              <h1 className='hidden md:block text-4xl font-semibold'>
+                {studySet.name}
+              </h1>
               <Button
                 text='LEARN IT'
                 severity='primary'
@@ -654,6 +656,9 @@ const StudySetDetailPage = () => {
                 className={'fixed right-9 max-w-fit z-40'}
               />
             </div>
+            <h1 className='md:hidden block text-4xl font-semibold'>
+              {studySet.name}
+            </h1>
             <div className=''>
               <div
                 className={`w-full flex justify-between items-center gap-10 duration-700 bg-slate-500/40 backdrop-blur-md px-2 py-3 rounded-2xl`}
@@ -697,7 +702,7 @@ const StudySetDetailPage = () => {
           </div>
         </section>
 
-        <section className='w-full screen-fit min-h-screen h-fit flex flex-col items-center px-6 lg:px-80 gap-8 z-10 py-16'>
+        <section className='w-full min-h-screen h-fit flex flex-col items-center px-6 lg:px-80 gap-8 z-10 py-16'>
           <div className='w-full flex justify-between items-center'>
             <Button
               text='Add question'
