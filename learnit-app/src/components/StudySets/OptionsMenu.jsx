@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
 import axios from 'axios';
 
 import FavouriteButton from './FavouriteButton';
-import DeleteButton from './DeleteButton';
 import {
   showDeleteWarningPopup,
   studysetSelected,
   selectedStudysetNum,
 } from '../../signals';
-import ShareButton from './ShareButton';
+import Button from '../Button';
+import { IoTrashOutline } from 'react-icons/io5';
 
 const OptionsMenu = ({
   optionsHoverStates,
@@ -86,7 +85,7 @@ const OptionsMenu = ({
 
   return (
     <div
-      className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 duration-500 ${
+      className={`w-[250px] h-fit flex flex-col items-start justify-center absolute top-0 right-0 bg-gradient-to-r from-slate-600 to-slate-500 rounded-xl z-20 overflow-hidden duration-500 ${
         isHovered ? 'translate-x-0' : 'translate-x-72'
       }`}
       onMouseEnter={() => handleOptionsMouseEnter(itemName)}
@@ -99,10 +98,12 @@ const OptionsMenu = ({
         onClick={handleIsFavourite}
         itemName={itemName}
       />
-      <ShareButton isWide={true} onClick={null} itemName={itemName} />
-      <DeleteButton
-        isWide={true}
-        itemName={itemName}
+      <Button
+        className='!max-w-full rounded-none'
+        severity='noBg'
+        icon={<IoTrashOutline className='w-6 h-6' />}
+        text='DELETE'
+        color='red'
         onClick={handleDeleteClick}
       />
     </div>

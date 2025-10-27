@@ -6,7 +6,6 @@ import {
   showDeleteWarningPopup,
   isFriendsOpened,
   isProfileFocused,
-  isStudySetAccepted,
   showNotAcceptableFileErrorMessage,
   showSuccessfullyAdded,
   startTransitionFromStudySets,
@@ -19,12 +18,12 @@ import {
 } from '../signals';
 import { useEffect } from 'react';
 import AddNewStudySetPanel from '../components/StudySets/AddNewStudySetPanel';
-import SuccessfullyAdded from '../components/StudySets/SuccessfullyAdded';
 import { useSignals } from '@preact/signals-react/runtime';
 import NavigationBar from '../components/StudySets/NavigationBar';
 import Friends from '../components/StudySets/Friends';
 import Popup from '../components/Popup';
 import axios from 'axios';
+import useBreakpoint, { BREAKPOINTS } from '../hooks/useBreakpoint';
 
 const StudySetsPage = () => {
   useSignals();
@@ -36,6 +35,8 @@ const StudySetsPage = () => {
       startTransitionToStudySets.value = false;
     }, 1000);
   }, []);
+
+  const isMobile = useBreakpoint(BREAKPOINTS.mobile);
 
   const [isStudySetAlreadyExistsActive, setIsStudySetAlreadyExistsActive] =
     useState(false);
@@ -174,11 +175,15 @@ const StudySetsPage = () => {
         <NavigationBar />
 
         <div className='w-full h-0 flex-1 flex flex-col md:flex-row gap-6 relative overflow-hidden'>
-          <LeftPanel
-            isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}
-            setIsStudySetAlreadyExistsActive={setIsStudySetAlreadyExistsActive}
-            refreshTrigger={refreshTrigger}
-          />
+          {!isMobile && (
+            <LeftPanel
+              isStudySetAlreadyExistsActive={isStudySetAlreadyExistsActive}
+              setIsStudySetAlreadyExistsActive={
+                setIsStudySetAlreadyExistsActive
+              }
+              refreshTrigger={refreshTrigger}
+            />
+          )}
 
           <RightPanel />
         </div>

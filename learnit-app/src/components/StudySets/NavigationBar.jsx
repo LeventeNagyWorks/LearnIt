@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { isFriendsOpened, isLoggedIn, isProfileFocused } from '../../signals';
 import { useSignals } from '@preact/signals-react/runtime';
 import { getProfileImage } from '../../utils/profileImage';
+import useBreakpoint, { BREAKPOINTS } from '../../hooks/useBreakpoint';
 
 const NavigationBar = () => {
   useSignals();
 
+  const isMobile = useBreakpoint(BREAKPOINTS.mobile);
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [avatar, setAvatar] = useState(null);
@@ -64,16 +66,17 @@ const NavigationBar = () => {
 
   return (
     <div className='w-full h-full max-h-[68px] flex justify-between items-center bg-zinc-400/40 backdrop-blur-md rounded-[34px] pl-8 pr-4 font-poppins font-semibold text-cstm_white z-20 '>
-      <span className='block md:hidden lg:text-[38px] select-none'>
-        Welcome 👋🏻
-      </span>
-      <span className='hidden md:block lg:text-[38px] select-none'>
-        Welcome back,{' '}
-        <span className='text-accent_green_dark2'>
-          {displayName ? ` ${displayName}` : ''}
+      {isMobile ? (
+        <span className='select-none'>Welcome 👋🏻</span>
+      ) : (
+        <span className='lg:text-[38px] select-none'>
+          Welcome back,{' '}
+          <span className='text-accent_green_dark2'>
+            {displayName ? ` ${displayName}` : ''}
+          </span>
+          !
         </span>
-        !
-      </span>
+      )}
       <div className='flex justify-center items-center relative'>
         <div
           className={`absolute -bottom-[415%] -right-4 w-[250px] flex flex-col justify-center items-center gap-4 bg-gradient-to-br from-slate-600 to-slate-900 rounded-2xl z-40 duration-500 px-5 py-5 ${

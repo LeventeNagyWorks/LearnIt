@@ -12,7 +12,7 @@ import {
 const LeftPanel = ({ setIsStudySetAlreadyExistsActive }) => {
   return (
     <div
-      className={`hidden md:block w-full max-w-[240px] flex flex-col relative z-20 duration-1000`}
+      className={`w-full max-w-[240px] flex flex-col relative z-20 duration-1000`}
     >
       <div className='w-full h-full flex flex-col relative'>
         <div className='w-full h-full flex flex-1 flex-col justify-center items-center'>

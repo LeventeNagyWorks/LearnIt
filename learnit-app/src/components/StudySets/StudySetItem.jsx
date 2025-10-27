@@ -6,6 +6,7 @@ import OptionsButton from './OptionsButton';
 import OptionsMenu from './OptionsMenu';
 import Progress from './Progress';
 import { studysetSelected } from '../../signals';
+import useBreakpoint, { BREAKPOINTS } from '../../hooks/useBreakpoint';
 
 const StudySetItem = ({
   item,
@@ -23,6 +24,8 @@ const StudySetItem = ({
   handleOptionsMouseLeave,
   handleItemSelected,
 }) => {
+  const isMobile = useBreakpoint(BREAKPOINTS.mobile);
+
   return (
     <div
       className={`w-full flex flex-col justify-start gap-5 px-4 py-5 rounded-[20px] duration-500 overflow-hidden ${
@@ -56,10 +59,9 @@ const StudySetItem = ({
           {isFavourite[item.name] && (
             <FaStar className='w-6 h-6 text-accent_orange_dark ' />
           )}
-          <QuestionCounter
-            className={'hidden md:block'}
-            questionLength={item.questions.length}
-          />
+          {!isMobile && (
+            <QuestionCounter questionLength={item.questions.length} />
+          )}
           <div
             onMouseEnter={() => handleOptionsMouseEnter(item.name)}
             onMouseLeave={() => handleOptionsMouseLeave(item.name)}

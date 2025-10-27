@@ -1,11 +1,5 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
-
-import DeleteButton from './DeleteButton';
-import { LuTextSelect } from 'react-icons/lu';
-import ShowOnlyFavouriteToggleButton from './ShowOnlyFavouriteToggleButton';
-import axios from 'axios';
 import { useSignals } from '@preact/signals-react/runtime';
 import ToggleButtons from '../ToggleButtons';
 import { FaFolder, FaStar } from 'react-icons/fa';
@@ -65,11 +59,7 @@ const RightPanelHeader = () => {
                 {selectedStudysetNum.value}
               </p>
               <span className='rounded bg-cstm_white w-[2px] h-[20px]' />
-              <DeleteButton
-                isWide={false}
-                size='small'
-                onClick={handleDeleteSelected}
-              />
+              <Button color='red' size='small' onClick={handleDeleteSelected} />
             </div>
           )}
         </div>

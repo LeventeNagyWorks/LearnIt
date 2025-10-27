@@ -1,40 +1,28 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  isLoading,
   isLoadingEnabled,
-  startTransitionFromStudySetDetail,
-  startTransitionToStudySetDetail,
   showAddNewQuestion,
   showDeleteQuestionWarningPopup,
 } from '../signals';
 import ArrowButton from '../components/StudySets/StudySetsDetail/ArrowButton';
-import BackButton from '../components/BackButton';
 import { useSignals } from '@preact/signals-react/runtime';
-import CustomizeButton from '../components/StudySets/CustomizeButton';
-import PrimaryButton from '../components/PrimaryButton';
 import LoadingScreen from '../components/LoadingScreen';
-import KnowItButton from '../components/StudySets/StudySetsDetail/KnowItButton';
 import Progress from '../components/StudySets/Progress';
 import Pagination from '../components/StudySets/StudySetsDetail/Pagination';
 import Flashcard from '../components/StudySets/StudySetsDetail/FlashCard';
-import CloseButton from '../components/StudySets/CloseButton';
-import DeleteButton from '../components/StudySets/DeleteButton';
 import Button from '../components/Button';
 import { IoArrowUp } from 'react-icons/io5';
-import { FiEdit, FiPlus, FiSave } from 'react-icons/fi';
-import CheckBox from '../components/CheckBox';
-import Dropdown from '../components/Dropdown';
+import { FiPlus } from 'react-icons/fi';
 import QuestionCard from '../components/QuestionCard';
 import Popup from '../components/Popup';
+import useBreakpoint, { BREAKPOINTS } from '../hooks/useBreakpoint';
 
 const StudySetDetailPage = () => {
   useSignals();
 
+  const isMobile = useBreakpoint(BREAKPOINTS.mobile);
   const [studySet, setStudySet] = useState(null);
-  const [hoveredItem, setHoveredItem] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [displayedContent, setDisplayedContent] = useState(!isFlipped);
@@ -395,7 +383,6 @@ const StudySetDetailPage = () => {
     });
   };
 
-  // New question handlers
   const handleNewQuestionChange = value => {
     setNewQuestion(prev => ({
       ...prev,
@@ -625,7 +612,7 @@ const StudySetDetailPage = () => {
           }}
         />
       )}
-      <div className='h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-x-hidden relative selection:bg-accent_green_dark'>
+      <div className='z-10 h-full w-full flex flex-col items-center flex-grow bg-cstm_bg_dark text-cstm_white font-poppins overflow-x-hidden relative selection:bg-accent_green_dark'>
         {showScrollToTop && (
           <Button
             severity='noBg'
@@ -636,7 +623,7 @@ const StudySetDetailPage = () => {
             className={`fixed right-6 bottom-6 z-40 hover:text-accent_green_dark hover:scale-110 !bg-transparent transition-all duration-300 opacity-80 hover:opacity-100`}
           />
         )}
-        <section className='w-screen h-screen flex flex-col items-center justify-between z-10 pb-8'>
+        <section className='w-screen h-screen flex flex-col items-center justify-between pb-8'>
           <div className='w-full flex flex-col justify-center items-center gap-10 py-8 px-5'>
             <div className='flex justify-center items-center'>
               <Button
@@ -645,9 +632,9 @@ const StudySetDetailPage = () => {
                 onClick={() => navigate(`/study-sets`)}
                 className={'fixed left-6 z-40'}
               />
-              <h1 className='hidden md:block text-4xl font-semibold'>
-                {studySet.name}
-              </h1>
+              {!isMobile && (
+                <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
+              )}
               <Button
                 text='LEARN IT'
                 severity='primary'
@@ -656,9 +643,9 @@ const StudySetDetailPage = () => {
                 className={'fixed right-9 max-w-fit z-40'}
               />
             </div>
-            <h1 className='md:hidden block text-4xl font-semibold'>
-              {studySet.name}
-            </h1>
+            {isMobile && (
+              <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
+            )}
             <div className=''>
               <div
                 className={`w-full flex justify-between items-center gap-10 duration-700 bg-slate-500/40 backdrop-blur-md px-2 py-3 rounded-2xl`}
@@ -669,23 +656,22 @@ const StudySetDetailPage = () => {
           </div>
           {/* TODO: must have one right answer */}
           <div className='flex-1 w-full h-full flex flex-col items-center justify-center flex-grow relative'>
-            <div className='absolute w-[85%] top-[42%] flex items-center justify-between'>
+            <div className='flex-1 w-full flex justify-evenly items-center gap-2 md:gap-10 px-2 md:px-4'>
               <ArrowButton onClick={handlePrev} className='' />
+              <Flashcard
+                currentIndex={currentIndex}
+                setCurrentIndex={setCurrentIndex}
+                isFlipped={isFlipped}
+                setIsFlipped={setIsFlipped}
+                currentQuestion={currentQuestion}
+                totalQuestions={studySet.questions.length}
+                displayedContent={displayedContent}
+                setDisplayedContent={setDisplayedContent}
+                textRotation={textRotation}
+                setTextRotation={setTextRotation}
+              />
               <ArrowButton onClick={handleNext} className='rotate-180' />
             </div>
-
-            <Flashcard
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-              isFlipped={isFlipped}
-              setIsFlipped={setIsFlipped}
-              currentQuestion={currentQuestion}
-              totalQuestions={studySet.questions.length}
-              displayedContent={displayedContent}
-              setDisplayedContent={setDisplayedContent}
-              textRotation={textRotation}
-              setTextRotation={setTextRotation}
-            />
 
             <div className='w-full flex justify-center items-center gap-20'>
               <Pagination
@@ -705,9 +691,10 @@ const StudySetDetailPage = () => {
         <section className='w-full min-h-screen h-fit flex flex-col items-center px-6 lg:px-80 gap-8 z-10 py-16'>
           <div className='w-full flex justify-between items-center'>
             <Button
-              text='Add question'
-              icon={<FiPlus className='w-7 h-7' />}
-              severity='noBg'
+              className={`min-w-fit w-fit`}
+              text={isMobile ? null : 'Add New Question'}
+              icon={<FiPlus className='w-8 h-8' />}
+              severity={isMobile ? 'primary' : 'noBg'}
               glow={true}
               onClick={() => {
                 showAddNewQuestion.value = true;

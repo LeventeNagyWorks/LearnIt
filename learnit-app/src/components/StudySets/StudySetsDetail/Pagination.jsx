@@ -5,10 +5,12 @@ import {
   TbArrowBarToLeft,
   TbArrowBarToRight,
 } from 'react-icons/tb';
+import useBreakpoint, { BREAKPOINTS } from '../../../hooks/useBreakpoint';
 
 /* eslint-disable react/prop-types */
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
-  const visiblePages = 5;
+  const isMobile = useBreakpoint(BREAKPOINTS.mobile);
+  const visiblePages = isMobile ? 3 : 5;
   const halfVisible = Math.floor(visiblePages / 2);
 
   let startPage = Math.max(0, currentPage - halfVisible);
