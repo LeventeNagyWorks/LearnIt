@@ -20,13 +20,36 @@ const Friends = () => {
 
   const isMobile = useBreakpoint(BREAKPOINTS.mobile);
 
-  const [selectedTab, setSelectedTab] = useState('My Friends');
+  const [selectedTab, setSelectedTab] = useState('myFriends');
 
   const dropdownOptions = [
     { id: 'myFriends', name: 'My Friends' },
     { id: 'addFriends', name: 'Add Friends' },
     { id: 'pending', name: 'Pending' },
   ];
+
+  switch (selectedTab) {
+    case 'myFriends':
+      isMyFriendsOpened.value = true;
+      isAddFriendsOpened.value = false;
+      isPendingOpened.value = false;
+      break;
+
+    case 'addFriends':
+      isMyFriendsOpened.value = false;
+      isAddFriendsOpened.value = true;
+      isPendingOpened.value = false;
+      break;
+
+    case 'pending':
+      isMyFriendsOpened.value = false;
+      isAddFriendsOpened.value = false;
+      isPendingOpened.value = true;
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <div className='absolute w-full h-screen flex items-center justify-center bg-black/80 z-40 selection:text-cstm_bg_dark selection:bg-accent_green_dark'>
