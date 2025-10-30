@@ -633,7 +633,9 @@ const StudySetDetailPage = () => {
                 className={'fixed left-6 z-40'}
               />
               {!isMobile && (
-                <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
+                <h1 className='text-4xl truncate font-semibold'>
+                  {studySet.name}
+                </h1>
               )}
               <Button
                 text='LEARN IT'
@@ -644,7 +646,9 @@ const StudySetDetailPage = () => {
               />
             </div>
             {isMobile && (
-              <h1 className='text-4xl font-semibold'>{studySet.name}</h1>
+              <h1 className='text-xl truncate font-semibold'>
+                {studySet.name}
+              </h1>
             )}
             <div className=''>
               <div

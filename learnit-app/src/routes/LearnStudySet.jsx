@@ -272,7 +272,7 @@ const LearnStudySet = () => {
 
       <div className='w-[80%] h-full flex flex-col justify-evenly items-center'>
         <div className='w-full h-[40%] flex justify-center items-center overflow-y-auto'>
-          <p className='text-4xl md:text-5xl lg:text-[56px] duration-500 text-center px-4 py-2'>
+          <p className='text-xl md:text-4xl md:text-5xl lg:text-[56px] duration-500 text-center px-4 py-2'>
             {currentQuestion.question}
           </p>
         </div>
