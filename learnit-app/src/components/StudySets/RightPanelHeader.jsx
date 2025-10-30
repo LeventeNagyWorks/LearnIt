@@ -4,6 +4,7 @@ import { useSignals } from '@preact/signals-react/runtime';
 import ToggleButtons from '../ToggleButtons';
 import { FaFolder, FaStar } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
+import { IoTrashOutline } from 'react-icons/io5';
 import {
   showDeleteWarningPopup,
   showOnlyFav,
@@ -38,7 +39,7 @@ const RightPanelHeader = () => {
       <div className='flex w-full gap-4 items-center justify-between md:justify-end'>
         <Button
           className='block md:hidden'
-          icon={<FiPlus className='w-4 h-4' />}
+          icon={<FiPlus className='w-5 h-5' />}
           size='small'
           onClick={() => (showAddNewStudyset.value = true)}
         />
@@ -59,7 +60,13 @@ const RightPanelHeader = () => {
                 {selectedStudysetNum.value}
               </p>
               <span className='rounded bg-cstm_white w-[2px] h-[20px]' />
-              <Button color='red' size='small' onClick={handleDeleteSelected} />
+              <Button
+                color='red'
+                severity='noBg'
+                icon={<IoTrashOutline />}
+                size='small'
+                onClick={handleDeleteSelected}
+              />
             </div>
           )}
         </div>

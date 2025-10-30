@@ -691,14 +691,15 @@ const StudySetDetailPage = () => {
         <section className='w-full min-h-screen h-fit flex flex-col items-center px-6 lg:px-80 gap-8 z-10 py-16'>
           <div className='w-full flex justify-between items-center'>
             <Button
-              className={`min-w-fit w-fit`}
+              className={`${
+                isMobile ? '!min-w-fit !w-fit !aspect-square' : ''
+              }`}
               text={isMobile ? null : 'Add New Question'}
               icon={<FiPlus className='w-8 h-8' />}
               severity={isMobile ? 'primary' : 'noBg'}
               glow={true}
               onClick={() => {
                 showAddNewQuestion.value = true;
-                // Initialize new question form
                 setNewQuestion({
                   question: '',
                   answers: [
@@ -794,7 +795,7 @@ const StudySetDetailPage = () => {
           {totalPages > 1 && (
             <div className='w-full flex justify-center gap-4 pt-8'>
               <Button
-                text='Previous Page'
+                text='Previous'
                 severity='outline'
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
@@ -803,7 +804,7 @@ const StudySetDetailPage = () => {
                 {currentPage} / {totalPages}
               </span>
               <Button
-                text='Next Page'
+                text='Next'
                 severity='primary'
                 glow={currentPage < totalPages}
                 onClick={handleNextPage}

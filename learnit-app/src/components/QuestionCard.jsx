@@ -27,21 +27,21 @@ const QuestionCard = ({
 
   return (
     <div className='w-full h-fit flex flex-col justify-center items-start bg-slate-800 rounded-2xl py-3 px-5'>
-      <div className='w-full flex justify-between items-center'>
+      <div className='w-full flex justify-between items-center gap-2'>
         {isNewQuestion || isEditing ? (
           <div className='flex-1 mr-4'>
             <input
               type='text'
               value={editedQuestion?.question || ''}
               onChange={e => onQuestionChange(e.target.value)}
-              className='w-full text-2xl bg-transparent border-b border-accent_green_dark outline-none caret-accent_green_dark'
+              className='w-full md:text-2xl bg-transparent border-b border-accent_green_dark outline-none caret-accent_green_dark'
               placeholder={
                 isNewQuestion ? 'Enter new question...' : 'Enter question...'
               }
             />
           </div>
         ) : (
-          <h2 className='text-2xl'>
+          <h2 className='text-lg md:text-2xl'>
             {item.index}. {item.question}
           </h2>
         )}
@@ -165,13 +165,13 @@ const QuestionCard = ({
             </div>
             {item?.rightAnswer?.map((answer, answerIndex) => (
               <div className='w-full h-fit py-1' key={`right-${answerIndex}`}>
-                <p className='text-xl text-green-400'>{answer}</p>
+                <p className='md:text-xl text-green-400'>{answer}</p>
               </div>
             ))}
             {item?.falseAnswer &&
               item.falseAnswer.map((answer, answerIndex) => (
                 <div className='w-full h-fit py-1' key={`false-${answerIndex}`}>
-                  <p className='text-xl'>{answer}</p>
+                  <p className='md:text-xl'>{answer}</p>
                 </div>
               ))}
           </>
